@@ -12,5 +12,7 @@ namespace MarqueesAssistant.API.Data
 
         public DbSet<Value> Values { get; set; }
 
+        public DbSet<Marquee> Marquees { get; set;}
+
     }
 }
