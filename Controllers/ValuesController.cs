@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Data;
 using MarqueesAssistant.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ namespace MarqueesAssistant.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ValuesController : ControllerBase
     {
 
@@ -25,7 +27,7 @@ namespace MarqueesAssistant.API.Controllers
             var values = await _context.Values.ToListAsync();
             return Ok(values);
         }
-
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {

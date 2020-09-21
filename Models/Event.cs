@@ -9,9 +9,11 @@ namespace MarqueesAssistant.API.Models
 
         public DateTime EndDate { get; set; }
 
-        public string Place { get; set; }
+        public int PlaceId { get; set; }
+
+        public Place Place { get; set; }
 
         public string TypeOfEvent { get; set; }
-        
+
     }
 }

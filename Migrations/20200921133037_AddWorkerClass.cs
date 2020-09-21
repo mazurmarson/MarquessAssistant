@@ -2,7 +2,7 @@
 
 namespace MarqueesAssistant.API.Migrations
 {
-    public partial class AddEventModel : Migration
+    public partial class AddWorkerClass : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

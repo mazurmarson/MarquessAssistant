@@ -9,14 +9,40 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarqueesAssistant.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200921095245_AddPlaceModel")]
-    partial class AddPlaceModel
+    [Migration("20200921172646_AddWorkerClassAgain")]
+    partial class AddWorkerClassAgain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8");
+
+            modelBuilder.Entity("MarqueesAssistant.API.Controllers.Worker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Login")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("BLOB");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Workers");
+                });
 
             modelBuilder.Entity("MarqueesAssistant.API.Models.Event", b =>
                 {
@@ -27,8 +53,8 @@ namespace MarqueesAssistant.API.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Place")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("PlaceId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
@@ -37,6 +63,8 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
 
                     b.ToTable("Events");
                 });
@@ -50,8 +78,8 @@ namespace MarqueesAssistant.API.Migrations
                     b.Property<DateTime>("DownDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Event")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("EventId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsDown")
                         .HasColumnType("INTEGER");
@@ -69,6 +97,8 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Marquees");
                 });
@@ -114,6 +144,24 @@ namespace MarqueesAssistant.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Values");
+                });
+
+            modelBuilder.Entity("MarqueesAssistant.API.Models.Event", b =>
+                {
+                    b.HasOne("MarqueesAssistant.API.Models.Place", "Place")
+                        .WithMany()
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MarqueesAssistant.API.Models.Marquee", b =>
+                {
+                    b.HasOne("MarqueesAssistant.API.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

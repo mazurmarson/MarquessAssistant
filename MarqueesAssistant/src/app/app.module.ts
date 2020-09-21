@@ -8,20 +8,27 @@ import { from } from 'rxjs';
 import { MarqueeComponent } from './marquee/marquee.component';
 import { EventsComponent } from './events/events.component';
 import { PlacesComponent } from './places/places.component';
+import { NavComponent } from './nav/nav.component';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from './_services/auth.service';
 
 @NgModule({
-  declarations: [				
+  declarations: [					
     AppComponent,
       ValueComponent,
       MarqueeComponent,
       EventsComponent,
-      PlacesComponent
+      PlacesComponent,
+      NavComponent
    ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

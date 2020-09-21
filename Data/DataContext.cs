@@ -1,3 +1,4 @@
+using MarqueesAssistant.API.Controllers;
 using MarqueesAssistant.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@ namespace MarqueesAssistant.API.Data
         public DbSet<Event> Events { get; set; }
 
         public DbSet<Place> Places { get; set; }
+
+        public DbSet<Worker> Workers { get; set;}
 
     }
 }

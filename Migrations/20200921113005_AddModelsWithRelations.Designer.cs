@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarqueesAssistant.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200921094109_AddEventModelCorectly")]
-    partial class AddEventModelCorectly
+    [Migration("20200921113005_AddModelsWithRelations")]
+    partial class AddModelsWithRelations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,8 @@ namespace MarqueesAssistant.API.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Place")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("PlaceId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
@@ -37,6 +37,8 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
 
                     b.ToTable("Events");
                 });
@@ -50,8 +52,8 @@ namespace MarqueesAssistant.API.Migrations
                     b.Property<DateTime>("DownDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Event")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("EventId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsDown")
                         .HasColumnType("INTEGER");
@@ -70,7 +72,38 @@ namespace MarqueesAssistant.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EventId");
+
                     b.ToTable("Marquees");
+                });
+
+            modelBuilder.Entity("MarqueesAssistant.API.Models.Place", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstGradeDivision")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PostCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SecondGradeDivision")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ThirdGradeDivision")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Town")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Places");
                 });
 
             modelBuilder.Entity("MarqueesAssistant.API.Models.Value", b =>
@@ -85,6 +118,24 @@ namespace MarqueesAssistant.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Values");
+                });
+
+            modelBuilder.Entity("MarqueesAssistant.API.Models.Event", b =>
+                {
+                    b.HasOne("MarqueesAssistant.API.Models.Place", "Place")
+                        .WithMany()
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MarqueesAssistant.API.Models.Marquee", b =>
+                {
+                    b.HasOne("MarqueesAssistant.API.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

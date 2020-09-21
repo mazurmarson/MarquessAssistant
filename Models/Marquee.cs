@@ -5,7 +5,10 @@ namespace MarqueesAssistant.API.Models
     public class Marquee
     {
         public int Id { get; set; }
-        public string Event { get; set; }
+        
+        public Event Event { get; set; }
+
+        public int EventId { get; set; }
 
         public int Width { get; set; }
 
