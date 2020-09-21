@@ -3,41 +3,20 @@ using System;
 using MarqueesAssistant.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MarqueesAssistant.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200921093613_AddEventModel")]
+    partial class AddEventModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8");
-
-            modelBuilder.Entity("MarqueesAssistant.API.Models.Event", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Place")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TypeOfEvent")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Events");
-                });
 
             modelBuilder.Entity("MarqueesAssistant.API.Models.Marquee", b =>
                 {
@@ -69,35 +48,6 @@ namespace MarqueesAssistant.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Marquees");
-                });
-
-            modelBuilder.Entity("MarqueesAssistant.API.Models.Place", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("FirstGradeDivision")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PostCode")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SecondGradeDivision")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ThirdGradeDivision")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Town")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Places");
                 });
 
             modelBuilder.Entity("MarqueesAssistant.API.Models.Value", b =>

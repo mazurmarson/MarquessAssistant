@@ -14,5 +14,9 @@ namespace MarqueesAssistant.API.Data
 
         public DbSet<Marquee> Marquees { get; set;}
 
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<Place> Places { get; set; }
+
     }
 }
