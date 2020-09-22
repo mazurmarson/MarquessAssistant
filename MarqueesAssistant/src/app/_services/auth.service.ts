@@ -19,10 +19,10 @@ return this.http.post(this.baseUrl + 'login', model)
 .pipe(map( (response: any) => {
   const worker = response;
   if(worker)
-  {
-    localStorage.setItem('token', worker.token);
-  }
-} ));
+    {
+      localStorage.setItem('token', worker.token);
+    }
+  } ));
 }
 
 }

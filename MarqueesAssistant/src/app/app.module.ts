@@ -11,15 +11,19 @@ import { PlacesComponent } from './places/places.component';
 import { NavComponent } from './nav/nav.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
+import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [					
+  declarations: [								
     AppComponent,
       ValueComponent,
       MarqueeComponent,
       EventsComponent,
       PlacesComponent,
-      NavComponent
+      NavComponent,
+      HomeComponent,
+      RegisterComponent
    ],
   imports: [
     BrowserModule,
