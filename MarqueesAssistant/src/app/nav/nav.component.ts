@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../_services/auth.service'
+import { AlertifyService } from '../_services/alertify.service';
+import { AuthService } from '../_services/auth.service';
+
 
 @Component({
   selector: 'app-nav',
@@ -10,7 +12,7 @@ import { AuthService } from '../_services/auth.service'
 export class NavComponent implements OnInit {
 
   model: any = {};
-  constructor(private authService: AuthService) { }
+  constructor(public authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
   }
@@ -18,24 +20,24 @@ export class NavComponent implements OnInit {
   login()
   {
     this.authService.login(this.model).subscribe(next => {
-      console.log('Zalogowales sie do aplikacji');
+      this.alertify.success('Zalogowales sie do aplikacji');
  
     }, error => {
-      console.log('Błąd logowania');
+      this.alertify.error('Błąd logowania');
     }
     );
   }
 
   loggedIn()
   {
-    const token = localStorage.getItem('token');
-    return !!token; //wykrzykniki to sprawdzeni czy w tokenie cos sie znajduje
+
+    return this.authService.loggedIn();
   }
 
   logout()
   {
     localStorage.removeItem('token');
-    console.log('Zostałeś wylogowany');
+    this.alertify.message('Zostałeś wylogowany');
   }
 
 }
