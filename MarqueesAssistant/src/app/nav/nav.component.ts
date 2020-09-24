@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 
@@ -12,7 +13,7 @@ import { AuthService } from '../_services/auth.service';
 export class NavComponent implements OnInit {
 
   model: any = {};
-  constructor(public authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private router: Router,public authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
   }
@@ -24,6 +25,8 @@ export class NavComponent implements OnInit {
  
     }, error => {
       this.alertify.error('Błąd logowania');
+    }, () => {
+      this.router.navigate(['/marquees']);
     }
     );
   }
@@ -38,6 +41,7 @@ export class NavComponent implements OnInit {
   {
     localStorage.removeItem('token');
     this.alertify.message('Zostałeś wylogowany');
+    this.router.navigate(['/home']);
   }
 
 }

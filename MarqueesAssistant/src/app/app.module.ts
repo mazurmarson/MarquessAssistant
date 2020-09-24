@@ -14,25 +14,47 @@ import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { AlertifyService } from './_services/alertify.service';
+import { WorkerService } from './_services/worker.service';
+import { WorkersListComponent } from './workers-list/workers-list.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { RouterModule } from '@angular/router';
+import { appRoutes } from './routes';
+
+export function tokenGetter()
+{
+  return localStorage.getItem('token');
+}
 
 @NgModule({
-  declarations: [								
+  declarations: [									
     AppComponent,
       MarqueeComponent,
       EventsComponent,
       PlacesComponent,
       NavComponent,
       HomeComponent,
-      RegisterComponent
+      RegisterComponent,
+      WorkersListComponent
    ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    JwtModule.forRoot({
+      config: {
+         tokenGetter,
+         allowedDomains: ['localhost:5000'],
+         disallowedRoutes: ['localhost:5000/api/auth']
+      }
+      
+   }),
+   RouterModule.forRoot(appRoutes)
+
   ],
   providers: [
     AuthService,
-    AlertifyService
+    AlertifyService,
+    WorkerService
   ],
   bootstrap: [AppComponent]
 })
