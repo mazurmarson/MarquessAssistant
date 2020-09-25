@@ -1,0 +1,28 @@
+
+
+
+<table *ngFor="let marquee of marquees" class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Namioty</th>
+      <th scope="col">ID</th>
+      <th scope="col">Szerkość</th>
+      <th scope="col">Długość</th>
+      <th scope="col"><button [routerLink]="['/marqueesAdd']" class="btn btn-success mx-1">Dodaj namiot</button></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>{{marquee.id}}</td>
+      <td>{{marquee.width}}</td>
+      <td>{{marquee.length}}</td>
+      <td>
+        <button class="btn btn-primary mx-1">Edytuj</button>
+        <button class="btn btn-info mx-1">Szczegóły</button>
+        <button class="btn btn-danger mx-1">Usuń</button>
+      </td>
+      
+    </tr>
+  </tbody>
+</table>

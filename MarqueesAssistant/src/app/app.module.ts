@@ -19,6 +19,10 @@ import { WorkersListComponent } from './workers-list/workers-list.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
+import { CommonModule } from '@angular/common';
+import { MarqueeListComponent } from './marquee/marquee-list/marquee-list.component';
+import { MarqueeAddComponent } from './marquee/marquee-add/marquee-add.component';
+
 
 export function tokenGetter()
 {
@@ -34,12 +38,15 @@ export function tokenGetter()
       NavComponent,
       HomeComponent,
       RegisterComponent,
-      WorkersListComponent
+      WorkersListComponent,
+      MarqueeListComponent,
+      MarqueeAddComponent
    ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
     JwtModule.forRoot({
       config: {
          tokenGetter,

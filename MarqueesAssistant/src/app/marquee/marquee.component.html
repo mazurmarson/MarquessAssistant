@@ -1,6 +1,43 @@
-<p *ngFor="let marquee of marquees">
+<!-- <p *ngFor="let marquee of marquees">
   {{marquee.id}} - {{marquee.event}}
   {{marquee.width}} - {{marquee.length}}
   
   </p>
-  
+   -->
+
+
+   <!-- <a class="nav-link" [routerLink]="['/workers']"> -->
+
+<div class="card-deck my-4">
+  <div class="card mx-4">
+    <img class="card-img-top" src="https://www.christineadora.com/wp-content/uploads/2019/01/marq_4x6_sta_main.jpg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Namioty</h5>
+      <p class="card-text">Dodawanie, usuwanie i modyfikacja namiotów.</p>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary" [routerLink]="['/marqueesList']">Przejdź</button>
+    </div>
+  </div>
+  <div class="card mx-4">
+    <img class="card-img-top" src="https://tenpoznan.pl/wp-content/uploads/2019/06/enter-enea-music-festiwal-slawek-wachala-34-800x445.jpg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Wydarzenia</h5>
+      <p class="card-text">Dodaj, usun lub modyfikuj nadchodzące wydarzenie.</p>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary">Przejdź</button>
+    </div>
+  </div>
+  <div class="card mx-4">
+    <img class="card-img-top" src="https://www.caravanparkphotos.com.au/stroud_showground/images/stroud_showground_10.jpg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Miejsca</h5>
+      <p class="card-text">Dodanie, usuwanie i modyfikacja miejsc, w których odbędą się wydarzenia.</p>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary">Przejdź</button>
+      
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertifyService } from '../_services/alertify.service';
 import { WorkerService } from '../_services/worker.service';
 import { Worker } from '../_models/worker';
+import { BrowserModule } from '@angular/platform-browser'
 
 
 @Component({
