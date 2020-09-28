@@ -9,7 +9,7 @@ import { MarqueeComponent } from './marquee/marquee.component';
 import { EventsComponent } from './events/events.component';
 import { PlacesComponent } from './places/places.component';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgControl } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -22,6 +22,14 @@ import { appRoutes } from './routes';
 import { CommonModule } from '@angular/common';
 import { MarqueeListComponent } from './marquee/marquee-list/marquee-list.component';
 import { MarqueeAddComponent } from './marquee/marquee-add/marquee-add.component';
+import { PlacesAddComponent } from './places/places-add/places-add.component';
+import { EventsAddComponent } from './events/events-add/events-add.component';
+import { PlaceSelectComponent } from './events/place-select/place-select.component';
+import { EventSelectComponent } from './marquee/event-select/event-select.component';
+import { PlaceEditComponent } from './places/place-edit/place-edit.component';
+import { EventEditComponent } from './events/event-edit/event-edit.component';
+import { MarqueeEditComponent } from './marquee/marquee-edit/marquee-edit.component';
+import { AuthGuard } from './_guard/auth.guard';
 
 
 export function tokenGetter()
@@ -40,7 +48,15 @@ export function tokenGetter()
       RegisterComponent,
       WorkersListComponent,
       MarqueeListComponent,
-      MarqueeAddComponent
+      MarqueeAddComponent,
+      PlacesAddComponent,
+      EventsAddComponent,
+      PlaceSelectComponent,
+      EventSelectComponent, 
+      PlaceEditComponent,
+      EventEditComponent,
+      MarqueeEditComponent
+
    ],
   imports: [
     BrowserModule,
@@ -61,7 +77,9 @@ export function tokenGetter()
   providers: [
     AuthService,
     AlertifyService,
-    WorkerService
+    WorkerService,
+    AuthGuard
+
   ],
   bootstrap: [AppComponent]
 })

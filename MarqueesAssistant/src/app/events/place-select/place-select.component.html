@@ -1,9 +1,6 @@
-<!-- <p *ngFor="let place of places">
-  {{place.id}} - {{place.street}} - {{place.town}} - {{place.postCode}}
-</p> -->
 
 <div class="float-right">
-  <button [routerLink]="['/placesAdd']" class="btn btn-success mx-2 my-2">Dodaj miejsce</button>
+  <button  class="btn btn-success mx-2 my-2">Dodaj miejsce</button>
 </div>
 
 <table *ngFor="let place of places" class="table table-hover">
@@ -27,9 +24,8 @@
       <td>{{place.thirdGradeDivision}}</td>
       <td>{{place.postCode}}</td>
       <td>
-        <button (click)="selectPlace(place.id)" class="btn btn-primary mx-1">Edytuj</button>
-        <button class="btn btn-info mx-1">Szczegóły</button>
-        <button (click)="deletePlace(place.id)" class="btn btn-danger mx-1">Usuń</button>
+        <button (click)="selectPlace(place.id)" class="btn btn-primary mx-1">Wybierz</button>
+
       </td>
       
     </tr>

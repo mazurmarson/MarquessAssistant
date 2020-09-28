@@ -1,4 +1,4 @@
-<form #registerForm="ngForm" (ngSubmit)="addMarquee()">
+<form *ngIf="isLoaded" #registerForm="ngForm" (ngSubmit)="editMarquee()">
   <h2 class="text-center text-primary">Dodaj</h2>
   <hr>
 
@@ -44,7 +44,7 @@
 
   <div class="form-group text-center">
     <button class="btn btn-success" type="submit">Dodaj</button>
-    <button class="btn btn-default" type="button" (click)="cancel()" >Anuluj</button>
+
 
   </div>
 </form> 

@@ -33,6 +33,15 @@ export class MarqueeListComponent implements OnInit {
     } );
   }
 
+  deleteMarquee(id: number)
+  {
+    this.marqueeService.deleteMarquue(id).subscribe(response => {
+      this.alertify.success('Usunięto namiot');
+    }, error => {
+      this.alertify.error('Wystąpił błąd');
+    });
+  }
+
 }
 
 

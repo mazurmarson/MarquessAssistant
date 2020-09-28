@@ -7,4 +7,5 @@ export interface Marquee {
     downDate?: Date;
     isUp?: boolean;
     isDown?: boolean;
+    eventName: string;
 }

@@ -1,8 +1,8 @@
 using System;
 
-namespace MarqueesAssistant.API.Models
+namespace MarqueesAssistant.API.Dtos
 {
-    public class Event
+    public class EventDisplayDto
     {
         public int Id { get; set; }
 
@@ -13,9 +13,8 @@ namespace MarqueesAssistant.API.Models
 
         public int PlaceId { get; set; }
 
-        public Place Place { get; set; }
+        public string PlaceName { get; set; }
 
         public string TypeOfEvent { get; set; }
-
     }
 }

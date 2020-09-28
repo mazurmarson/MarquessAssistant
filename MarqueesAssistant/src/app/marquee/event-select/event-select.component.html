@@ -1,12 +1,3 @@
-<!-- <p *ngFor="let event of events">
-  {{event.id}} - {{event.place}} - {{event.startDate}} - {{event.endDate}}
-  
-</p>
- -->
-
- 
-
-
 <table  class="table table-hover">
   <thead>
     <tr>
@@ -15,7 +6,7 @@
       <th scope="col">Koniec wydarzenia</th>
       <th scope="col">Miejsce</th>
       <th scope="col">Typ imprezy</th>
-      <th scope="col"><button [routerLink]="['/placeSelect']" class="btn btn-success">Dodaj wydarzenie</button></th>
+ 
     
     </tr>
   </thead>
@@ -28,9 +19,8 @@
       <td>{{event.placeName}}</td>
       <td>{{event.typeOfEvent}}</td>
       <td>
-        <button [routerLink]="['/eventEdit', event.id]" class="btn btn-primary mx-1">Edytuj</button>
-        <button class="btn btn-info mx-1">Szczegóły</button>
-        <button (click)="deleteEvent(event.id)" class="btn btn-danger mx-1">Usuń</button>
+        <button (click)="selectEvent(event.id)" class="btn btn-primary mx-1">Wybierz</button>
+
       </td>
       
     </tr>

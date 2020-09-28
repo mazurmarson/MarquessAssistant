@@ -1,26 +1,35 @@
 
+<div class="float-right">
+  <button [routerLink]="['/eventSelect']" class="btn btn-success mx-2 my-2">Dodaj namiot</button>
+</div>
 
-
-<table *ngFor="let marquee of marquees" class="table table-hover">
+<table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Namioty</th>
-      <th scope="col">ID</th>
+      <th scope="col">Festiwal</th>
       <th scope="col">Szerkość</th>
       <th scope="col">Długość</th>
-      <th scope="col"><button [routerLink]="['/marqueesAdd']" class="btn btn-success mx-1">Dodaj namiot</button></th>
+      <th scope="col">Postawiony?</th>
+      <th scope="col">Ściągnięty</th>
+      <th scope="col-3">Akcja</th>
+
+      
+
+    
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>{{marquee.id}}</td>
+    <tr *ngFor="let marquee of marquees">
+
+      <td>{{marquee.eventName}}</td>
       <td>{{marquee.width}}</td>
       <td>{{marquee.length}}</td>
+      <td>{{marquee.isUp? 'Tak':'Nie'}}</td>
+      <td>{{marquee.isDown? 'Tak':'Nie'}}</td>
       <td>
-        <button class="btn btn-primary mx-1">Edytuj</button>
+        <button [routerLink]="['/marqueeEdit', marquee.id]" class="btn btn-primary mx-1">Edytuj</button>
         <button class="btn btn-info mx-1">Szczegóły</button>
-        <button class="btn btn-danger mx-1">Usuń</button>
+        <button (click)="deleteMarquee(marquee.id)" class="btn btn-danger mx-1">Usuń</button>
       </td>
       
     </tr>

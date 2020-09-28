@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AlertifyService } from '../_services/alertify.service';
+import { MarqueeService } from '../_services/marquee.service';
 
 @Component({
   selector: 'app-events',
@@ -9,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class EventsComponent implements OnInit {
 
   events: any;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertifyService: AlertifyService) { }
 
   ngOnInit() {
     this.getEvents();
@@ -23,5 +25,16 @@ export class EventsComponent implements OnInit {
       console.log(error);
     });
   }
+
+  deleteEvent(id: number)
+  {
+    this.marqueeService.deleteEvent(id).subscribe(responsne => {
+      this.alertifyService.success('Usunięto wydarzenie');
+    }, error => {
+      this.alertifyService.error('Wystąpił błąd');
+    });
+  }
+
+
 
 }
