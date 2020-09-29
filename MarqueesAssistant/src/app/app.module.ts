@@ -30,6 +30,7 @@ import { PlaceEditComponent } from './places/place-edit/place-edit.component';
 import { EventEditComponent } from './events/event-edit/event-edit.component';
 import { MarqueeEditComponent } from './marquee/marquee-edit/marquee-edit.component';
 import { AuthGuard } from './_guard/auth.guard';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 
 export function tokenGetter()
@@ -78,7 +79,8 @@ export function tokenGetter()
     AuthService,
     AlertifyService,
     WorkerService,
-    AuthGuard
+    AuthGuard,
+    ErrorInterceptorProvider
 
   ],
   bootstrap: [AppComponent]

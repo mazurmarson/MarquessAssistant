@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MarqueesAssistant.API.Controllers
 {
@@ -23,7 +24,7 @@ namespace MarqueesAssistant.API.Controllers
             _repo = repo;
             _config = config;
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(WorkerRegisterDto workerRegisterDto)
         {
@@ -59,9 +60,13 @@ namespace MarqueesAssistant.API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, workerFromRepo.Id.ToString()), //Tutaj w tokenie zapisane jest ID
-                new Claim(ClaimTypes.Name, workerFromRepo.Login) // Tutaj w tokenie jest zapisany login
+                new Claim(ClaimTypes.Name, workerFromRepo.Login),
+                new Claim(ClaimTypes.Role, workerFromRepo.Rank)
+                 // Tutaj w tokenie jest zapisany login
                 //Tutaj dodaj stopien pracownika
             };
+
+
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
 

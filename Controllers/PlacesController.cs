@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Data;
 using MarqueesAssistant.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +33,7 @@ namespace MarqueesAssistant.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "kierownik")]
         public async Task<IActionResult> AddPlace(Place place)
         {
             var placeToCreate = new Place
