@@ -1,0 +1,31 @@
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Id nadawcy</th>
+      <th scope="col">Id odbiorcy</th>
+      <th scope="col">Tresc</th>
+      <th scope="col">Data wyslania</th>
+
+
+      
+
+    
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let message of messages">
+
+      <td>{{message.senderId}}</td>
+      <td>{{message.recipientId}}</td>
+      <td>{{message.content}}</td>
+      <td>{{message.sendDate}}</td>
+
+      <td>
+
+      </td>
+      
+    </tr>
+  </tbody>
+</table>

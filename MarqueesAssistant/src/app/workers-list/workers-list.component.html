@@ -1,6 +1,6 @@
 <div>
   <p *ngFor="let worker of workers">
     {{worker.login}}
-
+    <button [routerLink]="['/conversation',worker.id ]" class="btn btn-primary">Napisz</button>
   </p>
 </div>

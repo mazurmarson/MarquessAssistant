@@ -13,9 +13,15 @@ import { AuthService } from '../_services/auth.service';
 export class NavComponent implements OnInit {
 
   model: any = {};
-  constructor(private router: Router,public authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private router: Router,public authService: AuthService, private alertify: AlertifyService) { 
 
+  }
+
+ 
   ngOnInit() {
+    
+    
+
   }
 
   login()

@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using MarqueesAssistant.API.Models;
+
 namespace MarqueesAssistant.API.Controllers
 {
     public class Worker
@@ -14,6 +17,10 @@ namespace MarqueesAssistant.API.Controllers
         public byte[]  PasswordHash { get; set; }   
 
         public byte[] PasswordSalt { get; set; }
+
+        public ICollection<Message> MessagesSent { get; set;}
+
+        public ICollection<Message> MessagesRecived { get; set;}
 
     }
 }

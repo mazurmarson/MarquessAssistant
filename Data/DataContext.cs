@@ -21,5 +21,17 @@ namespace MarqueesAssistant.API.Data
 
         public DbSet<Worker> Workers { get; set;}
 
+        public DbSet<Message> Messages { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Message>().HasOne(w => w.Sender)
+                                        .WithMany(m => m.MessagesSent);
+
+            modelBuilder.Entity<Message>().HasOne(w => w.Recipient)
+                                        .WithMany(m => m.MessagesRecived);
+                                        
+        }
+
     }
 }

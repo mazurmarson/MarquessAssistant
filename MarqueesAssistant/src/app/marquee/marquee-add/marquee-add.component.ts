@@ -16,7 +16,7 @@ export class MarqueeAddComponent implements OnInit {
 
   constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, private route: ActivatedRoute) { 
     this.route.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = (params['id']);
     });
 
   }

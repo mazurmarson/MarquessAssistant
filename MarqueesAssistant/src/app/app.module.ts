@@ -31,6 +31,8 @@ import { EventEditComponent } from './events/event-edit/event-edit.component';
 import { MarqueeEditComponent } from './marquee/marquee-edit/marquee-edit.component';
 import { AuthGuard } from './_guard/auth.guard';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { MessageComponent } from './message/message.component';
+import { ConversationComponent } from './message/conversation/conversation.component';
 
 
 export function tokenGetter()
@@ -39,7 +41,7 @@ export function tokenGetter()
 }
 
 @NgModule({
-  declarations: [									
+  declarations: [										
     AppComponent,
       MarqueeComponent,
       EventsComponent,
@@ -56,8 +58,9 @@ export function tokenGetter()
       EventSelectComponent, 
       PlaceEditComponent,
       EventEditComponent,
-      MarqueeEditComponent
-
+      MarqueeEditComponent,
+      MessageComponent,
+      ConversationComponent
    ],
   imports: [
     BrowserModule,
