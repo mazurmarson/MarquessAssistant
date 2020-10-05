@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Marquees Assistant</a>
+  <a class="navbar-brand" [routerLink]="['/marquees']">Marquees Assistant</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -17,7 +17,7 @@
         <a class="nav-link" [routerLink]="['/workers']">Pracownicy</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/messages', authService.decodedToken?.nameid]">Wiadomosci</a>
+        <a class="nav-link" [routerLink]="['/messages', authService.decodedToken?.nameid]">Wiadomosci  <sup class="rounded text-white bg-danger px-1">{{test}}</sup></a>
       </li>
     </ul>    
     
@@ -32,7 +32,7 @@
           </li>
         </ul>
         <button class="btn btn-success my-2 mx-1 my-sm-0" type="submit">Wyloguj</button>
-      
+        
     </form>
   </div>
  
@@ -44,7 +44,7 @@
       
     </form>
   </div>
-    
+
 
   </div>
 </nav>

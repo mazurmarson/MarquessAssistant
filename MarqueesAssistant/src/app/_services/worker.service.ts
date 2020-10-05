@@ -42,4 +42,14 @@ constructor(private http: HttpClient) { }
     return this.http.post(this.baseUrl + 'workers/' + idSender + '/messages',  model );
   }
 
+  readMessage(idRecipient: number, idMessage: number)
+  {
+    return this.http.post(this.baseUrl + 'workers/' + idRecipient + '/messages/read/' + idMessage, {} ).subscribe();
+  }
+
+  anyMessages(idWorker: number)
+  {
+    return this.http.get(this.baseUrl + 'workers/' + idWorker + '/messages/anyMessages', {responseType: 'text'} );
+  }
+
 }

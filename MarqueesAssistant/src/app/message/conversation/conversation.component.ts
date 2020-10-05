@@ -1,6 +1,7 @@
-
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { tap } from 'rxjs/operators';
 import { Message } from 'src/app/_models/message';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -35,14 +36,34 @@ export class ConversationComponent implements OnInit {
   }
 
   
+  // getConversation()
+  // {
+  
+  //   this.workerService.getConversation(this.id, this.id2).subscribe( response => {
+  //     this.messages = response;
+      
+  //   }, error => {
+  //     this.alertifyService.error('Wystąpił błąd');
+  //   });
+  // }
+
   getConversation()
   {
-  
-    this.workerService.getConversation(this.id, this.id2).subscribe( response => {
-      this.messages = response;
-      
+    this.workerService.getConversation(this.id, this.id2)
+    .pipe(
+      tap(messages => {
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < messages.length; i++) {
+          if (messages[i].isRead === false && messages[i].recipientId == this.id) {
+            this.workerService.readMessage(this.id, messages[i].id);
+          }
+        }
+      })
+    )
+    .subscribe(messages => {
+      this.messages = messages;
     }, error => {
-      this.alertifyService.error('Wystąpił błąd');
+      this.alertifyService.error(error);
     });
   }
 
@@ -52,10 +73,16 @@ export class ConversationComponent implements OnInit {
     console.log(this.liczba);
     this.workerService.sendMessage(this.id, this.model).subscribe( () => {
       this.alertifyService.success('Wysłano wiadomość');
+      this.getConversation();
     }, error => {
       this.alertifyService.error('Wystąpił problem');
     }); 
 
+  }
+
+  readMessage(messageId: number)
+  {
+    this.workerService.readMessage(this.id, messageId);
   }
 
 

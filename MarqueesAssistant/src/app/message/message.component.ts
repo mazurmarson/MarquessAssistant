@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+
+import { Message } from '../_models/message';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 import { WorkerService } from '../_services/worker.service';
@@ -14,6 +16,7 @@ export class MessageComponent implements OnInit {
 
   messages: any;
   id: number = this.authService.decodedToken?.nameid;
+  idFriend: number;
 
   ngOnInit() {
     this.getMessages();
@@ -28,5 +31,23 @@ export class MessageComponent implements OnInit {
       this.alertifyService.error('Wystąpił błąd');
     });
   }
+
+  getIdWorker(message:any)
+  {
+    if(message.recipientId == this.id)
+    {
+     // console.log(message.senderId);
+      return message.senderId;
+    // this.idFriend = message.senderId;
+      
+     
+    }
+    else
+    {
+      return message.recipientId;
+    }
+  }
+
+
 
 }

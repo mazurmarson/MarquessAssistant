@@ -3,8 +3,8 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Id nadawcy</th>
-      <th scope="col">Id odbiorcy</th>
+      <th scope="col">Nadawca</th>
+      <th scope="col">Odbiorca</th>
       <th scope="col">Tresc</th>
       <th scope="col">Data wyslania</th>
 
@@ -15,12 +15,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let message of messages">
+    <tr *ngFor="let message of messages"
+    [ngClass]="{'font-weight-bold': message.isRead == false && message.recipientId == id}">
 
       <td>{{message.senderId}}</td>
       <td>{{message.recipientId}}</td>
       <td>{{message.content}}</td>
       <td>{{message.sendDate}}</td>
+      <td><button  [routerLink]="['/conversation',getIdWorker(message) ]" class="btn btn-primary">Przejdź</button></td>
+      
+
 
       <td>
 

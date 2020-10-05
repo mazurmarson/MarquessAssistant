@@ -8,7 +8,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using MarqueesAssistant.API.Models;
-
+using MarqueesAssistant.API.Dtos;
 
 namespace MarqueesAssistant.API.Controllers
 {
@@ -86,14 +86,37 @@ namespace MarqueesAssistant.API.Controllers
 
             // })
             List<Message> MessagesList = new List<Message>();
-            // var users = _context.Workers.Select(u => u.Id).Max();
-            int id = 5;
-                        var messages =  _context.Messages.Where(x =>
-            (x.SenderId == workerId || x.RecipientId == workerId ) && 
-            ( x.SenderId == id || x.RecipientId == id ) ).OrderByDescending(x => x.SendDate).Take(1);
+            // var users = 
+            int id = _context.Workers.Select(u => u.Id).Max();
+            
 
+            for(int i = 0; i < id; i++)
+            {
+                if(workerId != i)
+                {
+                var message = _context.Messages.Where(x =>
+                 (x.SenderId == workerId || x.RecipientId == workerId ) && 
+                ( x.SenderId == i || x.RecipientId == i ) ).OrderByDescending(x => x.SendDate)
+                .Take(1).ToList();
+                // .Select(m => new Message{
+                //     Id = m.Id,
+                //     SenderId = m.SenderId,
+                //     RecipientId = m.RecipientId,
+                //     SendDate = m.SendDate,
+                //     Content = m.Content
 
-            return Ok(messages);
+                // });
+                
+                Message messageObject = message.FirstOrDefault();
+
+                if(messageObject != null)
+                MessagesList.Add(messageObject);
+                
+                }
+
+            }
+
+            return Ok(MessagesList);
         }
         
         [HttpGet("conversation/{id}", Name = "GetConversation")]
@@ -102,15 +125,50 @@ namespace MarqueesAssistant.API.Controllers
              if(workerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             return Unauthorized();
             
+            // var messages = await _context.Messages.Where(x =>
+            // (x.SenderId == workerId || x.RecipientId == workerId ) && 
+            // ( x.SenderId == id || x.RecipientId == id ) ).OrderByDescending(x => x.SendDate).ToListAsync();
+
             var messages = await _context.Messages.Where(x =>
             (x.SenderId == workerId || x.RecipientId == workerId ) && 
-            ( x.SenderId == id || x.RecipientId == id ) ).OrderByDescending(x => x.SendDate).ToListAsync();
-
-            
+            ( x.SenderId == id || x.RecipientId == id ) ).OrderByDescending(x => x.SendDate)
+            .Include(Message => Message.Recipient)
+            .Include(Message => Message.Sender)
+            .Select(Message => new MessageDisplayDto(Message)).ToListAsync();
+           
 
             return Ok(messages);
         }
 
+
+        [HttpPost("read/{id}")]
+        public async Task<IActionResult> ReadMessage(int workerId, int id)
+        {
+            if(workerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            return Unauthorized();
+
+            var message = await _context.Messages.FirstOrDefaultAsync( m => m.Id == id);
+
+            if(message.RecipientId  != workerId)
+            return Unauthorized();
+
+            message.IsRead = true;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpGet("anyMessages")]
+        public async Task<IActionResult> AnyMessages(int workerId)
+        {
+            if(workerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            return Unauthorized();
+
+            int numOfMess = await _context.Messages.Where(x => x.RecipientId == workerId && x.IsRead == false).CountAsync();
+
+            return Ok(numOfMess);
+        }
         
 
         //         public async Task<IActionResult> GetMessages(int workerId)

@@ -15,9 +15,12 @@ namespace MarqueesAssistant.API.Models
 
         public string Content { get; set; }
 
+        public bool IsRead { get; set; }
+
         public Message()
         {
             SendDate = DateTime.Now;
+            IsRead = false;
         }
     }
 }
