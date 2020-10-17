@@ -62,6 +62,15 @@ namespace MarqueesAssistant.API.Controllers
             return Ok(eventt);
         }
 
+        [HttpGet("stuff/{id}")]
+        public async Task<IActionResult> GetEventStuff(int id)
+        {
+            var marquees = await _context.Marquees.Where(x => x.EventId == id).Include(x => x.Event).Select(Marquee => new MarqueesStuffDto(Marquee)).ToListAsync();
+            return Ok(marquees);
+
+            
+        }
+
         [HttpPost("{id:int}")]
         public async Task<IActionResult> AddEvent(int id,Event eventt )
         {

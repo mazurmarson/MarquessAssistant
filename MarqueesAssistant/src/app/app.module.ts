@@ -33,6 +33,8 @@ import { AuthGuard } from './_guard/auth.guard';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { MessageComponent } from './message/message.component';
 import { ConversationComponent } from './message/conversation/conversation.component';
+import { EventStuffComponent } from './events/event-stuff/event-stuff.component';
+
 
 
 export function tokenGetter()
@@ -60,7 +62,8 @@ export function tokenGetter()
       EventEditComponent,
       MarqueeEditComponent,
       MessageComponent,
-      ConversationComponent
+      ConversationComponent,
+      EventStuffComponent
    ],
   imports: [
     BrowserModule,

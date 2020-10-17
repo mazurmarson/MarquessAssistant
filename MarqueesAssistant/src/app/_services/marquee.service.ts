@@ -37,6 +37,10 @@ constructor(private http: HttpClient) { }
     return this.http.get<Event>(this.baseUrl + 'events/' + id);
   }
 
+  getEventStuff(id:number):Observable<Marquee[]>{
+    return this.http.get<Marquee[]>(this.baseUrl + 'events/stuff/' + id);
+  }
+
   getMarquee(id: number): Observable<Marquee>
   {
     return this.http.get<Marquee>(this.baseUrl + 'marquees/' + id );

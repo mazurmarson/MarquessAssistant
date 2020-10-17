@@ -25,7 +25,6 @@ export class NavComponent implements OnInit {
     setInterval( () => {
       this.anyMessages();
     }, 10000);
-
   }
 
   login()
@@ -62,6 +61,9 @@ export class NavComponent implements OnInit {
     this.id = this.authService.decodedToken?.nameid;
     
     this.workerService.anyMessages(this.id).subscribe(results => this.test = results);
+
+
+
     
   }
 

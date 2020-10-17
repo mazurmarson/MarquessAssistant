@@ -1,0 +1,73 @@
+
+<div class="float-right">
+  <button [routerLink]="['/eventSelect']" class="btn btn-success mx-2 my-2">Dodaj namiot</button>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Festiwal</th>
+      <th scope="col">Szerkość</th>
+      <th scope="col">Długość</th>
+      <th scope="col">Postawiony?</th>
+      <th scope="col">Ściągnięty</th>
+      <th scope="col-3">Akcja</th>
+
+      
+
+    
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let marquee of marquees" >
+     
+      <td>{{marquee.eventName}}</td>
+      <td>{{marquee.width}}</td>
+      <td>{{marquee.length}}</td>
+      <td>{{marquee.isUp? 'Tak':'Nie'}}</td>
+      <td >{{marquee.isDown? 'Tak':'Nie'}}</td>
+
+      <td>
+        <button [routerLink]="['/marqueeEdit', marquee.id]" class="btn btn-primary mx-1">Edytuj</button>
+        <button class="btn btn-info mx-1">Szczegóły</button>
+          
+      </td>
+      
+    </tr>
+    
+
+  </tbody>
+</table>
+
+<p>Ilość nóg 3-9m: {{this.smallLegs}}</p>
+<p>Ilość nóg 12-15m: {{this.bigLegs}}</p>
+<p>Ilość krokwi 3m: {{this.rafters3m}}</p>
+<p>Ilość krokwi 6m: {{this.rafters6m}}</p>
+<p>Ilość krokwi 9m: {{this.rafters9m}}</p>
+<p>Ilość krokwi 9m: {{this.rafters12m}}</p>
+<p>Ilość podstawek i śledzi 3-9m: {{this.smallPlates}}</p>
+<p>Ilość podstawek i śledzi 12-15: {{this.bigPlates}}</p>
+<p>Ilość ścian: {{this.walls}}</p>
+<p>Ilość dachów 3m: {{this.roofs3m}}</p>
+<p>Ilość dachów 6m: {{this.roofs6m}}</p>
+<p>Ilość dachów 9m: {{this.roofs9m}}</p>
+<p>Ilość dachów 12m: {{this.roofs12m}}</p>
+<p>Ilość wewnętrznych łączników: {{this.perlines}}</p>
+<p>Ilość zewnętrznych łączników 3-9m: {{this.smallHookups}}</p>
+<p>Ilość zewnętrznych łączników 12-15m: {{this.bigHookups}}</p>
+<p>Ilość wierzchołków 3-9m: {{this.smallApexes}}</p>
+<p>Ilość wierzchołków 12-15m: {{this.bigApexes}}</p>
+<p>Ilość nóg końcowych 3-9m: {{this.endleg3to9}}</p>
+<p>Ilość nóg końcowych krótkich 12-15m: {{this.shortEndlegs}}</p>
+<p>Ilość nóg końcowych krótkich 12-15m: {{this.longEndlegs}}</p>
+
+
+
+
+
+
+
+
+
+
+

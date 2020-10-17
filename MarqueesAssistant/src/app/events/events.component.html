@@ -29,7 +29,7 @@
       <td>{{event.typeOfEvent}}</td>
       <td>
         <button [routerLink]="['/eventEdit', event.id]" class="btn btn-primary mx-1">Edytuj</button>
-        <button class="btn btn-info mx-1">Szczegóły</button>
+        <button [routerLink]="['/eventStuff', event.id]"  class="btn btn-info mx-1">Szczegóły</button>
         <button (click)="deleteEvent(event.id)" class="btn btn-danger mx-1">Usuń</button>
       </td>
       

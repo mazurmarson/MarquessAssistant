@@ -17,6 +17,7 @@ import { MarqueeEditComponent } from './marquee/marquee-edit/marquee-edit.compon
 import { AuthGuard } from './_guard/auth.guard';
 import { MessageComponent } from './message/message.component';
 import { ConversationComponent } from './message/conversation/conversation.component';
+import { EventStuffComponent } from './events/event-stuff/event-stuff.component';
 
 export const appRoutes: Routes = [
     {
@@ -66,6 +67,9 @@ export const appRoutes: Routes = [
     },
     {
         path: 'conversation/:id', component: ConversationComponent
+    },
+    {
+        path: 'eventStuff/:id', component: EventStuffComponent
     }
     
 
