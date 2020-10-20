@@ -18,6 +18,7 @@ import { AuthGuard } from './_guard/auth.guard';
 import { MessageComponent } from './message/message.component';
 import { ConversationComponent } from './message/conversation/conversation.component';
 import { EventStuffComponent } from './events/event-stuff/event-stuff.component';
+import { RegisterComponent } from './register/register.component';
 
 export const appRoutes: Routes = [
     {
@@ -70,6 +71,9 @@ export const appRoutes: Routes = [
     },
     {
         path: 'eventStuff/:id', component: EventStuffComponent
+    },
+    {
+        path: 'register', component: RegisterComponent
     }
     
 

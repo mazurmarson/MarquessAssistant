@@ -18,33 +18,29 @@ namespace MarqueesAssistant.API.Controllers
     public class WorkersController: ControllerBase
     {
 
-        private readonly DataContext _context;
+        private readonly IWorkerRepo _repo;
         private readonly IMapper _mapper;
-        public WorkersController(DataContext context, IMapper mapper)
+        public WorkersController(IWorkerRepo repo, IMapper mapper)
         {
             _mapper = mapper;
-            _context = context;
+            _repo = repo;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetWorkers()
         {
-            var workers = await _context.Workers.ToListAsync();
+            var workers = await _repo.GetWorkers();
             var workersToReturn = _mapper.Map<IEnumerable<WorkerDisplayDto>>(workers);
             return Ok(workersToReturn);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWorkers(int id)
+        public async Task<IActionResult> GetWorker(int id)
         {
-            var worker = await _context.Workers.FirstOrDefaultAsync(x => x.Id == id);
+            var worker = await _repo.GetWorker(id);
             return Ok(worker);
         }
 
-        public async Task<Message> GetMessage(int id)
-        {
-            return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
-        }
 
 
         // [HttpGet]

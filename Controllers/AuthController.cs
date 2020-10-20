@@ -37,7 +37,9 @@ namespace MarqueesAssistant.API.Controllers
 
             var workerToCreate = new Worker
             {
-             
+                Rank = workerRegisterDto.Rank,
+                FirstName = workerRegisterDto.FirstName,
+                LastName = workerRegisterDto.LastName,
                 Login = workerRegisterDto.Login
             };
 

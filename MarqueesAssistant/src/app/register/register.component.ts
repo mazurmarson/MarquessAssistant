@@ -10,7 +10,7 @@ import { AuthService } from '../_services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
- 
+  ranks: string[] = ["pracownik", "kierownik", "admin"];
   model: any = {};
   @Output() cancelRegister = new EventEmitter();
 

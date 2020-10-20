@@ -9,5 +9,9 @@ namespace MarqueesAssistant.API.Dtos
         [Required(ErrorMessage = "Haslo jest wymagane")]
         [StringLength(12, MinimumLength=6, ErrorMessage="Haslo musi składać z 6 do 12 znaków")]
         public string Password { get; set; }
+        public string LastName { get; set; }
+
+        public string FirstName { get; set;}
+        public string Rank { get; set; }
     }
 }

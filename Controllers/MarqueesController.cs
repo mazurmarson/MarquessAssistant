@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Data;
@@ -13,18 +14,21 @@ namespace MarqueesAssistant.API.Controllers
 
     public class MarqueesController:ControllerBase
     {
-        private readonly DataContext _context;
 
-        public MarqueesController(DataContext context)
+        private readonly IMarqueeRepo _repo;
+        private readonly IEventRepo _eventRepo;
+
+        public MarqueesController(IMarqueeRepo repo, IEventRepo eventRepo)
         {
-            _context = context;
+            _eventRepo = eventRepo;
+            _repo = repo;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetMarquees()
         {
-            var marquees = await _context.Marquees.ToArrayAsync();
-            var events = await _context.Events.ToArrayAsync();
+            var marquees = await _repo.GetMarquees();
+            var events = await _eventRepo.GetEvents();
 
             var result = from m in marquees
                         join e in events on m.EventId equals e.Id
@@ -49,14 +53,14 @@ namespace MarqueesAssistant.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {
-            var marquee = await _context.Marquees.FirstOrDefaultAsync(x => x.Id == id);
+            var marquee = await _repo.GetMarquee(id);
             return Ok(marquee);
         }
 
         [HttpPost("{id:int}")]
         public async Task<IActionResult> AddMarquee(int id, Marquee marquee)
         {
-            Event eventt = await _context.Events.FirstOrDefaultAsync(x => x.Id == id);
+            Event eventt = await _eventRepo.GetEvent(id);
             var marqueeToCreate = new Marquee
             {
                 EventId = marquee.EventId,
@@ -69,10 +73,17 @@ namespace MarqueesAssistant.API.Controllers
                 Event = eventt
             };
 
-            await _context.Marquees.AddAsync(marqueeToCreate);
-            await _context.SaveChangesAsync();
+            _repo.Add<Marquee>(marqueeToCreate);
 
-            return StatusCode(201);
+            if(await _repo.SaveAll())
+            {
+                return Ok();
+            }
+            return BadRequest("Nie można dodać namiotu");
+            
+   
+
+            
         }
 
         //         [HttpPost("register")]
@@ -100,20 +111,30 @@ namespace MarqueesAssistant.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMarquee(int id)
         {
-            Marquee marquee = await _context.Marquees.FirstOrDefaultAsync(x => x.Id == id);
-            _context.Marquees.Remove(marquee);
-            await _context.SaveChangesAsync();
+            
+            Marquee marquee = await _repo.GetMarquee(id);
+            _repo.Delete(marquee);
+            // _context.Marquees.Remove(marquee);
+            if(await _repo.SaveAll())
+            {
+                return NoContent();
+            }
 
-            return Ok();
+            throw new Exception("Błąd podczas usuwania namiotu");
         }
 
         [HttpPut]
         public async Task<IActionResult> EditMarquee(Marquee marquee)
         {
-            _context.Marquees.Update(marquee);
-            await _context.SaveChangesAsync();
+            _repo.Edit(marquee);
+            if(await _repo.SaveAll())
+            {
+                return NoContent();
+            }
 
-            return Ok();
+            
+            return NoContent();
+           // throw new Exception("Aktualizacja namiotu nie powiodła sie przy zapisywaniu do bazy");
         }
 
 

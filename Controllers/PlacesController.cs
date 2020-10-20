@@ -11,24 +11,26 @@ namespace MarqueesAssistant.API.Controllers
     [Route("api/[controller]")]
     public class PlacesController:ControllerBase
     {
-        private readonly DataContext _context;
+   
+        private readonly IPlaceRepo _repo;
 
-        public PlacesController(DataContext context)
+        public PlacesController(IPlaceRepo repo)
         {
-            _context = context;
+
+            _repo = repo;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetPlaces()
         {
-            var places = await _context.Places.ToListAsync();
+            var places = await _repo.GetPlaces();
             return Ok(places);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPlace(int id)
         {
-            var place = await _context.Places.FirstOrDefaultAsync(p => p.Id == id);
+            var place = await _repo.GetPlace(id);
             return Ok(place);
         }
 
@@ -46,31 +48,43 @@ namespace MarqueesAssistant.API.Controllers
                 PostCode = place.PostCode
             };
 
-            await _context.Places.AddAsync(placeToCreate);
-            await _context.SaveChangesAsync();
+            _repo.Add<Place>(placeToCreate);
 
-            return StatusCode(201);
+            if(await _repo.SaveAll())
+            {
+                return Ok();
+            }
+
+            return BadRequest("Nie można dodać miejsca");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlace(int id)
         {
-             Place place = await _context.Places.FirstOrDefaultAsync(x => x.Id == id);
-             _context.Places.Remove(place);
+             Place place = await _repo.GetPlace(id);
+             _repo.Delete(place);
+
+             if(await _repo.SaveAll())
+             {
+                 return NoContent();
+             }
+
+             return BadRequest("Nie można usunąć miejsca");
    
 
-            await _context.SaveChangesAsync();
 
-            return Ok();
         }
 
         [HttpPut]
         public async Task<IActionResult> EditPlace(Place place)
         {
-            _context.Places.Update(place);
-            await _context.SaveChangesAsync();
+            _repo.Edit<Place>(place);
+            if(await _repo.SaveAll())
+            {
+                return NoContent();
+            }
 
-            return Ok();
+            return BadRequest("Nie można edytować miejsca");
         }
     }
 }

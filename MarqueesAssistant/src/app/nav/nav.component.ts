@@ -14,17 +14,24 @@ import { WorkerService } from '../_services/worker.service';
 export class NavComponent implements OnInit {
   
   model: any = {};
+  role: string;
   constructor(private router: Router,public authService: AuthService, private alertify: AlertifyService, private workerService: WorkerService) { 
 
   }
   test: string;
   id: number;
   ngOnInit() {
-    
-    this.anyMessages();
-    setInterval( () => {
+    if(this.loggedIn())
+    {
       this.anyMessages();
-    }, 10000);
+      setInterval( () => {
+        this.anyMessages();
+        
+      }, 10000);
+      this.id = this.authService.decodedToken?.nameid;
+      this.role = this.authService.decodedToken?.role;
+    }
+
   }
 
   login()
@@ -42,9 +49,23 @@ export class NavComponent implements OnInit {
 
   loggedIn()
   {
-    
+
    
     return this.authService.loggedIn();
+    
+  }
+
+  isAdmin()
+  {
+    if(this.role === 'admin')
+    {
+      return true;
+      
+    }
+    else
+    {
+      return false;
+    }
     
   }
 
@@ -57,8 +78,7 @@ export class NavComponent implements OnInit {
 
   anyMessages()
   {
-   
-    this.id = this.authService.decodedToken?.nameid;
+
     
     this.workerService.anyMessages(this.id).subscribe(results => this.test = results);
 

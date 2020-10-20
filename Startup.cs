@@ -42,6 +42,12 @@ namespace MarqueesAssistant.API
             services.AddCors();
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IAuthRepo, AuthRepo>();
+            services.AddScoped<IEventRepo, EventRepo>();
+            services.AddScoped<IGenRepo, GenRepo>();
+            services.AddScoped<IPlaceRepo, PlaceRepo>();
+            services.AddScoped<IWorkerRepo, WorkerRepo>();
+            services.AddScoped<IMessRepo, MessRepo>();
+            services.AddScoped<IMarqueeRepo, MarqueeRepo>();
                         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                                     .AddJwtBearer(options =>{
                             options.TokenValidationParameters = new TokenValidationParameters

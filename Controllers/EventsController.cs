@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,41 +16,47 @@ namespace MarqueesAssistant.API.Controllers
     [Route("api/[controller]")]
     public class EventsController:ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IEventRepo _repo;
+        private readonly IPlaceRepo _placeRepo;
         private readonly IMapper _mapper;
-        public EventsController(DataContext context, IMapper mapper)
+       
+
+        private readonly IMarqueeRepo _marqueeRepo;
+        public EventsController(IEventRepo repo, IMapper mapper,  IMarqueeRepo marqueeRepo, IPlaceRepo placeRepo)
         {
-            _context = context;
+            _repo = repo;
             _mapper = mapper;
+            _placeRepo  = placeRepo;
+            _marqueeRepo = marqueeRepo;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetEvents()
         {
-            var events = await _context.Events.ToArrayAsync();
+            // var events = await _repo.GetEvents();
            // events = (List<Event>)(IEnumerable<Event>)events;
             
           //  var eventsDto = _mapper.Map<IEnumerable<EventDisplayDto>>(events);
-            var places = await _context.Places.ToArrayAsync();
+            // var places = await _context.Places.ToArrayAsync();
 
-            var result = from e in events
-                            join p in places on e.PlaceId equals p.Id
-                            where p.Id == e.PlaceId
-                            select new EventDisplayDto
-                            {
-                                Id = e.Id,
-                                Name = e.Name,
-                                StartDate = e.StartDate,
-                                EndDate = e.EndDate,
-                                PlaceId = e.PlaceId,
-                                PlaceName = p.Town,
-                                TypeOfEvent = e.TypeOfEvent
-                            };
+            // var result = from e in events
+            //                 join p in places on e.PlaceId equals p.Id
+            //                 where p.Id == e.PlaceId
+            //                 select new EventDisplayDto
+            //                 {
+            //                     Id = e.Id,
+            //                     Name = e.Name,
+            //                     StartDate = e.StartDate,
+            //                     EndDate = e.EndDate,
+            //                     PlaceId = e.PlaceId,
+            //                     PlaceName = p.Town,
+            //                     TypeOfEvent = e.TypeOfEvent
+            //                 };
             
 
             // var workersToReturn = _mapper.Map<IEnumerable<WorkerDisplayDto>>(workers);
                                 
-            
+            var result = await _repo.GetEventsDisplay();
             
 
             return Ok(result);
@@ -58,14 +65,15 @@ namespace MarqueesAssistant.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent(int id)
         {
-            var eventt = await _context.Events.FirstOrDefaultAsync(x => x.Id == id);
+            var eventt = await _repo.GetEvent(id);
             return Ok(eventt);
         }
 
         [HttpGet("stuff/{id}")]
         public async Task<IActionResult> GetEventStuff(int id)
         {
-            var marquees = await _context.Marquees.Where(x => x.EventId == id).Include(x => x.Event).Select(Marquee => new MarqueesStuffDto(Marquee)).ToListAsync();
+            var marquees = await _repo.GetEventStuff(id);
+
             return Ok(marquees);
 
             
@@ -74,7 +82,8 @@ namespace MarqueesAssistant.API.Controllers
         [HttpPost("{id:int}")]
         public async Task<IActionResult> AddEvent(int id,Event eventt )
         {
-            Place place = await _context.Places.FirstOrDefaultAsync(x => x.Id == id);
+            
+            Place place = await _placeRepo.GetPlace(id);
             var eventToCreate = new Event
             {
                 Name = eventt.Name,
@@ -85,29 +94,41 @@ namespace MarqueesAssistant.API.Controllers
                 Place = place
             };
 
-            await _context.Events.AddAsync(eventToCreate);
-            await _context.SaveChangesAsync();
+            _repo.Add<Event>(eventToCreate);
 
-            return StatusCode(201);
+            if(await _repo.SaveAll())
+            {
+                return Ok();
+            }
+
+            return BadRequest("Nie można dodać wydarzenia");
+
+            
         }
         
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
-            Event eventt = await _context.Events.FirstOrDefaultAsync(x => x.Id == id);
-            _context.Events.Remove(eventt);
+            Event eventt = await _repo.GetEvent(id);
+            _repo.Delete(eventt);
 
-            await _context.SaveChangesAsync();
-            return Ok();
+            if(await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+             throw new Exception("Nie można usunąć wydarzenia");
         }
 
         [HttpPut]
         public async Task<IActionResult> EditEvent(Event eventt)
         {
-            _context.Events.Update(eventt);
-            await _context.SaveChangesAsync();
+            _repo.Edit(eventt);
+            if(await _repo.SaveAll())
+            {
+                return NoContent();
+            }
 
-            return Ok();
+            throw new Exception("Nie można edytować wydarzenia");
         }
         
     }

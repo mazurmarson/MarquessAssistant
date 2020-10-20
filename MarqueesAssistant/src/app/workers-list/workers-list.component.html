@@ -1,4 +1,5 @@
 <div>
+  <button [routerLink]="['/register']" class="btn btn-danger float-right">Dodaj pracownika</button>
   <p *ngFor="let worker of workers">
     {{worker.login}}
     <button [routerLink]="['/conversation',worker.id ]" class="btn btn-primary">Napisz</button>
