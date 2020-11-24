@@ -29,6 +29,12 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  checkRole()
+  {
+    return this.authService.checkRole();
+  }
+
+
   cancel()
   {
     this.cancelRegister.emit(false);

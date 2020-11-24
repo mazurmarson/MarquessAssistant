@@ -33,8 +33,8 @@ namespace MarqueesAssistant.API.Dtos
             EventId = marquee.EventId;
             Width = marquee.Width;
             Length = marquee.Length;
-            UpDate = marquee.UpDate;
-            DownDate = marquee.DownDate;
+          //  UpDate = marquee.UpDate;
+          //  DownDate = marquee.DownDate;
             IsUp = marquee.IsUp;
             IsDown = marquee.IsDown;
 

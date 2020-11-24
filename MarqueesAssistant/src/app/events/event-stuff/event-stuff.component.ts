@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Marquee } from 'src/app/_models/marquee';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { AuthService } from 'src/app/_services/auth.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
 
 @Component({
@@ -10,7 +11,9 @@ import { MarqueeService } from 'src/app/_services/marquee.service';
   styleUrls: ['./event-stuff.component.css']
 })
 export class EventStuffComponent implements OnInit {
-
+  model: any;
+  placeName: any;
+  WeatherData: any;
   id: number;
   marquees: Marquee[];
   smallLegs: number = 0;
@@ -40,7 +43,7 @@ export class EventStuffComponent implements OnInit {
   bases:number;
   ilosc:number =0;
 
-  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private route: ActivatedRoute) { 
+  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private route: ActivatedRoute, private authService: AuthService) { 
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -48,10 +51,72 @@ export class EventStuffComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.loadMarquees();
-  
+      this.getEventPlaceName();
+      this.loadMarquees();
+  //    this.getWeatherData();
+
+      this.WeatherData = {
+       main : {},
+       isDay: true
+
+     };
    
   }
+
+  townNameIsLoaded()
+  {
+    if(this.placeName == null)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+  getWeatherData()
+  {
+     
+  //  console.log('http://api.openweathermap.org/data/2.5/weather?q=' + this.placeName + '&lang=pl&appid=3179fc058bf45bb4168f2c6f73f7d863');
+ //   
+ //fetch('http://api.openweathermap.org/data/2.5/weather?q=krosno&lang=pl&appid=3179fc058bf45bb4168f2c6f73f7d863')
+ fetch('http://api.openweathermap.org/data/2.5/weather?q=' + this.placeName + '&lang=pl&appid=3179fc058bf45bb4168f2c6f73f7d863')
+    .then(response=>response.json())
+    .then(data=>{this.setWeatherData(data);})
+    console.log(this.placeName);
+  }
+
+  getEventPlaceName()
+  {
+    this.marqueeService.getEventPlaceName(this.id).subscribe((response : any) => {
+      this.placeName = response.content;
+      console.log(this.placeName);
+      this.getWeatherData();
+    }, error => {
+      this.alertify.error(error);
+    });
+  }
+
+  setWeatherData(data)
+  {
+    console.log(data.weather[0].description);
+    this.WeatherData = data;
+    let currentDate = new Date();
+    this.WeatherData.temp_celcius = (this.WeatherData.main.temp - 273.15).toFixed(2);
+    this.WeatherData.temp_min = (this.WeatherData.main.temp_min - 273.15).toFixed(0);
+    this.WeatherData.temp_max = (this.WeatherData.main.temp_max - 273.15).toFixed(0);
+    this.WeatherData.temp_feels_like = (this.WeatherData.main.feels_like - 273.15).toFixed(0);
+    this.WeatherData.wind_speed = (this.WeatherData.wind.speed * 3.6).toFixed(2);
+     this.WeatherData.description = (this.WeatherData.weather[0].description);
+     this.WeatherData.town = (this.WeatherData.name);
+    // this.WeatherData.cosTam = (this.WeatherData.weather.main);
+  this.WeatherData.cloudiness = (this.WeatherData.clouds.all);
+  }
+
+
+
+
 
   loadMarquees()
   {
@@ -130,14 +195,7 @@ export class EventStuffComponent implements OnInit {
   
 
 
-    console.log("Ilosc nóg " + this.smallLegs);
-    console.log("Ilosc krokwi " + this.rafters3m);
-    console.log("Ilosc podstawek " + this.smallPlates);
-    console.log("Ilosc ścian " + this.walls);
-    console.log("Ilosc dachów " + this.roofs3m);
-    console.log("Ilosc wewnętrznych łączników " + this.perlines);
-    console.log("Ilosc zewnętrznych łączników " + this.smallHookups);
-    console.log("Ilosc wierzchołków " + this.smallApexes);
+
   }
 
 

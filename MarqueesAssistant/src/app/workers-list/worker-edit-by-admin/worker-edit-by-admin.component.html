@@ -1,0 +1,83 @@
+<form name="form"  (ngSubmit)="f.form.valid && editProfile()" #f="ngForm">
+  <h2  class="text-center text-primary">Dodaj pracownika</h2>
+  <hr>
+  <div class="form-group">
+    <input type="text" #login="ngModel" class="form-control" placeholder="Nazwa użytkownika" required minlength="4" name="login" [(ngModel)]="model.login">
+    <div class="text-danger"  *ngIf="login.invalid && (login.dirty || login.touched)">
+      <div  *ngIf="login.errors.required">
+        Podaj login
+      </div>
+  
+      <div class *ngIf="login.errors.minlength">
+        Login powinien składać się z przynajmniej 4 znaków 
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+ 
+      <input type="password" #password="ngModel" required minlength="6" class="form-control" placeholder="Hasło" required name="password" [(ngModel)]="model.password">
+      <div class="text-danger"  *ngIf="password.invalid && (password.dirty || password.touched)">
+        <div  *ngIf="password.errors.required">
+          Wpisz hasło
+        </div>
+    
+        <div *ngIf="password.errors.minlength">
+          Hasło powinno składać się przynajmniej z 6 znaków
+        </div>
+      </div>
+  </div>
+
+  <div class="form-group text-danger">
+ 
+    <input type="password" #confirmPassword="ngModel" class="form-control" placeholder="Hasło" required name="password" [(ngModel)]="model.confirmPassword">
+    <div   *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+      <div  *ngIf="confirmPassword.errors.required">
+        Wpisz hasło
+      </div>
+  
+
+    </div>
+    <div *ngIf="!matchFunction()">
+      Hasła powinny być takie same
+    </div>
+
+</div>
+
+
+  <div class="form-group">
+ 
+<input #firstName="ngModel" type="text" required  class="form-control" placeholder="Imie" required name="firstName" [(ngModel)]="model.firstName">
+<div class="text-danger"  *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+  <div  *ngIf="firstName.errors.required">
+    Wpisz imie
+  </div>
+
+
+</div>
+</div>
+<div class="form-group">
+ 
+  <input #lastName="ngModel" type="text" class="form-control" placeholder="Nazwisko" required name="lastName" [(ngModel)]="model.lastName">
+  <div class="text-danger"  *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+    <div  *ngIf="lastName.errors.required">
+      Wpisz Nazwisko
+    </div>
+  </div>
+</div>
+<div class="form-group">
+<label>Stanowisko:</label>
+<select  name="rank" [(ngModel)]="model.rank" class="form-control"  >
+  <option   *ngFor="let rank of ranks" [ngValue]="rank">{{rank}}</option>
+
+
+</select>
+</div>
+
+  <div class="form-group text-center">
+    <button class="btn btn-success" type="submit">Edycja</button>
+
+
+  </div>
+</form> 

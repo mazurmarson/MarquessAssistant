@@ -24,6 +24,8 @@ namespace MarqueesAssistant.API.Data
             return eventt;
         }
 
+
+
         public async Task<IEnumerable<Event>> GetEvents()
         {
             var events = await _context.Events.ToListAsync();
@@ -58,6 +60,16 @@ namespace MarqueesAssistant.API.Data
             .Include(x => x.Event).Select(Marquee => new MarqueesStuffDto(Marquee)).ToListAsync();
 
             return marquees;
+        }
+
+        public async Task<string> GetEventPlaceName(int id)
+        {
+            var events = await _context.Events.ToListAsync();
+            var places = await _context.Places.ToListAsync();
+
+           string placeName = events.Where(x => x.Id == id ).Select(x => x.Place.Town).FirstOrDefault();
+           
+            return placeName;
         }
     }
 }

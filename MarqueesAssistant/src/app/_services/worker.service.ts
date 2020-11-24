@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Apiresponse } from '../_models/apiresponse';
 import { Message } from '../_models/message';
 import { Worker } from '../_models/worker';
 
@@ -18,8 +20,15 @@ export class WorkerService {
 constructor(private http: HttpClient) { }
 
 
-  getWorkers(): Observable<Worker[]>{
-    return this.http.get<Worker[]>(this.baseUrl + 'workers');
+  getWorkers(pageNumber?: number, pageSize?: number): Observable<Apiresponse>{
+    return this.http.get<Apiresponse>(this.baseUrl + 'workers?' + 'pageNumber='
+     + pageNumber + '&pageSize=' + pageSize);
+  }
+
+  getSearchedWorkers(pageNumber?: number, pageSize?: number, searchString?: string, sortBy?: number)
+  {
+    return this.http.get<Apiresponse>(this.baseUrl + 'workers/searchWorker?' + 'pageNumber=' + pageNumber + 
+    '&pageSize=' + pageSize + '&searchString=' + searchString + '&sortBy=' + sortBy);
   }
 
   getWorker(id: number): Observable<Worker>
@@ -51,5 +60,11 @@ constructor(private http: HttpClient) { }
   {
     return this.http.get(this.baseUrl + 'workers/' + idWorker + '/messages/anyMessages', {responseType: 'text'} );
   }
+
+  deleteWorker(id:number)
+{
+  console.log(this.baseUrl +'workers/'  + id);
+  return this.http.delete(this.baseUrl +'workers/' +  id);
+}
 
 }

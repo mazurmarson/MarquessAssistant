@@ -1,7 +1,72 @@
-<div>
-  <button [routerLink]="['/register']" class="btn btn-danger float-right">Dodaj pracownika</button>
-  <p *ngFor="let worker of workers">
+<!-- <div *ngIf="apiResponse != null">
+  <button *ngIf="checkRole() == 'admin'" [routerLink]="['/register']" class="btn btn-danger float-right">Dodaj pracownika</button>
+  <p *ngFor="let worker of apiResponse.data">
     {{worker.login}}
     <button [routerLink]="['/conversation',worker.id ]" class="btn btn-primary">Napisz</button>
+    <button *ngIf="checkRole() == 'admin'"  [routerLink]="['/editWorker',worker.id ]" class="btn btn-danger mx-1">Edytuj</button>
   </p>
+  <button (click)="setPage(1)">1</button> 
+  <button (click)="setPage(2)">2</button> 
+  
+  [(ngModel)]="model.login"
+
+</div> -->
+
+
+
+<div *ngIf="apiResponse != null">
+  <button *ngIf="checkRole() == 'admin'" [routerLink]="['/register']" class="btn btn-danger float-right">Dodaj pracownika</button>
+  <input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.loadWorkersWithSearch()" class="btn btn-info">Szukaj</button>
+  
+  <table  class="table">
+    <thead>
+      <tr>
+        <th scope="col">Login <button class="btn btn-info" (click)="this.sortBy = 1"><p class="arrow up" [ngClass]="setColor(1)"></p></button>
+          <button class="btn btn-info" (click)="this.sortBy = 2"><p class="arrow down" [ngClass]="setColor(2)"></p></button></th>
+        <th scope="col">Imie<button class="btn btn-info"  (click)="this.sortBy = 3"><p [ngClass]="setColor(3)" class="arrow up"></p></button>
+          <button class="btn btn-info" (click)="this.sortBy = 4"><p [ngClass]="setColor(4)" class="arrow down"></p></button></th>
+        <th scope="col">Nazwisko<button class="btn btn-info" (click)="this.sortBy = 5" ><p class="arrow up" [ngClass]="setColor(5)"></p></button>
+          <button class="btn btn-info" (click)="this.sortBy = 6"><p [ngClass]="setColor(6)" class="arrow down"></p></button></th>
+
+        <th scope="col">Akcja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let worker of apiResponse.data">
+
+        <td>{{worker.login}}</td>
+        <td>{{worker.firstName}}</td>
+        <td>{{worker.lastName}}</td>
+        <td>
+          <button [routerLink]="['/conversation',worker.id ]" class="btn btn-primary">Napisz</button>
+          <button *ngIf="checkRole() == 'admin'"  [routerLink]="['/editWorker',worker.id ]" class="btn btn-danger mx-1">Edytuj</button>
+          <button *ngIf="checkRole() == 'admin'"  (click)="deleteWorker(worker.id)" class="btn btn-danger mx-1">Usuń</button>
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+
+
+
+
+
+
+
+  <p *ngFor="let worker of apiResponse.data">
+    
+    
+    
+    
+    
+  </p>
+  <div class="row">
+    <div class="col-xs-12 col-12">
+      <pagination [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+    </div>
+  </div>
+  
+
 </div>
+

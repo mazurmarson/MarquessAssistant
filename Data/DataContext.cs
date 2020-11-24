@@ -23,6 +23,10 @@ namespace MarqueesAssistant.API.Data
 
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Equipment> Equipments { get; set; }
+
+        public DbSet<Breakdown> Breakdowns { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Message>().HasOne(w => w.Sender)

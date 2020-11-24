@@ -1,0 +1,53 @@
+<div *ngIf="isLoaded">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+  
+        <th scope="col">Szerkość</th>
+        <th scope="col">Długość</th>
+        <th scope="col">Postawiony?</th>
+        <th scope="col">Ściągnięty</th>
+  
+  
+        
+  
+      
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+  
+        <td>{{marquee.width}}</td>
+        <td>{{marquee.length}}</td>
+        <td>{{marquee.isUp? 'Tak':'Nie'}}</td>
+        <td>{{marquee.isDown? 'Tak':'Nie'}}</td>
+        <td>
+  
+        </td>
+        
+      </tr>
+    </tbody>
+  </table>
+  
+  <p *ngIf="this.smallLegs != 0">Ilość nóg 3-9m: {{this.smallLegs}}</p>
+  <p *ngIf="this.bigLegs != 0">Ilość nóg 12-15m: {{this.bigLegs}}</p>
+  <p *ngIf="this.rafters3m != 0">Ilość krokwi 3m: {{this.rafters3m}}</p>
+  <p *ngIf="this.rafters6m != 0">Ilość krokwi 6m: {{this.rafters6m}}</p>
+  <p *ngIf="this.rafters9m != 0">Ilość krokwi 9m: {{this.rafters9m}}</p>
+  <p *ngIf="this.rafters12m != 0">Ilość krokwi 9m: {{this.rafters12m}}</p>
+  <p *ngIf="this.smallPlates != 0">Ilość podstawek i śledzi 3-9m: {{this.smallPlates}}</p>
+  <p *ngIf="this.bigPlates != 0">Ilość podstawek i śledzi 12-15: {{this.bigPlates}}</p>
+  <p *ngIf="this.walls != 0">Ilość ścian: {{this.walls}}</p>
+  <p *ngIf="this.roofs3m != 0">Ilość dachów 3m: {{this.roofs3m}}</p>
+  <p *ngIf="this.roofs6m != 0">Ilość dachów 6m: {{this.roofs6m}}</p>
+  <p *ngIf="this.roofs9m != 0">Ilość dachów 9m: {{this.roofs9m}}</p>
+  <p *ngIf="this.roofs12m != 0">Ilość dachów 12m: {{this.roofs12m}}</p>
+  <p *ngIf="this.perlines != 0">Ilość wewnętrznych łączników: {{this.perlines}}</p>
+  <p *ngIf="this.smallHookups != 0">Ilość zewnętrznych łączników 3-9m: {{this.smallHookups}}</p>
+  <p *ngIf="this.bigHookups != 0">Ilość zewnętrznych łączników 12-15m: {{this.bigHookups}}</p>
+  <p *ngIf="this.smallApexes != 0">Ilość wierzchołków 3-9m: {{this.smallApexes}}</p>
+  <p *ngIf="this.bigApexes != 0">Ilość wierzchołków 12-15m: {{this.bigApexes}}</p>
+  <p *ngIf="this.endleg3to9 != 0">Ilość nóg końcowych 3-9m: {{this.endleg3to9}}</p>
+  <p *ngIf="this.shortEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.shortEndlegs}}</p>
+  <p *ngIf="this.longEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.longEndlegs}}</p>
+</div>

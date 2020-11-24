@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-marquee',
@@ -10,7 +11,7 @@ export class MarqueeComponent implements OnInit {
 
   marquees: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authSerivce: AuthService) { }
 
   ngOnInit() {
     this.getMarquees();
@@ -18,6 +19,11 @@ export class MarqueeComponent implements OnInit {
 
   getMarquees()
   {
+    if(this.authSerivce.loggedIn() === false )
+    {
+      console.log("Niezalogowany");
+    }
+
     this.http.get('http://localhost:5000/api/marquees').subscribe(response => {
       this.marquees = response;
     }, error => {

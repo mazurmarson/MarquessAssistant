@@ -9,7 +9,7 @@ import { MarqueeComponent } from './marquee/marquee.component';
 import { EventsComponent } from './events/events.component';
 import { PlacesComponent } from './places/places.component';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule, NgControl } from '@angular/forms';
+import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -34,6 +34,12 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { MessageComponent } from './message/message.component';
 import { ConversationComponent } from './message/conversation/conversation.component';
 import { EventStuffComponent } from './events/event-stuff/event-stuff.component';
+import { MarqueeStuffComponent } from './marquee/marquee-stuff/marquee-stuff.component';
+import { Auth2Guard } from './_guard/auth2.guard';
+import { Auth3Guard } from './_guard/auth3.guard';
+import { WorkerEditComponent } from './workers-list/WorkerEdit/WorkerEdit.component';
+import { WorkerEditByAdminComponent } from './workers-list/worker-edit-by-admin/worker-edit-by-admin.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 
@@ -63,13 +69,18 @@ export function tokenGetter()
       MarqueeEditComponent,
       MessageComponent,
       ConversationComponent,
-      EventStuffComponent
+      EventStuffComponent,
+      MarqueeStuffComponent,
+      WorkerEditComponent,
+      WorkerEditByAdminComponent
    ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
+    PaginationModule.forRoot(),
     JwtModule.forRoot({
       config: {
          tokenGetter,
@@ -86,6 +97,9 @@ export function tokenGetter()
     AlertifyService,
     WorkerService,
     AuthGuard,
+    Auth2Guard,
+    Auth3Guard,
+
     ErrorInterceptorProvider
 
   ],

@@ -19,10 +19,13 @@ namespace MarqueesAssistant.API.Controllers
         
         private readonly IAuthRepo _repo;
         private readonly IConfiguration _config;
+
+      // private readonly WorkerRepo _workerRepo;
         public AuthController(IAuthRepo repo, IConfiguration config)
         {
             _repo = repo;
             _config = config;
+         //   _workerRepo = workerRepo;
         }
         [Authorize(Roles = "admin")]
         [HttpPost("register")]
@@ -44,6 +47,36 @@ namespace MarqueesAssistant.API.Controllers
             };
 
             var createdWorker = await _repo.Register(workerToCreate, workerRegisterDto.Password);
+
+            return StatusCode(201);
+
+        }
+
+        [Authorize(Roles = "admin,kierownik,pracownik")]
+        [HttpPut("editWorker")]
+        public async Task<IActionResult> EditWorker(WorkerEditDto workerEditDto)
+        {
+            workerEditDto.Login = workerEditDto.Login.ToLower();
+
+            if(await _repo.WorkerIsExist(workerEditDto.Login))
+            {
+                if(!await _repo.CanEditWorker(workerEditDto))
+                {
+                    return BadRequest("Użytkownik o podanym nicku istnieje");
+                }
+                
+            }
+
+            var workerToCreate = new Worker
+            {
+                Id = workerEditDto.Id,
+                Rank = workerEditDto.Rank,
+                FirstName = workerEditDto.FirstName,
+                LastName = workerEditDto.LastName,
+                Login = workerEditDto.Login
+            };
+
+            var createdWorker = await _repo.EditWorker(workerToCreate, workerEditDto.Password);
 
             return StatusCode(201);
 

@@ -14,6 +14,7 @@ baseUrl = 'http://localhost:5000/api/auth/';
 jwtHelper = new JwtHelperService();
 decodedToken: any;
 id: string;
+role: string;
 
 
 constructor(private http: HttpClient) { 
@@ -40,11 +41,30 @@ register(model: any)
   return this.http.post(this.baseUrl + 'register', model);
 }
 
+editProfileByWorker(model: any)
+{
+  return this.http.put(this.baseUrl + 'editWorker', model);
+}
+
+
+
 loggedIn()
 {
   const token = localStorage.getItem('token');
 
   return !this.jwtHelper.isTokenExpired(token);
+}
+
+checkRole()
+{
+  this.role = this.decodedToken?.role;
+  return this.role;
+}
+
+getWorkerId():number
+{
+  this.id = this.decodedToken?.nameid;
+  return  Number(this.id);
 }
 
 }

@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MarqueesAssistant.API.Data;
 using MarqueesAssistant.API.Dtos;
+using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Newtonsoft.Json.Linq;
 
 namespace MarqueesAssistant.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    
     public class EventsController:ControllerBase
     {
         private readonly IEventRepo _repo;
@@ -29,7 +32,7 @@ namespace MarqueesAssistant.API.Controllers
             _placeRepo  = placeRepo;
             _marqueeRepo = marqueeRepo;
         }
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
         public async Task<IActionResult> GetEvents()
         {
@@ -61,14 +64,14 @@ namespace MarqueesAssistant.API.Controllers
 
             return Ok(result);
         }
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent(int id)
         {
             var eventt = await _repo.GetEvent(id);
             return Ok(eventt);
         }
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("stuff/{id}")]
         public async Task<IActionResult> GetEventStuff(int id)
         {
@@ -78,7 +81,7 @@ namespace MarqueesAssistant.API.Controllers
 
             
         }
-
+        [Authorize(Roles = "admin, kierownik")]
         [HttpPost("{id:int}")]
         public async Task<IActionResult> AddEvent(int id,Event eventt )
         {
@@ -105,7 +108,7 @@ namespace MarqueesAssistant.API.Controllers
 
             
         }
-        
+        [Authorize(Roles = "admin, kierownik")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
@@ -118,7 +121,7 @@ namespace MarqueesAssistant.API.Controllers
             }
              throw new Exception("Nie można usunąć wydarzenia");
         }
-
+        [Authorize(Roles = "admin, kierownik")]
         [HttpPut]
         public async Task<IActionResult> EditEvent(Event eventt)
         {
@@ -129,6 +132,19 @@ namespace MarqueesAssistant.API.Controllers
             }
 
             throw new Exception("Nie można edytować wydarzenia");
+        }
+
+        [HttpGet("getEventPlaceName/{id}")]
+        public async Task<IActionResult> getEventPlaceName(int id)
+        {
+            var name = await _repo.GetEventPlaceName(id);
+            MyString myString = new MyString(name);
+            if(name != null)
+            {
+                return Ok(myString);
+            }
+
+            throw new Exception("Nie można pobrać miejsca");
         }
         
     }

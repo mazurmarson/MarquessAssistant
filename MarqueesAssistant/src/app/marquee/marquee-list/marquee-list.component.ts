@@ -4,6 +4,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { AuthService } from 'src/app/_services/auth.service';
 
 
 
@@ -17,10 +18,16 @@ export class MarqueeListComponent implements OnInit {
   marquees: Marquee[];
   
 
-  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService) { }
+  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private authService: AuthService) { }
 
   ngOnInit() {
     this.loadMarquees();
+    
+  }
+
+  checkRole()
+  {
+    return this.authService.checkRole();
   }
 
   loadMarquees()

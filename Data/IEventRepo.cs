@@ -15,6 +15,8 @@ namespace MarqueesAssistant.API.Data
 
        Task<IEnumerable<MarqueesStuffDto>> GetEventStuff(int id);
 
+       Task<string> GetEventPlaceName(int id);
+
       
                  
                  

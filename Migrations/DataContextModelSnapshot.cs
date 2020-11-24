@@ -45,6 +45,48 @@ namespace MarqueesAssistant.API.Migrations
                     b.ToTable("Workers");
                 });
 
+            modelBuilder.Entity("MarqueesAssistant.API.Models.Breakdown", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("AccitdentDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("RepairdDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.ToTable("Breakdowns");
+                });
+
+            modelBuilder.Entity("MarqueesAssistant.API.Models.Equipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Typ")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Equipments");
+                });
+
             modelBuilder.Entity("MarqueesAssistant.API.Models.Event", b =>
                 {
                     b.Property<int>("Id")
@@ -79,9 +121,6 @@ namespace MarqueesAssistant.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DownDate")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("EventId")
                         .HasColumnType("INTEGER");
 
@@ -94,11 +133,11 @@ namespace MarqueesAssistant.API.Migrations
                     b.Property<int>("Length")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("UpDate")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Width")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("description")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -178,6 +217,15 @@ namespace MarqueesAssistant.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Values");
+                });
+
+            modelBuilder.Entity("MarqueesAssistant.API.Models.Breakdown", b =>
+                {
+                    b.HasOne("MarqueesAssistant.API.Models.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MarqueesAssistant.API.Models.Event", b =>

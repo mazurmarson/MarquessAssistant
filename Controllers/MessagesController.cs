@@ -12,6 +12,7 @@ using MarqueesAssistant.API.Dtos;
 
 namespace MarqueesAssistant.API.Controllers
 {
+    [Authorize(Roles = "admin,kierownik,pracownik")]
     [ApiController]
     [Route("api/workers/{workerId}/[controller]")]
     public class MessagesController : ControllerBase

@@ -19,14 +19,14 @@ namespace MarqueesAssistant.API.Controllers
 
             _repo = repo;
         }
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
         public async Task<IActionResult> GetPlaces()
         {
             var places = await _repo.GetPlaces();
             return Ok(places);
         }
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPlace(int id)
         {
@@ -35,7 +35,7 @@ namespace MarqueesAssistant.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "kierownik")]
+        [Authorize(Roles = "admin, kierownik")]
         public async Task<IActionResult> AddPlace(Place place)
         {
             var placeToCreate = new Place
@@ -59,6 +59,7 @@ namespace MarqueesAssistant.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin, kierownik")]
         public async Task<IActionResult> DeletePlace(int id)
         {
              Place place = await _repo.GetPlace(id);
@@ -76,6 +77,7 @@ namespace MarqueesAssistant.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin, kierownik")]
         public async Task<IActionResult> EditPlace(Place place)
         {
             _repo.Edit<Place>(place);

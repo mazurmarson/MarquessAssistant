@@ -22,5 +22,13 @@ export class AuthGuard implements CanActivate {
     this.router.navigate(['/home']);
     return false;
   }
+
+  canCUD(): boolean{
+    if(this.authService.checkRole() != 'pracownik')
+    {
+      return true;
+    }
+    this.alertify.error('Nie jesteś upoważniony do dodawania, edycji i usuwania');
+  }
   
 }

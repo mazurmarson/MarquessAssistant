@@ -14,12 +14,14 @@ namespace MarqueesAssistant.API.Models
 
         public int Length { get; set; }
 
-        public DateTime UpDate { get; set; }
+      //  public DateTime UpDate { get; set; }
 
-        public DateTime DownDate { get; set; }
+    // public DateTime DownDate { get; set; }
 
         public bool IsUp { get; set; }
 
         public bool IsDown { get; set; }
+
+        public string description { get; set; }
     }
 }

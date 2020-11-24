@@ -2,7 +2,9 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Controllers;
+using MarqueesAssistant.API.Dtos;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace MarqueesAssistant.API.Data
 {
@@ -63,6 +65,20 @@ namespace MarqueesAssistant.API.Data
             return worker;
         }
 
+        public async Task<Worker> EditWorker(Worker worker, string newPassword)
+        {
+          //  var workerToEdit = await _context.Workers.FirstOrDefaultAsync(x => x.Id == worker.Id);
+            byte[] passwordHash, passwordSalt;
+            CreatePassword(newPassword, out passwordHash,out passwordSalt);
+
+            worker.PasswordHash = passwordHash;
+            worker.PasswordSalt = passwordSalt;
+            _context.Workers.Update(worker);
+            await _context.SaveChangesAsync();
+
+            return worker;
+        }
+
 
 
         public async Task<bool> WorkerIsExist(string login)
@@ -73,6 +89,15 @@ namespace MarqueesAssistant.API.Data
             }
             
 
+            return false;
+        }
+
+        public async Task<bool> CanEditWorker(WorkerEditDto workerEditDto)
+        {
+            if(await _context.Workers.AnyAsync(x => x.Login == workerEditDto.Login && x.Id == workerEditDto.Id))
+            {
+                return true;
+            }
             return false;
         }
 

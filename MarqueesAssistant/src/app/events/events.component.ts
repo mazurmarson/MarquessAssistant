@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AlertifyService } from '../_services/alertify.service';
+import { AuthService } from '../_services/auth.service';
 import { MarqueeService } from '../_services/marquee.service';
 
 @Component({
@@ -11,11 +12,17 @@ import { MarqueeService } from '../_services/marquee.service';
 export class EventsComponent implements OnInit {
 
   events: any;
-  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertifyService: AlertifyService) { }
+  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertifyService: AlertifyService, private authService: AuthService) { }
 
   ngOnInit() {
     this.getEvents();
   }
+
+  checkRole()
+  {
+    return this.authService.checkRole();
+  }
+
 
   getEvents()
   {
