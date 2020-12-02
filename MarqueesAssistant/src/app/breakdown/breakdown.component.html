@@ -1,0 +1,32 @@
+<!-- <p *ngFor="let marquee of marquees">
+  {{marquee.id}} - {{marquee.event}}
+  {{marquee.width}} - {{marquee.length}}
+  
+  </p>
+   -->
+
+
+   <!-- <a class="nav-link" [routerLink]="['/workers']"> -->
+
+    <div class="card-deck my-4">
+      <div class="card mx-4">
+        <img class="card-img-top" src="https://images2.minutemediacdn.com/image/upload/c_fill,w_912,h_516,f_auto,q_auto,g_auto/shape/cover/sport/5782a158f299ee43e5000001.png" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Awarie</h5>
+          <p class="card-text">Przeglądanie, usuwanie i modyfikacja awarii.</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" [routerLink]="['/breakdownsList']">Przejdź</button>
+        </div>
+      </div>
+      <div class="card mx-4">
+        <img class="card-img-top" src="https://businessvans.co.uk/wp-content/uploads/2015/08/Van-types-Transit-Chassis-van.jpg" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Sprzęt</h5>
+          <p class="card-text">Dodaj, usun lub modyfikuj sprzęt.</p>
+        </div>
+        <div class="card-footer">
+          <button [routerLink]="['/equipments']" class="btn btn-primary">Przejdź</button>
+        </div>
+      </div>
+    </div>

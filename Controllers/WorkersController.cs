@@ -16,7 +16,7 @@ namespace MarqueesAssistant.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+//   [Authorize]
     public class WorkersController: ControllerBase
     {
 
@@ -38,7 +38,7 @@ namespace MarqueesAssistant.API.Controllers
         // }
 
         [HttpGet]
-        [Authorize(Roles = "admin, kierownik, pracownik")]
+     //   [Authorize(Roles = "admin, kierownik, pracownik")]
         public async Task<IActionResult> GetWorkers([FromQuery] OwnerParameters ownerParameters)
         {
             
@@ -70,7 +70,7 @@ namespace MarqueesAssistant.API.Controllers
 
 
 
-        [Authorize(Roles = "admin, kierownik, pracownik")]
+   //     [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetWorker(int id)
         {

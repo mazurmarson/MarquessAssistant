@@ -41,6 +41,7 @@ namespace MarqueesAssistant.API.Controllers
             var placeToCreate = new Place
             {
                 Street = place.Street,
+                Number = place.Number,
                 Town = place.Town,
                 FirstGradeDivision = place.FirstGradeDivision,
                 SecondGradeDivision = place.SecondGradeDivision,

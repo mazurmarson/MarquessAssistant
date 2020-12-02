@@ -26,6 +26,14 @@ import { RegisterComponent } from './register/register.component';
 import { MarqueeStuffComponent } from './marquee/marquee-stuff/marquee-stuff.component';
 import { WorkerEditComponent } from './workers-list/WorkerEdit/WorkerEdit.component';
 import { WorkerEditByAdminComponent } from './workers-list/worker-edit-by-admin/worker-edit-by-admin.component';
+import { BreakdownComponent } from './breakdown/breakdown.component';
+import { BreakdownListComponent } from './breakdown/breakdown-list/breakdown-list.component';
+import { EquipmentComponent } from './equipment/equipment.component';
+import { EquipmentAddComponent } from './equipment/equipment-add/equipment-add.component';
+import { EquipmentEditComponent } from './equipment/equipment-edit/equipment-edit.component';
+import { EquipmentBreakdownsComponent } from './equipment/equipment-breakdowns/equipment-breakdowns.component';
+import { BreakdownAddComponent } from './breakdown/breakdown-add/breakdown-add.component';
+import { BreakdownEditComponent } from './breakdown/breakdown-edit/breakdown-edit.component';
 
 export const appRoutes: Routes = [
     {
@@ -93,6 +101,30 @@ export const appRoutes: Routes = [
     },
     {
         path: 'editWorker/:id', component: WorkerEditByAdminComponent, canActivate: [Auth3Guard]
+    },
+    {
+        path: 'breakdowns', component: BreakdownComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'breakdownsList', component: BreakdownListComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'breakdownsAdd/:id', component: BreakdownAddComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'equipments', component: EquipmentComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'equipmentsAdd', component: EquipmentAddComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'equipmentsEdit/:id', component: EquipmentEditComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'equipmentsBreakdowns/:id', component: EquipmentBreakdownsComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'breakdownsEdit/:id', component: BreakdownEditComponent, canActivate: [AuthGuard]
     },
     {
         path: '', component: HomeComponent

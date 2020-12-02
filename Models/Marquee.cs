@@ -22,6 +22,6 @@ namespace MarqueesAssistant.API.Models
 
         public bool IsDown { get; set; }
 
-        public string description { get; set; }
+        public string Description { get; set; }
     }
 }

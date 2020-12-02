@@ -16,6 +16,7 @@ export class EventEditComponent implements OnInit {
   model: any;
   id: number;
   isLoaded: boolean = false;
+  shows: string[] = ["Agroshow", "Festiwal muzyczny", "Festiwal jedzenia", "Festyn", "Motoshow","Wydarzenie sportowe", "Inne"];
 
   constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {

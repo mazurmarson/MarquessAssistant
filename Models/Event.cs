@@ -17,5 +17,10 @@ namespace MarqueesAssistant.API.Models
 
         public string TypeOfEvent { get; set; }
 
+
     }
+
+
+
+    
 }

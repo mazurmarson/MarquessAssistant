@@ -47,6 +47,8 @@ namespace MarqueesAssistant.API
             services.AddScoped<IPlaceRepo, PlaceRepo>();
             services.AddScoped<IWorkerRepo, WorkerRepo>();
             services.AddScoped<IMessRepo, MessRepo>();
+            services.AddScoped<IEquipmentRepo, EquipmentRepo>();
+            services.AddScoped<IBreakdownRepo, BreakdownRepo>();
             services.AddScoped<IMarqueeRepo, MarqueeRepo>();
                         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                                     .AddJwtBearer(options =>{

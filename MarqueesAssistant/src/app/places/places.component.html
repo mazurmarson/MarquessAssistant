@@ -6,9 +6,10 @@
   <button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/placesAdd']" class="btn btn-success mx-2 my-2">Dodaj miejsce</button>
 </div>
 
-<table *ngFor="let place of places" class="table table-hover">
+<table  class="table table-hover">
   <thead>
     <tr>
+      <th scope="col">Numer</th>
       <th scope="col">Ulica</th>
       <th scope="col">Miejscowość</th>
       <th scope="col">Województwo</th>
@@ -19,7 +20,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr *ngFor="let place of places">
+      <td>{{place.number}}</td>
       <td>{{place.street}}</td>
       <td>{{place.town}}</td>
       <td>{{place.firstGradeDivision}}</td>

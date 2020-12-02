@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Marquee } from 'src/app/_models/marquee';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -43,7 +44,13 @@ export class MarqueeStuffComponent implements OnInit {
   bases:number;
   ilosc:number =0;
 
-  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private authService: AuthService) { }
+  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private authService: AuthService, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+      
+    });
+
+   }
 
   ngOnInit() {
     this.loadMarquee();
@@ -51,7 +58,7 @@ export class MarqueeStuffComponent implements OnInit {
 
   loadMarquee()
   {
-    this.marqueeService.getMarquee(21).subscribe( (marquee: Marquee ) => {
+    this.marqueeService.getMarquee(this.id).subscribe( (marquee: Marquee ) => {
       this.marquee = marquee;
       this.isLoaded = true;
       this.countStuff();

@@ -12,6 +12,10 @@ namespace MarqueesAssistant.API.Controllers
 
         public string Login { get; set; }
 
+        public string Email { get; set; }
+
+        public string PhoneNumber { get; set; }
+
         public string Rank { get; set; }
 
         public byte[]  PasswordHash { get; set; }   

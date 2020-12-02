@@ -40,6 +40,14 @@ import { Auth3Guard } from './_guard/auth3.guard';
 import { WorkerEditComponent } from './workers-list/WorkerEdit/WorkerEdit.component';
 import { WorkerEditByAdminComponent } from './workers-list/worker-edit-by-admin/worker-edit-by-admin.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { BreakdownComponent } from './breakdown/breakdown.component';
+import { EquipmentComponent } from './equipment/equipment.component';
+import { BreakdownListComponent } from './breakdown/breakdown-list/breakdown-list.component'
+import { EquipmentAddComponent } from './equipment/equipment-add/equipment-add.component';
+import { EquipmentEditComponent } from './equipment/equipment-edit/equipment-edit.component';
+import { EquipmentBreakdownsComponent } from './equipment/equipment-breakdowns/equipment-breakdowns.component';
+import { BreakdownAddComponent } from './breakdown/breakdown-add/breakdown-add.component';
+import { BreakdownEditComponent } from './breakdown/breakdown-edit/breakdown-edit.component';
 
 
 
@@ -49,7 +57,7 @@ export function tokenGetter()
 }
 
 @NgModule({
-  declarations: [										
+  declarations: [												
     AppComponent,
       MarqueeComponent,
       EventsComponent,
@@ -72,7 +80,15 @@ export function tokenGetter()
       EventStuffComponent,
       MarqueeStuffComponent,
       WorkerEditComponent,
-      WorkerEditByAdminComponent
+      WorkerEditByAdminComponent,
+      BreakdownComponent,
+      EquipmentComponent,
+      BreakdownListComponent,
+      EquipmentAddComponent,
+      EquipmentEditComponent,
+      EquipmentBreakdownsComponent,
+      BreakdownAddComponent,
+      BreakdownEditComponent
    ],
   imports: [
     BrowserModule,

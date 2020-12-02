@@ -3,6 +3,8 @@ namespace MarqueesAssistant.API.Models
     public class Place
     {
         public int Id { get; set; }
+
+        public int Number { get; set; }
         public string Street { get; set; }
         public string Town { get; set; }
 

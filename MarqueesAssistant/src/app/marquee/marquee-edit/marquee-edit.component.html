@@ -1,5 +1,5 @@
 <form *ngIf="isLoaded" #registerForm="ngForm" (ngSubmit)="editMarquee()">
-  <h2 class="text-center text-primary">Dodaj</h2>
+  <h2 class="text-center text-primary">Edytuj</h2>
   <hr>
 
   <div class="form-group">
@@ -13,13 +13,10 @@
 
 <div class="form-group">
  
-  <input type="date" class="form-control" placeholder="Data postawienia" name="upDate"  [(ngModel)]="model.upDate">
+  <input type="text" class="form-control" placeholder="Opis" name="description"  [(ngModel)]="model.description">
 </div>
 
-<div class="form-group">
- 
-  <input type="date" class="form-control" placeholder="Data sciagniecia" name="downDate"  [(ngModel)]="model.downDate">
-</div>
+
 
 <div class="form-group" >
   <label class="control-label" style="margin-right:10px">Postawiony?: </label>
@@ -43,7 +40,7 @@
 </div>
 
   <div class="form-group text-center">
-    <button class="btn btn-success" type="submit">Dodaj</button>
+    <button class="btn btn-success" type="submit">Edytuj</button>
 
 
   </div>

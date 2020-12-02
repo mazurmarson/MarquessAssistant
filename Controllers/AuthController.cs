@@ -27,7 +27,7 @@ namespace MarqueesAssistant.API.Controllers
             _config = config;
          //   _workerRepo = workerRepo;
         }
-        [Authorize(Roles = "admin")]
+       [Authorize(Roles = "admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(WorkerRegisterDto workerRegisterDto)
         {
@@ -52,7 +52,50 @@ namespace MarqueesAssistant.API.Controllers
 
         }
 
-        [Authorize(Roles = "admin,kierownik,pracownik")]
+      
+    
+    
+    
+    // [Authorize(Roles = "admin")]
+    //     [HttpPost("register")]
+    //     public async Task<IActionResult> Register()
+    //     {
+    //         var workerRegisterDto = new WorkerRegisterDto
+    //         {
+    //             Rank = "admin",
+    //             FirstName = "admin",
+    //             LastName = "admin",
+    //             Login = "admin",
+    //             PhoneNumber = "admin",
+    //             Email = "admin",
+    //             Password = "password"
+    //         };
+    //         workerRegisterDto.Login = workerRegisterDto.Login.ToLower();
+            
+    //       //  WorkerRegisterDto workerRegisterDto = new WorkerRegisterDto();
+
+    //         // if(await _repo.WorkerIsExist(workerRegisterDto.Login))
+    //         // {
+    //         //     return BadRequest("Taki użytkownik już istnieje");
+    //         // }
+
+    //         var workerToCreate = new Worker
+    //         {
+    //             Rank = workerRegisterDto.Rank,
+    //             FirstName = workerRegisterDto.FirstName,
+    //             LastName = workerRegisterDto.LastName,
+    //             Login = workerRegisterDto.Login,
+    //             PhoneNumber = workerRegisterDto.PhoneNumber,
+    //             Email = workerRegisterDto.Email
+    //         };
+
+    //         var createdWorker = await _repo.Register(workerToCreate, workerRegisterDto.Password);
+
+    //         return StatusCode(201);
+
+    //     }
+
+  //      [Authorize(Roles = "admin,kierownik,pracownik")]
         [HttpPut("editWorker")]
         public async Task<IActionResult> EditWorker(WorkerEditDto workerEditDto)
         {

@@ -22,6 +22,9 @@ namespace MarqueesAssistant.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("TEXT");
 
@@ -36,6 +39,9 @@ namespace MarqueesAssistant.API.Migrations
 
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("BLOB");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Rank")
                         .HasColumnType("TEXT");
@@ -76,11 +82,11 @@ namespace MarqueesAssistant.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("EquipmentType")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Typ")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -184,6 +190,9 @@ namespace MarqueesAssistant.API.Migrations
 
                     b.Property<string>("FirstGradeDivision")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PostCode")
                         .HasColumnType("TEXT");

@@ -1,0 +1,34 @@
+<!-- <p *ngFor="let place of places">
+  {{place.id}} - {{place.street}} - {{place.town}} - {{place.postCode}}
+</p> -->
+
+<div class="float-right">
+  <button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/equipmentsAdd']" class="btn btn-success mx-2 my-2">Dodaj sprzęt</button>
+</div>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Typ</th>
+      <th scope="col">Nazwa</th>
+     <th scope="col">Akcja</th>
+
+    
+    </tr>
+  </thead>
+  <tbody  *ngFor="let equipment of equipments">
+    <tr>
+      <td>{{equipment.name}}</td>
+      <td>{{equipment.equipmentType}}</td>
+
+      <td>
+         <!-- <button *ngIf="checkRole() != 'pracownik'" (click)="selectPlace(place.id)" class="btn btn-primary mx-1">Edytuj</button> -->
+        <button [routerLink]="['/equipmentsEdit/'+ equipment.id]" class="btn btn-primary mx-1">Edytuj</button>
+        <button [routerLink]="['/equipmentsBreakdowns/'+ equipment.id]"class="btn btn-info mx-1">Szczegóły</button>
+        <button  (click)="deleteEquipment(equipment.id)" class="btn btn-danger ">Usuń</button> 
+      </td>
+      
+    </tr>
+  </tbody>
+</table>

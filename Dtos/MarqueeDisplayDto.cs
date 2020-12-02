@@ -11,6 +11,8 @@ namespace MarqueesAssistant.API.Dtos
         public int Width { get; set; }
 
         public int Length { get; set; }
+        
+        public string Description { get; set; }
 
         public DateTime UpDate { get; set; }
 

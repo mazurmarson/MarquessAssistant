@@ -42,7 +42,7 @@ namespace MarqueesAssistant.API.Controllers
                             Length = m.Length,
                           //  UpDate = m.UpDate,
                            // DownDate = m.DownDate,
-                        //   Description = m.description,
+                     //       Description = m.description,
                             IsUp = m.IsUp,
                             IsDown = m.IsDown
 
@@ -70,6 +70,7 @@ namespace MarqueesAssistant.API.Controllers
                 Length = marquee.Length,
           //      UpDate = marquee.UpDate,
           //      DownDate = marquee.DownDate,
+                Description = marquee.Description,
                 IsUp = marquee.IsUp,
                 IsDown = marquee.IsDown,
                 Event = eventt

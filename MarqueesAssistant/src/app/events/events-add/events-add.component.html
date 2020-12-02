@@ -14,8 +14,11 @@
 </div>
 
 <div class="form-group">
- 
-  <input type="text" class="form-control" placeholder="Typ imprezy" name="typeOfEvent"  [(ngModel)]="model.typeOfEvent">
+ <label>Typ wydarzenia:</label>
+ <select name="typeOfEvent" [(ngModel)]="model.typeOfEvent" class="form-control">
+  <option *ngFor="let show of shows" [ngValue]="show">{{show}}</option>
+ </select>
+
 </div>
 
 

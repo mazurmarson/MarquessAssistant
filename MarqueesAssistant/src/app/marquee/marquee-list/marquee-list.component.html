@@ -27,7 +27,7 @@
       <td>{{marquee.isUp? 'Tak':'Nie'}}</td>
       <td>{{marquee.isDown? 'Tak':'Nie'}}</td>
       <td>
-        <button *ngIf=""[routerLink]="['/marqueeEdit', marquee.id]" class="btn btn-primary mx-1">Edytuj</button>
+        <button *ngIf="checkRole()"[routerLink]="['/marqueeEdit', marquee.id]" class="btn btn-primary mx-1">Edytuj</button>
         <button [routerLink]="['/marqueeStuff', marquee.id]" class="btn btn-info mx-1">Szczegóły</button>
         <button *ngIf="checkRole() != 'pracownik'" (click)="deleteMarquee(marquee.id)" class="btn btn-danger mx-1">Usuń</button>
       </td>

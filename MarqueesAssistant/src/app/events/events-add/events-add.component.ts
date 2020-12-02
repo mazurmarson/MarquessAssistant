@@ -12,6 +12,7 @@ export class EventsAddComponent implements OnInit {
 
   model: any = {};
   id: number;
+  shows: string[] = ["Agroshow", "Festiwal muzyczny", "Festiwal jedzenia", "Festyn", "Motoshow","Wydarzenie sportowe", "Inne"];
   
   constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, private route: ActivatedRoute) { 
     this.route.params.subscribe(params => {

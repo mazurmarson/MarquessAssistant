@@ -8,4 +8,5 @@ export interface Marquee {
     isUp?: boolean;
     isDown?: boolean;
     eventName?: string;
+    description?:string;
 }

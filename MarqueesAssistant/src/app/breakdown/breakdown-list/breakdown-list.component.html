@@ -1,0 +1,34 @@
+
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Opis</th>
+      <th scope="col">Data awarii</th>
+      <th scope="col">Data naprawy</th>
+      <th scope="col">Nazwa sprzętu</th>
+     <th scope="col">Akcja</th>
+
+    
+    </tr>
+  </thead>
+  <tbody  *ngFor="let breakdown of breakdowns">
+    <tr>
+      <td>{{breakdown.description}}</td>
+      <td>{{breakdown.accitdentDate}}</td>
+      <td>{{breakdown.repairdDate}}</td>
+      <td>{{breakdown.equipmentName}}</td>
+      
+      
+      
+
+      <td>
+        <!-- <button *ngIf="checkRole() != 'pracownik'" (click)="selectPlace(place.id)" class="btn btn-primary mx-1">Edytuj</button>  -->
+        <button [routerLink]="['/breakdownsEdit/'+ breakdown.id]" class="btn btn-primary mx-1">Edytuj</button>
+        <button  (click)="deleteBreakdown(breakdown.id)" class="btn btn-danger ">Usuń</button> 
+      </td> 
+      
+    </tr>
+  </tbody>
+</table>
