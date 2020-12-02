@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Data;
+using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,43 @@ namespace MarqueesAssistant.API.Controllers
 
             _repo = repo;
         }
+        
+        // [Authorize(Roles = "admin, kierownik, pracownik")]
+        // [HttpGet]
+        // public async Task<IActionResult> GetPlaces()
+        // {
+        //     var places = await _repo.GetPlaces();
+        //     return Ok(places);
+        // }
+
+        // [Authorize(Roles = "admin, kierownik, pracownik")]
+        // [HttpGet]
+        // public async Task<IActionResult> GetPlaces([FromQuery] PageParameters pageParameters)
+        // {
+        //     var places = await _repo.GetPlacesListed(pageParameters);
+        //     Pagger<Place> placesToReturn = new Pagger<Place>(places);
+        //     return Ok(placesToReturn);
+        // }
+
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
-        public async Task<IActionResult> GetPlaces()
+        public async Task<IActionResult> GetPlacesSearchedAndSorted([FromQuery] PageParameters pageParameters, string searchString, int sortBy)
         {
-            var places = await _repo.GetPlaces();
-            return Ok(places);
+            if(searchString == null)
+            {
+                searchString = "";
+            }
+            if(sortBy.Equals(null))
+            {
+                sortBy = 0;
+            }
+            var places = await _repo.GetPlacesListedSearchedSorted(pageParameters, searchString, sortBy);
+            Pagger<Place> placesToReturn = new Pagger<Place>(places);
+            return Ok(placesToReturn);
         }
+
+
+
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPlace(int id)

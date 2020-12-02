@@ -5,22 +5,44 @@
 <div class="float-right">
   <button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/placesAdd']" class="btn btn-success mx-2 my-2">Dodaj miejsce</button>
 </div>
-
+<input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.getPlaces()" class="btn btn-info">Szukaj</button>
+<div *ngIf="apiResponse != null">
 <table  class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Numer</th>
-      <th scope="col">Ulica</th>
-      <th scope="col">Miejscowość</th>
-      <th scope="col">Województwo</th>
-      <th scope="col">Powiat</th>
-      <th scope="col">Gmina</th>
-      <th scope="col">Kod pocztowy</th>
+
+      <th scope="col">Numer <br/> <button class="btn btn-info" (click)="this.sortBy = 1"><p class="arrow up" [ngClass]="setColor(1)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 2"><p class="arrow down" [ngClass]="setColor(2)"></p></button>
+      </th>
+      <th scope="col">Ulica<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 3"><p class="arrow up" [ngClass]="setColor(3)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 4"><p class="arrow down" [ngClass]="setColor(4)"></p></button>
+      </th>
+      <th scope="col">Miejscowość<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 5"><p class="arrow up" [ngClass]="setColor(5)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 6"><p class="arrow down" [ngClass]="setColor(6)"></p></button>
+      </th>
+      <th scope="col">Województwo<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 7"><p class="arrow up" [ngClass]="setColor(7)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 8"><p class="arrow down" [ngClass]="setColor(8)"></p></button>
+      </th>
+      <th scope="col">Powiat<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 9"><p class="arrow up" [ngClass]="setColor(9)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 10"><p class="arrow down" [ngClass]="setColor(10)"></p></button>
+      </th>
+      <th scope="col">Gmina<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 11"><p class="arrow up" [ngClass]="setColor(11)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 12"><p class="arrow down" [ngClass]="setColor(12)"></p></button>
+      </th>
+      <th scope="col">Kod pocztowy<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 13"><p class="arrow up" [ngClass]="setColor(13)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 14"><p class="arrow down" [ngClass]="setColor(14)"></p></button>
+      </th>
     
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let place of places">
+    <tr *ngFor="let place of apiResponse.data">
       <td>{{place.number}}</td>
       <td>{{place.street}}</td>
       <td>{{place.town}}</td>
@@ -37,3 +59,9 @@
     </tr>
   </tbody>
 </table>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-12">
+    <pagination [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+  </div>
+</div>

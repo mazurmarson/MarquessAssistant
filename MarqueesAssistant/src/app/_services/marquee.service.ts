@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Apiresponseplace } from '../_models/apiResponsePlace';
 import { Marquee } from '../_models/marquee';
 import { Place } from '../_models/place';
 
@@ -21,6 +22,12 @@ constructor(private http: HttpClient) { }
 
   getPlaces(): Observable<Place[]>{
     return this.http.get<Place[]>(this.baseUrl + 'places');
+  }
+
+  getSearchedPlaces(pageNumber?: number, pageSize?: number, searchString?:string, sortBy?:number)
+  {
+    return this.http.get<Apiresponseplace>(this.baseUrl + 'places?pageNumber=' + pageNumber +
+    '&pageSize=' + pageSize + '&searchString=' + searchString + '&sortBy=' + sortBy);
   }
 
   getEvents(): Observable<Event[]>{
