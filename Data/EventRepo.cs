@@ -1,20 +1,27 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MarqueesAssistant.API.Dtos;
+using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NinjaNye.SearchExtensions;
+
 
 namespace MarqueesAssistant.API.Data
 {
     public class EventRepo : GenRepo, IEventRepo
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public EventRepo(DataContext context) : base(context)
+        public EventRepo(DataContext context, IMapper mapper) : base(context)
         {
             _context = context;
+            _mapper = mapper;
         }
 
 
@@ -32,10 +39,109 @@ namespace MarqueesAssistant.API.Data
             return events;
         }
 
-        public async Task<IEnumerable<EventDisplayDto>> GetEventsDisplay()
+        // public async Task<IEnumerable<EventDisplayDto>> GetEventsDisplay()
+        // {
+        //     var events = await _context.Events.ToListAsync();
+        //     var places = await _context.Places.ToListAsync();
+
+        //                var result = from e in events
+        //                     join p in places on e.PlaceId equals p.Id
+        //                     where p.Id == e.PlaceId
+        //                     select new EventDisplayDto
+        //                     {
+        //                         Id = e.Id,
+        //                         Name = e.Name,
+        //                         StartDate = e.StartDate,
+        //                         EndDate = e.EndDate,
+        //                         PlaceId = e.PlaceId,
+        //                         PlaceName = p.Town,
+        //                         TypeOfEvent = e.TypeOfEvent
+        //                     };
+
+        //                     return result;
+        // }
+
+        //         public async Task<PagedList<EventDisplayDto>> GetEventsDisplay(PageParameters pageParameters, string searchString, int sortBy)
+        // {
+        //     var events = await _context.Events.ToListAsync();
+        //     var places = await _context.Places.ToListAsync();
+        //     List<EventDisplayDto> eventsToReturn;
+
+        //                var result = from e in events
+        //                     join p in places on e.PlaceId equals p.Id
+        //                     where p.Id == e.PlaceId
+        //                     select new EventDisplayDto
+        //                     {
+        //                         Id = e.Id,
+        //                         Name = e.Name,
+        //                         StartDate = e.StartDate,
+        //                         EndDate = e.EndDate,
+        //                         PlaceId = e.PlaceId,
+        //                         PlaceName = p.Town,
+        //                         TypeOfEvent = e.TypeOfEvent
+        //                     };
+
+        //                     result = result.Where(x => x.Name.ToLower().Contains(searchString) || x.PlaceName.Contains(searchString) || x.TypeOfEvent.Contains(searchString) || x.StartDate.Date.ToString().Contains(searchString) || x.EndDate.Date.ToString().Contains(searchString));
+
+                            
+
+        //                     switch(sortBy)
+        //                     {
+        //                         case 1:
+        //                         eventsToReturn = result.OrderBy(x => x.Name).ToList();
+        //                        return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                                
+        //                          case 2:
+        //                          eventsToReturn = result.OrderByDescending(x => x.Name).ToList();
+        //                          return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                                
+        //                         case 3:
+        //                         eventsToReturn = result.OrderBy(x => x.StartDate).ToList();
+        //                         return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+        //                         case 4:
+        //                         eventsToReturn = result.OrderByDescending(x => x.StartDate).ToList();
+        //                         return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+        //                         case 5:
+        //                         eventsToReturn = result.OrderBy(x => x.EndDate).ToList();
+        //                         return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+        //                         case 6:
+        //                         eventsToReturn = result.OrderByDescending(x => x.EndDate).ToList();
+        //                         return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+        //                        case 7:
+        //                         eventsToReturn = result.OrderBy(x => x.PlaceName).ToList();
+        //                         return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+        //                         case 8:
+        //                         eventsToReturn = result.OrderByDescending(x => x.PlaceName).ToList();
+        //                         return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+        //                         case 9:
+        //                         eventsToReturn = result.OrderBy(x => x.TypeOfEvent).ToList();
+        //                         return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+        //                         case 10:
+        //                         eventsToReturn = result.OrderByDescending(x => x.TypeOfEvent).ToList();;
+        //                         return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+        //                     }
+                            
+        //                     eventsToReturn = result.ToList();
+        //                     return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+        // }
+
+
+        
+        public async Task<PagedList<EventDisplayDto>> GetEventsDisplay(PageParameters pageParameters, string searchString, int sortBy, DateTime? startRange, DateTime? endRange)
         {
+
+        
+            
+            
             var events = await _context.Events.ToListAsync();
             var places = await _context.Places.ToListAsync();
+            List<EventDisplayDto> eventsToReturn;
 
                        var result = from e in events
                             join p in places on e.PlaceId equals p.Id
@@ -51,7 +157,67 @@ namespace MarqueesAssistant.API.Data
                                 TypeOfEvent = e.TypeOfEvent
                             };
 
-                            return result;
+                            result = result.Where(x => x.Name.ToLower().Contains(searchString) || x.PlaceName.Contains(searchString) || x.TypeOfEvent.Contains(searchString) || x.StartDate.Date.ToString().Contains(searchString) || x.EndDate.Date.ToString().Contains(searchString));
+                            
+                            if(startRange != default(DateTime))
+                            {
+                              result = result.Where(x => x.StartDate >= startRange || x.EndDate >= startRange);
+                            }
+
+                            if(endRange != default(DateTime))
+                            {
+                               result = result.Where(x => x.StartDate <= endRange || x.EndDate <= endRange);
+                            }
+
+                            
+                            //if(startRange != null || endRange != null )
+                            // result = result.Where(x => (x.StartDate >= dateRange.startRange || x.EndDate >= dateRange.startRange) && (x.StartDate <= dateRange.EndRange || x.EndDate <= dateRange.EndRange));
+                            
+
+                            switch(sortBy)
+                            {
+                                case 1:
+                                eventsToReturn = result.OrderBy(x => x.Name).ToList();
+                               return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                                
+                                 case 2:
+                                 eventsToReturn = result.OrderByDescending(x => x.Name).ToList();
+                                 return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                                
+                                case 3:
+                                eventsToReturn = result.OrderBy(x => x.StartDate).ToList();
+                                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                                case 4:
+                                eventsToReturn = result.OrderByDescending(x => x.StartDate).ToList();
+                                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                                case 5:
+                                eventsToReturn = result.OrderBy(x => x.EndDate).ToList();
+                                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                                case 6:
+                                eventsToReturn = result.OrderByDescending(x => x.EndDate).ToList();
+                                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                               case 7:
+                                eventsToReturn = result.OrderBy(x => x.PlaceName).ToList();
+                                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                                case 8:
+                                eventsToReturn = result.OrderByDescending(x => x.PlaceName).ToList();
+                                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                                case 9:
+                                eventsToReturn = result.OrderBy(x => x.TypeOfEvent).ToList();
+                                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                                case 10:
+                                eventsToReturn = result.OrderByDescending(x => x.TypeOfEvent).ToList();;
+                                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                            }
+                            
+                            eventsToReturn = result.ToList();
+                            return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
         }
 
         public async Task<IEnumerable<MarqueesStuffDto>> GetEventStuff(int id)
@@ -70,6 +236,127 @@ namespace MarqueesAssistant.API.Data
            string placeName = events.Where(x => x.Id == id ).Select(x => x.Place.Town).FirstOrDefault();
            
             return placeName;
+        }
+
+        public async Task<PagedList<EventDisplayDto>> GetEventPagedSortedSearched(PageParameters pageParameters, string searchString, int sortBy)
+        {
+
+
+            searchString = searchString.ToLower();
+            List<EventDisplayDto> eventsToReturn;
+
+            
+            
+            
+          //  var events = await _context.Events.Where(x => x.Name.ToLower().Contains(searchString) || x.Place.Town.Contains(searchString) || x.TypeOfEvent.Contains(searchString)).ToListAsync();
+            
+          
+            // var events = await _context.Events.Where(x => x.Name.ToLower().Contains(searchString) || x.StartDate.ToString().Contains(searchString) ||
+            // x.EndDate.ToString().Contains(searchString) || x.Place.Town.ToLower().Contains(searchString) || x.TypeOfEvent.ToLower().Contains(searchString)  ).ToListAsync();
+            
+            
+            var events = await _context.Events.ToListAsync();
+            
+            
+            //Name asc 1
+            //Name dsc 2
+            //Starde date 3
+            //StartDate dsc 4
+            //EndDate asc 5
+            //EndDate desc 6
+            //Place asc 7
+            //Place desc 8
+            //type asc 9
+            //Type desc 10
+
+            switch(sortBy)
+            {
+                case 1:
+                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderBy(x => x.Name).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                
+                case 2:
+
+                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderByDescending(x => x.Name).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                case 3:
+
+                                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderBy(x => x.StartDate).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                case 4:
+
+                                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                 eventsToReturn = eventsToReturn.OrderByDescending(x => x.StartDate).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                
+                case 5:
+
+                                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderBy(x => x.EndDate).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                case 6:
+
+                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderByDescending(x => x.EndDate).ToList();
+
+               
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                case 7:
+
+                                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderBy(x => x.PlaceName).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                case 8:
+                
+                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                                eventsToReturn = eventsToReturn.OrderByDescending(x => x.PlaceName).ToList();
+
+               
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                case 9:
+
+                                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderBy(x => x.TypeOfEvent).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                case 10:
+
+                                eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderByDescending(x => x.TypeOfEvent).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+            }
+
+            eventsToReturn = _mapper.Map<List<EventDisplayDto>>(events);
+
+                eventsToReturn = eventsToReturn.OrderBy(x => x.Name).ToList();
+                
+                return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+           
         }
     }
 }

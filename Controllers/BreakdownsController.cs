@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Data;
+using MarqueesAssistant.API.Dtos;
+using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +22,28 @@ namespace MarqueesAssistant.API.Controllers
             _equipmentRepo = equipmentRepo;
         }
 
+        // [HttpGet]
+        // public async Task<IActionResult> GetBreakdowns()
+        // {
+        //  //   var breakdowns = await _repo.GetBreakdowns();
+        //    var breakdowns = await _repo.GetBreakdownsDisplay();
+        //     return Ok(breakdowns);
+        // }
+
         [HttpGet]
-        public async Task<IActionResult> GetBreakdowns()
+        public async Task<IActionResult> GetBreakdowns([FromQuery]PageParameters pageParameters, string searchString, int sortBy, DateTime? startRange, DateTime? endRange)
         {
-         //   var breakdowns = await _repo.GetBreakdowns();
-           var breakdowns = await _repo.GetBreakdownsDisplay();
-            return Ok(breakdowns);
+            if(searchString == null)
+            {
+                searchString = "";
+            }
+            if(sortBy.Equals(null))
+            {
+                sortBy = 0;
+            }
+           var breakdowns = await _repo.GetBreakDownsListedSearchedSorted(pageParameters, searchString, sortBy,  startRange, endRange);
+            Pagger<BreakdownDisplayDto> breakdownsToReturn = new Pagger<BreakdownDisplayDto>(breakdowns);
+            return Ok(breakdownsToReturn);
         }
 
         [HttpGet("{id}")]

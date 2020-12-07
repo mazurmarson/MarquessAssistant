@@ -2,16 +2,35 @@
 <div class="float-right">
   <button *ngIf="checkRole() != 'pracownik'"  [routerLink]="['/eventSelect']" class="btn btn-success mx-2 my-2">Dodaj namiot</button>
 </div>
+<input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.getMarquees()" class="btn btn-info">Szukaj</button>
 
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Festiwal</th>
-      <th scope="col">Szerkość</th>
-      <th scope="col">Długość</th>
-      <th scope="col">Postawiony?</th>
-      <th scope="col">Ściągnięty</th>
-      <th scope="col-3">Akcja</th>
+      <th scope="col">Festiwal<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 1"><p class="arrow up" [ngClass]="setColor(1)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 2"><p class="arrow down" [ngClass]="setColor(2)"></p></button>
+      </th>
+      <th scope="col">Szerkość<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 3"><p class="arrow up" [ngClass]="setColor(3)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 4"><p class="arrow down" [ngClass]="setColor(4)"></p></button>
+      </th>
+      <th scope="col">Długość<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 5"><p class="arrow up" [ngClass]="setColor(5)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 6"><p class="arrow down" [ngClass]="setColor(6)"></p></button>
+      </th>
+      <th scope="col">Postawiony?<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 7"><p class="arrow up" [ngClass]="setColor(7)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 8"><p class="arrow down" [ngClass]="setColor(8)"></p></button>
+      </th>
+      <th scope="col">Ściągnięty<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 9"><p class="arrow up" [ngClass]="setColor(9)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 10"><p class="arrow down" [ngClass]="setColor(10)"></p></button>
+      </th>
+      <th scope="col-3">Akcja<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 11"><p class="arrow up" [ngClass]="setColor(11)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 12"><p class="arrow down" [ngClass]="setColor(12)"></p></button>
+      </th>
 
       
 
@@ -19,7 +38,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let marquee of marquees">
+    <tr *ngFor="let marquee of apiResponse.data">
 
       <td>{{marquee.eventName}}</td>
       <td>{{marquee.width}}</td>

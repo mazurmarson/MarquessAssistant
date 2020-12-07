@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,38 @@ namespace MarqueesAssistant.API.Data
         {
             var equipments = await _context.Equipments.ToListAsync();
             return equipments;
+        }
+
+        public async Task<PagedList<Equipment>> GetEquipmentsListedSearchedSorted(PageParameters pageParameters, string searchString, int sortBy)
+        {
+             searchString = searchString.ToLower();
+            List<Equipment> equipmentsToReturn;
+
+            var equipments = await _context.Equipments.Where(x=> x.EquipmentType.ToLower().Contains(searchString) 
+            || x.Name.ToLower().Contains(searchString)).ToListAsync();
+
+          //  var equipments = await _context.Equipments.ToListAsync();
+
+            switch(sortBy)
+            {
+                case 1:
+                equipmentsToReturn = equipments.OrderBy(x => x.Name).ToList();
+                return PagedList<Equipment>.ToPagedList(equipmentsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                case 2:
+                equipmentsToReturn = equipments.OrderByDescending(x => x.Name).ToList();
+                return PagedList<Equipment>.ToPagedList(equipmentsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                case 3:
+                equipmentsToReturn = equipments.OrderBy(x => x.EquipmentType).ToList();
+                return PagedList<Equipment>.ToPagedList(equipmentsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+
+                case 4:
+                equipmentsToReturn = equipments.OrderByDescending(x => x.EquipmentType).ToList();
+                return PagedList<Equipment>.ToPagedList(equipmentsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+            }
+
+                equipmentsToReturn = equipments.OrderBy(x => x.Name).ToList();
+                return PagedList<Equipment>.ToPagedList(equipmentsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
         }
     }
 }

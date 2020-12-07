@@ -1,12 +1,9 @@
 export interface Marquee {
-    id?: number;
-    eventId: number;
+    id: number;
+    eventName: string;
     width: number;
     length: number;
-    upDate?: Date;
-    downDate?: Date;
-    isUp?: boolean;
-    isDown?: boolean;
-    eventName?: string;
-    description?:string;
+    description?: any;
+    isUp: boolean;
+    isDown: boolean;
 }

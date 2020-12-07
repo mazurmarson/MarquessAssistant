@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Data;
 using MarqueesAssistant.API.Dtos;
+using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,33 +25,57 @@ namespace MarqueesAssistant.API.Controllers
             _eventRepo = eventRepo;
             _repo = repo;
         }
+        // [Authorize(Roles = "admin, kierownik, pracownik")]
+        // [HttpGet]
+        // public async Task<IActionResult> GetMarquees()
+        // {
+        //     var marquees = await _repo.GetMarquees();
+        //     var events = await _eventRepo.GetEvents();
+        
+        //     var result = from m in marquees
+        //                 join e in events on m.EventId equals e.Id
+        //                 where m.EventId == e.Id
+        //                 select new MarqueeDisplayDto
+        //                 {
+        //                     Id = m.Id,
+        //                     EventName = e.Name,
+        //                     Width = m.Width,
+        //                     Length = m.Length,
+        //                   //  UpDate = m.UpDate,
+        //                    // DownDate = m.DownDate,
+        //              //       Description = m.description,
+        //                     IsUp = m.IsUp,
+        //                     IsDown = m.IsDown
+
+
+        //                 };
+
+        //     return Ok(result);
+        // }
+
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
-        public async Task<IActionResult> GetMarquees()
+        public async Task<IActionResult> GetMarquees([FromQuery] PageParameters pageParameters, string searchString, int sortBy)
         {
-            var marquees = await _repo.GetMarquees();
-            var events = await _eventRepo.GetEvents();
-        
-            var result = from m in marquees
-                        join e in events on m.EventId equals e.Id
-                        where m.EventId == e.Id
-                        select new MarqueeDisplayDto
-                        {
-                            Id = m.Id,
-                            EventName = e.Name,
-                            Width = m.Width,
-                            Length = m.Length,
-                          //  UpDate = m.UpDate,
-                           // DownDate = m.DownDate,
-                     //       Description = m.description,
-                            IsUp = m.IsUp,
-                            IsDown = m.IsDown
 
+            if(searchString == null)
+            {
+                searchString = "";
+            }
+            if(sortBy.Equals(null))
+            {
+                sortBy = 0;
+            }
 
-                        };
+            var marquees = await _repo.GetMarqueesListedSearchedSorted(pageParameters,  searchString,  sortBy);
+            Pagger<MarqueeDisplayDto> marqueesToReturn = new Pagger<MarqueeDisplayDto>(marquees);
 
-            return Ok(result);
+            return Ok(marqueesToReturn);
+
         }
+
+
+
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)

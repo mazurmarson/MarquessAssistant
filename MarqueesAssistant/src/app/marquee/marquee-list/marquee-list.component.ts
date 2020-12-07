@@ -5,6 +5,7 @@ import { MarqueeService } from 'src/app/_services/marquee.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/_services/auth.service';
+import { Apiresponsemarquee } from 'src/app/_models/apiresponsemarquee';
 
 
 
@@ -15,13 +16,19 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class MarqueeListComponent implements OnInit {
 
-  marquees: Marquee[];
+  apiResponse: Apiresponsemarquee;
+  totalItems: number;
+  pageSize = 10;
+  pageNumber = 1;
+  searchString = '';
+  sortBy: number = 1;
+
   
 
   constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private authService: AuthService) { }
 
   ngOnInit() {
-    this.loadMarquees();
+    this.getMarquees();
     
   }
 
@@ -30,15 +37,37 @@ export class MarqueeListComponent implements OnInit {
     return this.authService.checkRole();
   }
 
-  loadMarquees()
+  getMarquees()
   {
-    this.marqueeService.getMarquees().subscribe( (marquees: Marquee[] ) => {
-      this.marquees = marquees;
-
+    this.marqueeService.getSearchedMarquees(this.pageNumber, this.pageSize, this.searchString, this.sortBy)
+    .subscribe(( apiResponseMarquee: Apiresponsemarquee) => {
+      this.apiResponse = apiResponseMarquee;
+      this.totalItems = apiResponseMarquee.totalPages * apiResponseMarquee.pageSize;
     }, error => {
       this.alertify.error(error);
-    } );
+    });
   }
+
+  setPage(page: number)
+  {
+    this.pageNumber = page;
+    this.getMarquees();
+   
+  }
+
+  setColor(id: number)
+  {
+    if(this.sortBy === id)
+    {
+
+      return 'arrow';
+    }
+    else
+    {
+      return 'arrowCurrent';
+    }
+  }
+
 
   deleteMarquee(id: number)
   {

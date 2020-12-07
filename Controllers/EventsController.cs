@@ -32,38 +32,79 @@ namespace MarqueesAssistant.API.Controllers
             _placeRepo  = placeRepo;
             _marqueeRepo = marqueeRepo;
         }
-        [Authorize(Roles = "admin, kierownik, pracownik")]
-        [HttpGet]
-        public async Task<IActionResult> GetEvents()
-        {
-            // var events = await _repo.GetEvents();
-           // events = (List<Event>)(IEnumerable<Event>)events;
+        // [Authorize(Roles = "admin, kierownik, pracownik")]
+        // [HttpGet]
+        // public async Task<IActionResult> GetEvents()
+        // {
+        //     // var events = await _repo.GetEvents();
+        //    // events = (List<Event>)(IEnumerable<Event>)events;
             
-          //  var eventsDto = _mapper.Map<IEnumerable<EventDisplayDto>>(events);
-            // var places = await _context.Places.ToArrayAsync();
+        //   //  var eventsDto = _mapper.Map<IEnumerable<EventDisplayDto>>(events);
+        //     // var places = await _context.Places.ToArrayAsync();
 
-            // var result = from e in events
-            //                 join p in places on e.PlaceId equals p.Id
-            //                 where p.Id == e.PlaceId
-            //                 select new EventDisplayDto
-            //                 {
-            //                     Id = e.Id,
-            //                     Name = e.Name,
-            //                     StartDate = e.StartDate,
-            //                     EndDate = e.EndDate,
-            //                     PlaceId = e.PlaceId,
-            //                     PlaceName = p.Town,
-            //                     TypeOfEvent = e.TypeOfEvent
-            //                 };
+        //     // var result = from e in events
+        //     //                 join p in places on e.PlaceId equals p.Id
+        //     //                 where p.Id == e.PlaceId
+        //     //                 select new EventDisplayDto
+        //     //                 {
+        //     //                     Id = e.Id,
+        //     //                     Name = e.Name,
+        //     //                     StartDate = e.StartDate,
+        //     //                     EndDate = e.EndDate,
+        //     //                     PlaceId = e.PlaceId,
+        //     //                     PlaceName = p.Town,
+        //     //                     TypeOfEvent = e.TypeOfEvent
+        //     //                 };
             
 
-            // var workersToReturn = _mapper.Map<IEnumerable<WorkerDisplayDto>>(workers);
+        //     // var workersToReturn = _mapper.Map<IEnumerable<WorkerDisplayDto>>(workers);
                                 
-            var result = await _repo.GetEventsDisplay();
+        //     var result = await _repo.GetEventsDisplay();
             
 
-            return Ok(result);
+        //     return Ok(result);
+        // }
+
+                // [Authorize(Roles = "admin, kierownik, pracownik")]
+        // [HttpGet]
+        // public async Task<IActionResult> GetEvents([FromQuery] PageParameters pageParameters, string searchString, int sortBy)
+        // {
+
+        //     if(searchString == null)
+        //     {
+        //         searchString = "";
+        //     }
+        //     if(sortBy.Equals(null))
+        //     {
+        //         sortBy = 0;
+        //     }
+     
+        //     var events = await _repo.GetEventsDisplay(pageParameters, searchString, sortBy);
+        //     Pagger<EventDisplayDto> eventsToReturn = new Pagger<EventDisplayDto>(events);
+
+        //     return Ok(eventsToReturn);
+        // }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEvents([FromQuery] PageParameters pageParameters, string searchString, int sortBy, DateTime startRange, DateTime endRange)
+        {
+
+            if(searchString == null)
+            {
+                searchString = "";
+            }
+            if(sortBy.Equals(null))
+            {
+                sortBy = 0;
+            }
+     
+            var events = await _repo.GetEventsDisplay(pageParameters, searchString, sortBy, startRange, endRange);
+            Pagger<EventDisplayDto> eventsToReturn = new Pagger<EventDisplayDto>(events);
+
+            return Ok(eventsToReturn);
         }
+
+
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent(int id)
@@ -113,6 +154,7 @@ namespace MarqueesAssistant.API.Controllers
         public async Task<IActionResult> DeleteEvent(int id)
         {
             Event eventt = await _repo.GetEvent(id);
+
             _repo.Delete(eventt);
 
             if(await _repo.SaveAll())

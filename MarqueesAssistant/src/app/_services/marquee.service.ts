@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Apiresponseevent } from '../_models/apiresponseevent';
+import { Apiresponsemarquee } from '../_models/apiresponsemarquee';
 import { Apiresponseplace } from '../_models/apiResponsePlace';
 import { Marquee } from '../_models/marquee';
 import { Place } from '../_models/place';
@@ -34,6 +36,43 @@ constructor(private http: HttpClient) { }
     return this.http.get<Event[]>(this.baseUrl + 'events');
   }
 
+  getSearchedEvents(pageNumber?: number, pageSize?: number, searchString?:string, sortBy?:number, startRange?: string , endRange?: string)
+  {
+    if(startRange === undefined && endRange === undefined)
+    {
+      return this.http.get<Apiresponseevent>(this.baseUrl + 'events?pageNumber=' + pageNumber +
+      '&pageSize=' + pageSize + '&searchString=' + searchString + '&sortBy=' + sortBy );
+    }
+    
+    if(startRange === undefined || endRange === undefined)
+    {
+      if(startRange === undefined)
+      {
+        return this.http.get<Apiresponseevent>(this.baseUrl + 'events?pageNumber=' + pageNumber +
+        '&pageSize=' + pageSize + '&searchString=' + searchString + '&sortBy=' + sortBy +  '&endRange=' + endRange );
+      }
+      else
+      {
+        return this.http.get<Apiresponseevent>(this.baseUrl + 'events?pageNumber=' + pageNumber +
+        '&pageSize=' + pageSize + '&searchString=' + searchString + '&sortBy=' + sortBy + '&startRange=' + 
+        startRange );
+      }
+    }
+
+    if(endRange === undefined)
+    {
+      
+    }
+    
+
+      return this.http.get<Apiresponseevent>(this.baseUrl + 'events?pageNumber=' + pageNumber +
+      '&pageSize=' + pageSize + '&searchString=' + searchString + '&sortBy=' + sortBy + '&startRange=' + 
+      startRange + '&endRange=' + endRange );
+    
+    
+
+  }
+
   getPlace(id: number): Observable<Place>
   {
     return this.http.get<Place>(this.baseUrl + 'places/' + id);
@@ -56,6 +95,12 @@ constructor(private http: HttpClient) { }
   getMarquee(id: number): Observable<Marquee>
   {
     return this.http.get<Marquee>(this.baseUrl + 'marquees/' + id );
+  }
+
+  getSearchedMarquees(pageNumber?: number, pageSize?: number, searchString?:string, sortBy?:number)
+  {
+    return this.http.get<Apiresponsemarquee>(this.baseUrl + 'marquees?pageNumber=' + pageNumber +
+    '&pageSize=' + pageSize + '&searchString=' + searchString + '&sortBy=' + sortBy);
   }
 
   

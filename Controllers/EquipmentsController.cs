@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Data;
+using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,15 +18,27 @@ namespace MarqueesAssistant.API.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetEquipments()
+        public async Task<IActionResult> GetEquipments([FromQuery]PageParameters pageParameters, string searchString, int sortBy)
         {
-            var equipments = await _repo.GetEquipments();
-            return Ok(equipments);
+           if(searchString == null)
+            {
+                searchString = "";
+            }
+            if(sortBy.Equals(null))
+            {
+                sortBy = 0;
+            }
+            
+            var equipments = await _repo.GetEquipmentsListedSearchedSorted(pageParameters, searchString, sortBy);
+            Pagger<Equipment> equipmentsToReturn = new Pagger<Equipment>(equipments);
+            return Ok(equipmentsToReturn);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEquipment(int id)
         {
+
+            
             var equipment = await _repo.GetEquipment(id);
             return Ok(equipment);
 

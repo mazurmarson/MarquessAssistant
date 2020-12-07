@@ -1,23 +1,48 @@
 
+ <input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.getBreakdowns()" class="btn btn-info">Szukaj</button>
+ <div class="form-group">
+  <div class="form-group">
+ 
+    <input type="date" class="form-control" placeholder="Data rozpoczęcia" name="startDate"  [(ngModel)]="startDate">
+  </div>
+  <div class="form-group">
+  
+  <input type="date" class="form-control" placeholder="Data zakonczenia" name="endDate"  [(ngModel)]="endDate">
+  </div>
+  
 
-
+<div *ngIf="apiResponse != null">
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Opis</th>
-      <th scope="col">Data awarii</th>
-      <th scope="col">Data naprawy</th>
-      <th scope="col">Nazwa sprzętu</th>
+      <th scope="col">Opis
+        <button class="btn btn-info" (click)="this.sortBy = 1"><p class="arrow up" [ngClass]="setColor(1)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 2"><p class="arrow down" [ngClass]="setColor(2)"></p></button>
+      </th>
+      <th scope="col">Data awarii
+        <button class="btn btn-info" (click)="this.sortBy = 3"><p class="arrow up" [ngClass]="setColor(3)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 4"><p class="arrow down" [ngClass]="setColor(4)"></p></button>
+      </th>
+      <th scope="col">Data naprawy
+        <button class="btn btn-info" (click)="this.sortBy = 5"><p class="arrow up" [ngClass]="setColor(5)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 6"><p class="arrow down" [ngClass]="setColor(6)"></p></button>
+      </th>
+      <th scope="col">Nazwa sprzętu
+        <button class="btn btn-info" (click)="this.sortBy = 7"><p class="arrow up" [ngClass]="setColor(7)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 8"><p class="arrow down" [ngClass]="setColor(8)"></p></button>
+      </th>
      <th scope="col">Akcja</th>
 
     
     </tr>
   </thead>
-  <tbody  *ngFor="let breakdown of breakdowns">
+  <tbody  *ngFor="let breakdown of apiResponse.data">
     <tr>
       <td>{{breakdown.description}}</td>
       <td>{{breakdown.accitdentDate}}</td>
-      <td>{{breakdown.repairdDate}}</td>
+    
+      <td *ngIf="!compareDates(breakdown.repairdDate); else elseBlock">{{breakdown.repairdDate}}</td>
+      <ng-template #elseBlock><td>W trakcie</td></ng-template>
       <td>{{breakdown.equipmentName}}</td>
       
       
@@ -32,3 +57,9 @@
     </tr>
   </tbody>
 </table>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-12">
+    <pagination [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+  </div>
+</div>

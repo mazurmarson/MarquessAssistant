@@ -5,21 +5,43 @@
  -->
 
  
+ <input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.getEvents()" class="btn btn-info">Szukaj</button>
+ <div class="form-group">
+ 
+  <input type="date" class="form-control" placeholder="Data rozpoczęcia" name="startDate"  [(ngModel)]="startDate">
+</div>
+<div class="form-group">
 
-
+<input type="date" class="form-control" placeholder="Data zakonczenia" name="endDate"  [(ngModel)]="endDate">
+</div>
 <table  class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Nazwa</th>
-      <th scope="col">Początek wydarzenia</th>
-      <th scope="col">Koniec wydarzenia</th>
-      <th scope="col">Miejsce</th>
-      <th scope="col">Typ imprezy</th>
+      <th scope="col">Nazwa<br/>
+         <button class="btn btn-info" (click)="this.sortBy = 1"><p class="arrow up" [ngClass]="setColor(1)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 2"><p class="arrow down" [ngClass]="setColor(2)"></p></button>
+      </th>
+      <th scope="col">Początek wydarzenia<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 3"><p class="arrow up" [ngClass]="setColor(3)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 4"><p class="arrow down" [ngClass]="setColor(4)"></p></button>
+      </th>
+      <th scope="col">Koniec wydarzenia<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 5"><p class="arrow up" [ngClass]="setColor(5)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 6"><p class="arrow down" [ngClass]="setColor(6)"></p></button>
+      </th>
+      <th scope="col">Miejsce<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 7"><p class="arrow up" [ngClass]="setColor(7)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 8"><p class="arrow down" [ngClass]="setColor(8)"></p></button>
+      </th>
+      <th scope="col">Typ imprezy<br/>
+        <button class="btn btn-info" (click)="this.sortBy = 9"><p class="arrow up" [ngClass]="setColor(9)"></p></button>
+        <button class="btn btn-info" (click)="this.sortBy = 10"><p class="arrow down" [ngClass]="setColor(10)"></p></button>
+      </th>
       <th scope="col"><button *ngIf="checkRole() != 'pracownik'"  [routerLink]="['/placeSelect']" class="btn btn-success">Dodaj wydarzenie</button></th>
     
     </tr>
   </thead>
-  <tbody *ngFor="let event of events">
+  <tbody *ngFor="let event of apiResponse.data">
     <tr>
 
       <td>{{event.name}}</td>
@@ -36,3 +58,9 @@
     </tr>
   </tbody>
 </table>
+
+<div class="row">
+  <div class="col-xs-12 col-12">
+    <pagination [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+  </div>
+</div>
