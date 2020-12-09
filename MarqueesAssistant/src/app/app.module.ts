@@ -11,6 +11,7 @@ import { PlacesComponent } from './places/places.component';
 import { NavComponent } from './nav/nav.component';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
+
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { AlertifyService } from './_services/alertify.service';
@@ -48,6 +49,7 @@ import { EquipmentEditComponent } from './equipment/equipment-edit/equipment-edi
 import { EquipmentBreakdownsComponent } from './equipment/equipment-breakdowns/equipment-breakdowns.component';
 import { BreakdownAddComponent } from './breakdown/breakdown-add/breakdown-add.component';
 import { BreakdownEditComponent } from './breakdown/breakdown-edit/breakdown-edit.component';
+import { TestService } from './_services/test.service';
 
 
 
@@ -112,6 +114,7 @@ export function tokenGetter()
     AuthService,
     AlertifyService,
     WorkerService,
+    TestService,
     AuthGuard,
     Auth2Guard,
     Auth3Guard,

@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using MarqueesAssistant.API.Models;
 using MarqueesAssistant.API.Dtos;
+using Microsoft.AspNetCore.SignalR;
+using MarqueesAssistant.API.signalR;
 
 namespace MarqueesAssistant.API.Controllers
 {
@@ -18,15 +20,17 @@ namespace MarqueesAssistant.API.Controllers
     public class MessagesController : ControllerBase
     {
        
-
         private readonly IMessRepo _repo;
         private readonly IWorkerRepo _workerRepo;
         private readonly IMapper _mapper;
-        public MessagesController( IMapper mapper, IMessRepo repo, IWorkerRepo workerRepo)
+
+         private readonly IHubContext<MessageHub, IMessageHubClient> mHubContext;
+        public MessagesController( IMapper mapper, IMessRepo repo, IWorkerRepo workerRepo, IHubContext<MessageHub, IMessageHubClient> hubContext)
         {
             _workerRepo = workerRepo;
             _mapper = mapper;
             _repo = repo;
+             mHubContext = hubContext;
         }
 
         [HttpGet("/{id}", Name = "GetMessage")]
@@ -50,11 +54,12 @@ namespace MarqueesAssistant.API.Controllers
             return Unauthorized();
 
             message.SenderId = workerId;
-
+            
             _repo.Add<Message>(message);
             
             if(await _repo.SaveAll())
             {
+                await mHubContext.Clients.All.BroadcastMessage(message.Content);
                 return CreatedAtRoute("GetMessage", new { id = message.Id}, message);
             }
 
@@ -138,13 +143,14 @@ namespace MarqueesAssistant.API.Controllers
             message.IsRead = true;
 
             await _repo.SaveAll();
-
+            await mHubContext.Clients.All.BroadcastMessage(message.Content);
             return Ok();
         }
 
         [HttpGet("anyMessages")]
         public async Task<IActionResult> AnyMessages(int workerId)
         {
+            
             if(workerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             return Unauthorized();
 

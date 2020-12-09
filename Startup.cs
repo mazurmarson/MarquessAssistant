@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using MarqueesAssistant.API.Helpers;
 using Microsoft.AspNetCore.Http;
+using MarqueesAssistant.API.signalR;
 
 namespace MarqueesAssistant.API
 {
@@ -30,7 +31,8 @@ namespace MarqueesAssistant.API
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+
+                public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -39,7 +41,15 @@ namespace MarqueesAssistant.API
             services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
-            services.AddCors();
+            services.AddSignalR();
+           // services.AddCors();
+           services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
+                builder
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+            }));
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IAuthRepo, AuthRepo>();
             services.AddScoped<IEventRepo, EventRepo>();
@@ -88,11 +98,18 @@ namespace MarqueesAssistant.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+        //    app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<MessageHub>("/notify");
+});
 
             app.UseEndpoints(endpoints =>
             {
