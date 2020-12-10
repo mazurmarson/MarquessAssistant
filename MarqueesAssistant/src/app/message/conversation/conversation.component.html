@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="rounded border container my-2">
   <table class="table table-hover">
     <thead>
@@ -38,6 +38,53 @@
     </div>
     </form>
 </div>
+
+////// -->
+
+
+
+<div *ngIf="this.isLoaded" class="rounded border container my-2">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nadawca</th>
+  
+        <th scope="col">Tresc</th>
+        <th scope="col">Data wyslania</th>
+  
+  
+        
+  
+      
+      </tr>
+    </thead>
+    <tbody class="">
+      <tr  *ngFor="let message of test.model"
+      [ngClass]="{'bg-light': message.senderId == id}">
+  
+        <td class="font-weight-bold">   {{message.senderName }}</td>
+  
+        <td>{{message.content}}</td>
+        <td>{{message.sendDate | date: 'short'}}</td>
+        
+        <td>
+  
+        </td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+  <form #registerForm="ngForm" (ngSubmit)="sendMessage()">
+    <div  class="form-group" >
+      <input type="text" class="form-control w-100 p-1"  name="message" placeholder="Wiadomość" [(ngModel)]="model.content">
+      <button type="submit" class="btn btn-primary float-right my-3">Wyślij</button>
+    </div>
+    </form>
+</div>
+
+
+
 
 
 

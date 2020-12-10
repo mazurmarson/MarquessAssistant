@@ -5,7 +5,9 @@ import { tap } from 'rxjs/operators';
 import { Message } from 'src/app/_models/message';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
+import { TestService } from 'src/app/_services/test.service';
 import { WorkerService } from 'src/app/_services/worker.service';
+import * as signalR from '@aspnet/signalr';
 
 @Component({
   selector: 'app-conversation',
@@ -19,9 +21,11 @@ export class ConversationComponent implements OnInit {
   id2: number;
   model: any = {};
   liczba: number = 5;
+  isLoaded: boolean = false;
 
 
-  constructor(private route: ActivatedRoute, private workerService: WorkerService, private authService: AuthService, private alertifyService: AlertifyService,) {
+  constructor(private route: ActivatedRoute, private workerService: WorkerService, private authService: AuthService, 
+    private alertifyService: AlertifyService, public test: TestService) {
     this.route.params.subscribe(params => {
       this.id2 = Number(params['id']);
       this.model.recipientId = this.id2;
@@ -32,6 +36,16 @@ export class ConversationComponent implements OnInit {
 
   ngOnInit() {
     this.getConversation();
+    this.test.startConnection();
+    this.test.newMessagesListener();
+   this.isLoaded = true;
+  }
+
+
+
+
+
+  private startHttpRequest = () => {
     
   }
 
@@ -47,6 +61,8 @@ export class ConversationComponent implements OnInit {
   //   });
   // }
 
+  
+
   getConversation()
   {
     this.workerService.getConversation(this.id, this.id2)
@@ -61,11 +77,13 @@ export class ConversationComponent implements OnInit {
       })
     )
     .subscribe(messages => {
-      this.messages = messages;
+      this.test.model = messages;
     }, error => {
       this.alertifyService.error(error);
     });
   }
+
+
 
   sendMessage()
   {

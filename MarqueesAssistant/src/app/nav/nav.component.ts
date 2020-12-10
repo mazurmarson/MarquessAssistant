@@ -42,8 +42,8 @@ export class NavComponent implements OnInit {
     {
              this.id = this.authService.decodedToken?.nameid;
        this.role = this.authService.decodedToken?.role;
-      this.anyMessages();
-      console.log(this.test);
+       this.anyMessages();
+   //  console.log(this.test);
     }
     
     const connection = new signalR.HubConnectionBuilder()
@@ -69,7 +69,7 @@ export class NavComponent implements OnInit {
   {
     this.authService.login(this.model).subscribe(next => {
       this.alertify.success('Zalogowales sie do aplikacji');
-      
+      this.anyMessages();
     }, error => {
       this.alertify.error('Błąd logowania');
     }, () => {

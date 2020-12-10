@@ -122,7 +122,8 @@ namespace MarqueesAssistant.API.Controllers
             // .Include(Message => Message.Recipient)
             // .Include(Message => Message.Sender)
             // .Select(Message => new MessageDisplayDto(Message)).ToListAsync();
-           
+         // await mHubContext.Clients.All.BroadcastMessage("hehe");
+            await mHubContext.Clients.All.GetConversation(messages);
 
             return Ok(messages);
         }
