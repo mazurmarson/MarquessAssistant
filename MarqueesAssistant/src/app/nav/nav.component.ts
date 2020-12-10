@@ -6,6 +6,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 import { WorkerService } from '../_services/worker.service';
 import * as signalR from '@aspnet/signalr';
+import { SignalrService } from '../_services/signalr.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class NavComponent implements OnInit {
   model: any = {};
   role: string;
   constructor(private router: Router,public authService: AuthService, private alertify: AlertifyService
-    , private workerService: WorkerService, private http: HttpClient) { 
+    , private workerService: WorkerService, private http: HttpClient, public signalRService: SignalrService) { 
 
   }
   test: string;
@@ -40,29 +41,16 @@ export class NavComponent implements OnInit {
   ngOnInit() {
     if(this.loggedIn())
     {
-             this.id = this.authService.decodedToken?.nameid;
+      this.signalRService.startConnection();
+      this.id = this.authService.decodedToken?.nameid;
        this.role = this.authService.decodedToken?.role;
        this.anyMessages();
+       this.signalRService.newMessagesListenerForNav(this.id);
+       
    //  console.log(this.test);
     }
     
-    const connection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Information)
-    .withUrl("http://localhost:5000/notify")
-    .build();
 
-  connection.start().then(function () {
-    console.log('Połączenie nawiązane poprawnie');
-  }).catch(function (err) {
-    return console.error(err.toString());
-  });
-
-   connection.on("BroadcastMessage", (message: string) => {
-
-       this.anyMessages();
-
-    
-   });
   }
 
   login()
@@ -111,7 +99,7 @@ export class NavComponent implements OnInit {
   {
 
     
-    this.workerService.anyMessages(this.id).subscribe(results => this.test = results);
+    this.workerService.anyMessages(this.id).subscribe(results => this.signalRService.messageAmount = results);
     
 
 

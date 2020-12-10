@@ -17,7 +17,7 @@ namespace MarqueesAssistant.API.Controllers
         [Route("send")]
         public void SendMessage(string message)
         {
-             mHubContext.Clients.All.BroadcastMessage(message);
+        //     mHubContext.Clients.All.BroadcastMessage(message);
         }
 
     }

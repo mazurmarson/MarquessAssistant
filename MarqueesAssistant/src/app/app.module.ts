@@ -50,6 +50,7 @@ import { EquipmentBreakdownsComponent } from './equipment/equipment-breakdowns/e
 import { BreakdownAddComponent } from './breakdown/breakdown-add/breakdown-add.component';
 import { BreakdownEditComponent } from './breakdown/breakdown-edit/breakdown-edit.component';
 import { TestService } from './_services/test.service';
+import { SignalrService } from './_services/signalr.service';
 
 
 
@@ -105,7 +106,7 @@ export function tokenGetter()
          allowedDomains: ['localhost:5000'],
          disallowedRoutes: ['localhost:5000/api/auth']
       }
-      
+       
    }),
    RouterModule.forRoot(appRoutes)
 
@@ -115,6 +116,7 @@ export function tokenGetter()
     AlertifyService,
     WorkerService,
     TestService,
+    SignalrService,
     AuthGuard,
     Auth2Guard,
     Auth3Guard,

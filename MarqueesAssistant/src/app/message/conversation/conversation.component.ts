@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 import { TestService } from 'src/app/_services/test.service';
 import { WorkerService } from 'src/app/_services/worker.service';
 import * as signalR from '@aspnet/signalr';
+import { SignalrService } from 'src/app/_services/signalr.service';
 
 @Component({
   selector: 'app-conversation',
@@ -25,7 +26,7 @@ export class ConversationComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private workerService: WorkerService, private authService: AuthService, 
-    private alertifyService: AlertifyService, public test: TestService) {
+    private alertifyService: AlertifyService, public test: TestService, public signalRService: SignalrService) {
     this.route.params.subscribe(params => {
       this.id2 = Number(params['id']);
       this.model.recipientId = this.id2;
@@ -36,11 +37,17 @@ export class ConversationComponent implements OnInit {
 
   ngOnInit() {
     this.getConversation();
-    this.test.startConnection();
-    this.test.newMessagesListener();
+    this.signalRService.startConnection();
+   // this.test.startConnection();
+   // this.test.newMessagesListener();
+    this.signalRService.newMessagesListenerForConversation(this.id, this.id2);
    this.isLoaded = true;
   }
 
+  ngOnDestroy()
+{
+  this.workerService.anyMessages(this.id).subscribe(results => this.signalRService.messageAmount = results);
+}
 
 
 
@@ -77,10 +84,12 @@ export class ConversationComponent implements OnInit {
       })
     )
     .subscribe(messages => {
-      this.test.model = messages;
+      this.signalRService.messages = messages;
+     
     }, error => {
       this.alertifyService.error(error);
     });
+    this.workerService.anyMessages(this.id).subscribe(results => this.signalRService.messageAmount = results);
   }
 
 

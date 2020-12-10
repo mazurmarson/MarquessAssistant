@@ -59,7 +59,7 @@
       </tr>
     </thead>
     <tbody class="">
-      <tr  *ngFor="let message of test.model"
+      <tr  *ngFor="let message of signalRService.messages"
       [ngClass]="{'bg-light': message.senderId == id}">
   
         <td class="font-weight-bold">   {{message.senderName }}</td>

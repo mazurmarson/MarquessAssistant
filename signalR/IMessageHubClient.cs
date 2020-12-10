@@ -6,8 +6,8 @@ namespace MarqueesAssistant.API.signalR
 {
     public interface IMessageHubClient
     {
-         Task BroadcastMessage(string message);
-         Task GetConversation(IEnumerable<MessageDisplayDto> messages);
+         Task MessageSended();
+         
          
     }
 }

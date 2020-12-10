@@ -54,12 +54,14 @@ namespace MarqueesAssistant.API.Controllers
             return Unauthorized();
 
             message.SenderId = workerId;
-            
+            // Worker worker = await _workerRepo.GetWorker(workerId);
             _repo.Add<Message>(message);
             
             if(await _repo.SaveAll())
             {
-                await mHubContext.Clients.All.BroadcastMessage(message.Content);
+               // await mHubContext.Clients.All.BroadcastMessage(message.Content);
+               // await mHubContext.Clients.All.MessageSended();
+               await mHubContext.Clients.User(workerId.ToString()).MessageSended();
                 return CreatedAtRoute("GetMessage", new { id = message.Id}, message);
             }
 
@@ -123,7 +125,7 @@ namespace MarqueesAssistant.API.Controllers
             // .Include(Message => Message.Sender)
             // .Select(Message => new MessageDisplayDto(Message)).ToListAsync();
          // await mHubContext.Clients.All.BroadcastMessage("hehe");
-            await mHubContext.Clients.All.GetConversation(messages);
+           // await mHubContext.Clients.All.GetConversation(messages);
 
             return Ok(messages);
         }
@@ -144,7 +146,7 @@ namespace MarqueesAssistant.API.Controllers
             message.IsRead = true;
 
             await _repo.SaveAll();
-            await mHubContext.Clients.All.BroadcastMessage(message.Content);
+          //  await mHubContext.Clients.All.BroadcastMessage(message.Content);
             return Ok();
         }
 
