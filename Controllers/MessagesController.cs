@@ -47,12 +47,12 @@ namespace MarqueesAssistant.API.Controllers
             return Ok(message);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateMessage(int workerId, Message message)
+        [HttpPost("{test}")]
+        public async Task<IActionResult> CreateMessage(int workerId, string test ,Message message)
         {
             if(workerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             return Unauthorized();
-
+            
             message.SenderId = workerId;
             // Worker worker = await _workerRepo.GetWorker(workerId);
             _repo.Add<Message>(message);
@@ -61,7 +61,7 @@ namespace MarqueesAssistant.API.Controllers
             {
                // await mHubContext.Clients.All.BroadcastMessage(message.Content);
                // await mHubContext.Clients.All.MessageSended();
-               await mHubContext.Clients.User(workerId.ToString()).MessageSended();
+               await mHubContext.Clients.Clients(test).MessageSended();
                 return CreatedAtRoute("GetMessage", new { id = message.Id}, message);
             }
 

@@ -46,9 +46,15 @@ constructor(private http: HttpClient) { }
     return this.http.get<Message[]>(this.baseUrl + 'workers/' + idWorker + '/messages/conversation/' + idWorker2);
   }
 
-  sendMessage(idSender: number, model: any)
+  // sendMessage(idSender: number, model: any)
+  // {
+  //   return this.http.post(this.baseUrl + 'workers/' + idSender + '/messages',  model );
+  // }
+
+    sendMessage(idSender: number, connectionId:string ,model: any)
   {
-    return this.http.post(this.baseUrl + 'workers/' + idSender + '/messages',  model );
+    
+    return this.http.post(this.baseUrl + 'workers/' + idSender + '/messages/' + connectionId,  model );
   }
 
   readMessage(idRecipient: number, idMessage: number)

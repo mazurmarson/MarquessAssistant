@@ -37,10 +37,11 @@ export class ConversationComponent implements OnInit {
 
   ngOnInit() {
     this.getConversation();
-    this.signalRService.startConnection();
+  //  this.signalRService.startConnection();
    // this.test.startConnection();
    // this.test.newMessagesListener();
     this.signalRService.newMessagesListenerForConversation(this.id, this.id2);
+   
    this.isLoaded = true;
   }
 
@@ -79,6 +80,7 @@ export class ConversationComponent implements OnInit {
         for (let i = 0; i < messages.length; i++) {
           if (messages[i].isRead === false && messages[i].recipientId == this.id) {
             this.workerService.readMessage(this.id, messages[i].id);
+            
           }
         }
       })
@@ -98,7 +100,7 @@ export class ConversationComponent implements OnInit {
   {
     console.log(this.model);
     console.log(this.liczba);
-    this.workerService.sendMessage(this.id, this.model).subscribe( () => {
+    this.workerService.sendMessage(this.id,this.signalRService.userConnectionId ,this.model).subscribe( () => {
       this.alertifyService.success('Wysłano wiadomość');
       this.getConversation();
     }, error => {
@@ -110,6 +112,11 @@ export class ConversationComponent implements OnInit {
   readMessage(messageId: number)
   {
     this.workerService.readMessage(this.id, messageId);
+  }
+
+  getUserIdConnection()
+  {
+    this.signalRService.GetUserIdConnection(this.id2.toString());
   }
 
 

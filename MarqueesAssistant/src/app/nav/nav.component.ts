@@ -41,7 +41,7 @@ export class NavComponent implements OnInit {
   ngOnInit() {
     if(this.loggedIn())
     {
-      this.signalRService.startConnection();
+      this.signalRService.startConnection(this.authService.decodedToken?.nameid);
       this.id = this.authService.decodedToken?.nameid;
        this.role = this.authService.decodedToken?.role;
        this.anyMessages();
