@@ -36,5 +36,11 @@ namespace MarqueesAssistant.API.signalR
           }
           return workerIdAndIdConnection.ConnectionId;
         }
+
+        public void DeleteUserFromList(string id)
+        {
+          WorkerIdAndIdConnection workerIdAndIdConnection = clientsList.FirstOrDefault(x => x.WorkerId == id);
+          clientsList.Remove(workerIdAndIdConnection);
+        }
     }
 }

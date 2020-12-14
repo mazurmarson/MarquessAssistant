@@ -52,7 +52,7 @@ export class SignalrService {
     this.hubConnection.invoke('getconnectionid',login).then(
       (data) => {
         console.log(data);
-          this.connectionId = data;
+          this.myConnectionId = data;
         }
     ); 
   }
@@ -64,5 +64,9 @@ export class SignalrService {
         this.userConnectionId = data;
         }
     ); 
+  }
+
+  public DeleteUserIdConnection = (id:string) => {
+    this.hubConnection.invoke('deleteuserfromlist',id);
   }
 }

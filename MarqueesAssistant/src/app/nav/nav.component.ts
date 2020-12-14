@@ -49,8 +49,13 @@ export class NavComponent implements OnInit {
        
    //  console.log(this.test);
     }
-    
+    window.onbeforeunload = () => this.ngOnDestroy();
 
+  }
+
+  ngOnDestroy()
+  {
+    this.signalRService.DeleteUserIdConnection(this.id.toString());
   }
 
   login()
