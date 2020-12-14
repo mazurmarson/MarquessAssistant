@@ -10,7 +10,7 @@ export class SignalrService {
   private hubConnection: signalR.HubConnection;
   constructor(private workerService: WorkerService, private alertifyService: AlertifyService) { }
 
-  public messages: any = {};
+  public messages: any = [];
   public messageAmount: string;
   public myConnectionId : string;
   public userConnectionId: string;
