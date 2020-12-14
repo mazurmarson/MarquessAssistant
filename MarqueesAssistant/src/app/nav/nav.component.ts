@@ -58,14 +58,17 @@ export class NavComponent implements OnInit {
     this.signalRService.DeleteUserIdConnection(this.id.toString());
   }
 
-  login()
+  async login()
   {
     this.authService.login(this.model).subscribe(next => {
       this.alertify.success('Zalogowales sie do aplikacji');
-      this.anyMessages();
+      
+      
     }, error => {
       this.alertify.error('Błąd logowania');
-    }, () => {
+    }, async () => {
+      this.id = await this.authService.getWorkerIdAsync();
+      this.anyMessages();
       this.router.navigate(['/marquees']);
     }
     );
@@ -103,7 +106,7 @@ export class NavComponent implements OnInit {
 
   anyMessages()
   {
-
+    
     
     this.workerService.anyMessages(this.id).subscribe(results => this.signalRService.messageAmount = results);
     

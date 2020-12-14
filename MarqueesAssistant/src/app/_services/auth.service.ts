@@ -67,4 +67,10 @@ getWorkerId():number
   return  Number(this.id);
 }
 
+async getWorkerIdAsync():Promise<number>
+{
+  this.id = await this.decodedToken?.nameid;
+  return  Number(this.id);
+}
+
 }
