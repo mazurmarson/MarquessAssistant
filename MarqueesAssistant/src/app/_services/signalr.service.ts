@@ -57,13 +57,9 @@ export class SignalrService {
     ); 
   }
 
-  public GetUserIdConnection = (id:string) => {
-    this.hubConnection.invoke('getuseridconnection',id).then(
-      (data) => {
-        console.log('Idendyfikator polaczenia'+data);
-        this.userConnectionId = data;
-        }
-    ); 
+  public async GetUserIdConnection(id:string) {
+    this.userConnectionId = await this.hubConnection.invoke('getuseridconnection',id);
+
   }
 
   public DeleteUserIdConnection = (id:string) => {

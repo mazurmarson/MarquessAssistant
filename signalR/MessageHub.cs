@@ -17,14 +17,18 @@ namespace MarqueesAssistant.API.signalR
 
         public static List<WorkerIdAndIdConnection> clientsList = new List<WorkerIdAndIdConnection>();
 
-        public string GetConnectionId(string test)
+        public string GetConnectionId(string userId)
         {
+          if(clientsList.Where(x => x.WorkerId == userId).Any())
+          {
+            DeleteUserFromList(userId);
+          }
             WorkerIdAndIdConnection workerIdAndIdConnection = new WorkerIdAndIdConnection();
             workerIdAndIdConnection.ConnectionId = Context.ConnectionId;
-            workerIdAndIdConnection.WorkerId = test;
+            workerIdAndIdConnection.WorkerId = userId;
             clientsList.Add(workerIdAndIdConnection);
 
-          return  test;
+          return  userId;
         }
 
         public string GetUserIdConnection(string id)

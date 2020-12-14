@@ -96,8 +96,9 @@ export class ConversationComponent implements OnInit {
 
 
 
-  sendMessage()
+  async sendMessage()
   {
+    await this.signalRService.GetUserIdConnection(this.id2.toString());
     console.log(this.model);
     console.log(this.liczba);
     this.workerService.sendMessage(this.id,this.signalRService.userConnectionId ,this.model).subscribe( () => {
