@@ -1,7 +1,5 @@
 
-<div class="float-right">
-  <button *ngIf="checkRole() != 'pracownik'"  [routerLink]="['/eventSelect']" class="btn btn-success mx-2 my-2">Dodaj namiot</button>
-</div>
+
 <input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.getMarquees()" class="btn btn-info">Szukaj</button>
 
 <table class="table table-hover">
@@ -20,16 +18,15 @@
         <button class="btn btn-info" (click)="this.sortBy = 6"><p class="arrow down" [ngClass]="setColor(6)"></p></button>
       </th>
       <th scope="col">Postawiony?<br/>
-        <button class="btn btn-info" (click)="this.sortBy = 7"><p class="arrow up" [ngClass]="setColor(7)"></p></button>
-        <button class="btn btn-info" (click)="this.sortBy = 8"><p class="arrow down" [ngClass]="setColor(8)"></p></button>
-      </th>
-      <th scope="col">Ściągnięty<br/>
         <button class="btn btn-info" (click)="this.sortBy = 9"><p class="arrow up" [ngClass]="setColor(9)"></p></button>
         <button class="btn btn-info" (click)="this.sortBy = 10"><p class="arrow down" [ngClass]="setColor(10)"></p></button>
       </th>
-      <th scope="col-3">Akcja<br/>
+      <th scope="col">Ściągnięty<br/>
         <button class="btn btn-info" (click)="this.sortBy = 11"><p class="arrow up" [ngClass]="setColor(11)"></p></button>
         <button class="btn btn-info" (click)="this.sortBy = 12"><p class="arrow down" [ngClass]="setColor(12)"></p></button>
+      </th>
+      <th scope="col-3">Akcja<br/>
+
       </th>
 
       
@@ -46,7 +43,7 @@
       <td>{{marquee.isUp? 'Tak':'Nie'}}</td>
       <td>{{marquee.isDown? 'Tak':'Nie'}}</td>
       <td>
-        <button *ngIf="checkRole()"[routerLink]="['/marqueeEdit', marquee.id]" class="btn btn-primary mx-1">Edytuj</button>
+        <button *ngIf="checkRole() != 'pracownik'"[routerLink]="['/marqueeEdit', marquee.id]" class="btn btn-primary mx-1">Edytuj</button>
         <button [routerLink]="['/marqueeStuff', marquee.id]" class="btn btn-info mx-1">Szczegóły</button>
         <button *ngIf="checkRole() != 'pracownik'" (click)="deleteMarquee(marquee.id)" class="btn btn-danger mx-1">Usuń</button>
       </td>

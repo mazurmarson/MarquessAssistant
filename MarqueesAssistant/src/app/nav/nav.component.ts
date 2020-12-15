@@ -60,13 +60,13 @@ export class NavComponent implements OnInit {
 
   async login()
   {
-    this.id = await this.authService.getWorkerIdAsync();
-    this.signalRService.startConnection(this.id.toString());
-    this.signalRService.newMessagesListenerForNav(this.id);
-    this.authService.login(this.model).subscribe(next => {
+
+    this.authService.login(this.model).subscribe(async next => {
       this.alertify.success('Zalogowales sie do aplikacji');
       
-      
+      this.id = await this.authService.getWorkerIdAsync();
+      this.signalRService.startConnection(this.id.toString());
+      this.signalRService.newMessagesListenerForNav(this.id);
     }, error => {
       this.alertify.error('Błąd logowania');
     }, async () => {

@@ -19,9 +19,15 @@ namespace MarqueesAssistant.API.signalR
 
         public string GetConnectionId(string userId)
         {
-          if(clientsList.Where(x => x.WorkerId == userId).Any())
+          int amount = clientsList.Where(x => x.WorkerId == userId).Count();
+          if(amount > 0 )
           {
-            DeleteUserFromList(userId);
+            while(amount > 0)
+            {
+              DeleteUserFromList(userId);
+              amount--;
+            }
+            
           }
             WorkerIdAndIdConnection workerIdAndIdConnection = new WorkerIdAndIdConnection();
             workerIdAndIdConnection.ConnectionId = Context.ConnectionId;
