@@ -157,7 +157,7 @@ namespace MarqueesAssistant.API.Data
                                 TypeOfEvent = e.TypeOfEvent
                             };
 
-                            result = result.Where(x => x.Name.ToLower().Contains(searchString) || x.PlaceName.Contains(searchString) || x.TypeOfEvent.Contains(searchString) || x.StartDate.Date.ToString().Contains(searchString) || x.EndDate.Date.ToString().Contains(searchString));
+                            result = result.Where(x => x.Name.ToLower().Contains(searchString) || x.PlaceName.ToLower().Contains(searchString) || x.TypeOfEvent.ToLower().Contains(searchString) || x.StartDate.Date.ToString().Contains(searchString) || x.EndDate.Date.ToString().Contains(searchString));
                             
                             if(startRange != default(DateTime))
                             {
