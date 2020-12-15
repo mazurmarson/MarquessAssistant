@@ -97,7 +97,7 @@ namespace MarqueesAssistant.API.Controllers
             {
                 sortBy = 0;
             }
-     
+    
             var events = await _repo.GetEventsDisplay(pageParameters, searchString, sortBy, startRange, endRange);
             Pagger<EventDisplayDto> eventsToReturn = new Pagger<EventDisplayDto>(events);
 

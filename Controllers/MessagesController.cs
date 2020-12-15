@@ -11,6 +11,7 @@ using MarqueesAssistant.API.Models;
 using MarqueesAssistant.API.Dtos;
 using Microsoft.AspNetCore.SignalR;
 using MarqueesAssistant.API.signalR;
+using MarqueesAssistant.API.Helpers;
 
 namespace MarqueesAssistant.API.Controllers
 {
@@ -108,7 +109,7 @@ namespace MarqueesAssistant.API.Controllers
         }
         
         [HttpGet("conversation/{id}", Name = "GetConversation")]
-        public async Task<IActionResult> GetConversation(int workerId, int id)
+        public async Task<IActionResult> GetConversation([FromQuery] PageParameters pageParameters,int workerId, int id)
         {
              if(workerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             return Unauthorized();
@@ -117,7 +118,8 @@ namespace MarqueesAssistant.API.Controllers
             // (x.SenderId == workerId || x.RecipientId == workerId ) && 
             // ( x.SenderId == id || x.RecipientId == id ) ).OrderByDescending(x => x.SendDate).ToListAsync();
 
-             var messages = await _repo.GetConversation(workerId, id);
+             var messages = await _repo.GetConversation(pageParameters,workerId, id);
+             
             // await _context.Messages.Where(x =>
             // (x.SenderId == workerId || x.RecipientId == workerId ) && 
             // ( x.SenderId == id || x.RecipientId == id ) ).OrderByDescending(x => x.SendDate)
@@ -127,7 +129,9 @@ namespace MarqueesAssistant.API.Controllers
          // await mHubContext.Clients.All.BroadcastMessage("hehe");
            // await mHubContext.Clients.All.GetConversation(messages);
 
-            return Ok(messages);
+            Pagger<MessageDisplayDto> messagesToReturn = new Pagger<MessageDisplayDto>(messages);
+            
+            return Ok(messagesToReturn);
         }
 
 

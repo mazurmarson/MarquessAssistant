@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Apiresponse } from '../_models/apiresponse';
+import { Apiresponsemessage } from '../_models/apiresponsemessage';
 import { Message } from '../_models/message';
 import { Worker } from '../_models/worker';
 
@@ -44,6 +45,13 @@ constructor(private http: HttpClient) { }
   getConversation(idWorker: number, idWorker2: number): Observable<Message[]>
   {
     return this.http.get<Message[]>(this.baseUrl + 'workers/' + idWorker + '/messages/conversation/' + idWorker2);
+  }
+
+  getPagedConversation(idWorker: number, idWorker2: number ,pageNumber?: number, pageSize?: number )
+  {
+    return this.http.get<Apiresponsemessage>(this.baseUrl + 'workers/' + idWorker + '/messages/conversation/' + idWorker2 + '?pageNumber=' + pageNumber +
+    '&pageSize=' + pageSize );
+
   }
 
   // sendMessage(idSender: number, model: any)

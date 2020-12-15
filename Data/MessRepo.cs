@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MarqueesAssistant.API.Dtos;
+using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,16 +22,18 @@ namespace MarqueesAssistant.API.Data
             return numOfMess;
         }
 
-        public async Task<IEnumerable<MessageDisplayDto>> GetConversation(int workerId, int id)
+        public async Task<PagedList<MessageDisplayDto>> GetConversation(PageParameters pageParameters,int workerId, int id)
         {
-             var messages = await _context.Messages.Where(x =>
+             List<MessageDisplayDto> messages = await _context.Messages.Where(x =>
             (x.SenderId == workerId || x.RecipientId == workerId ) && 
             ( x.SenderId == id || x.RecipientId == id ) ).OrderByDescending(x => x.SendDate)
             .Include(Message => Message.Recipient)
             .Include(Message => Message.Sender)
             .Select(Message => new MessageDisplayDto(Message)).ToListAsync();
 
-            return messages;
+
+
+            return PagedList<MessageDisplayDto>.ToPagedList(messages, pageParameters.PageNumber, pageParameters.PageSize);
         }
 
         public List<Message> getFirstSentences(int workerId)

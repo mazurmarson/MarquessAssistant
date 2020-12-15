@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
+import { Apiresponsemessage } from '../_models/apiresponsemessage';
 import { AlertifyService } from './alertify.service';
 import { WorkerService } from './worker.service';
 
@@ -10,7 +11,7 @@ export class SignalrService {
   private hubConnection: signalR.HubConnection;
   constructor(private workerService: WorkerService, private alertifyService: AlertifyService) { }
 
-  public messages: any = [];
+  apiResponse: Apiresponsemessage;
   public messageAmount: string;
   public myConnectionId : string;
   public userConnectionId: string;
@@ -28,14 +29,15 @@ export class SignalrService {
     });
   }
 
-  public newMessagesListenerForConversation = (id:number, id2:number) => {
+  public newMessagesListenerForConversation = (id:number, id2:number, pageNumber:number, pageSize:number) => {
     this.hubConnection.on("MessageSended", () => {
-      this.workerService.getConversation(id, id2).subscribe( (model: any) => {
-        this.messages = model;
-
+      this.workerService.getPagedConversation(id, id2, pageNumber, pageSize).subscribe( (model: any) => {
+        this.apiResponse = model;
+        
        
       },error => {
         this.alertifyService.error(error);
+        
       } )
     });
   }
