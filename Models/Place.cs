@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MarqueesAssistant.API.Models
 {
     public class Place
@@ -6,8 +8,10 @@ namespace MarqueesAssistant.API.Models
 
         public int Number { get; set; }
         public string Street { get; set; }
+    
+        [Required(ErrorMessage = "Miejscowosc jest wymagana")]
         public string Town { get; set; }
-
+        [Required(ErrorMessage = "Województwo jest wymagane")]
         public string FirstGradeDivision { get; set; } // Województwo
 
         public string SecondGradeDivision { get; set; } // Powiat

@@ -30,7 +30,7 @@ export class BreakdownEditComponent implements OnInit {
     this.breakdownServiece.editBreakdown(this.model).subscribe( () => {
       this.alertify.success('Edytowano sprzęt');
     }, error => {
-      this.alertify.error('Wystąpił problem');
+      this.alertify.error(error);
     });
   }
 

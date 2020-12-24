@@ -25,7 +25,7 @@ export class PlacesAddComponent implements OnInit {
     this.marqueeService.addPlace(this.model).subscribe( () => {
       this.alertify.success('Dodano miejsce');
     }, error => {
-      this.alertify.error('Wystąpił problem');
+      this.alertify.error(error);
     }
     );
   }

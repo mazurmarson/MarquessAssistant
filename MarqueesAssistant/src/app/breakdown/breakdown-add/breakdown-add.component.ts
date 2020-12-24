@@ -29,7 +29,7 @@ export class BreakdownAddComponent implements OnInit {
     this.breakdownService.addBreakdown(this.model, this.id).subscribe( () => {
       this.alertify.success('Dodano awarie');
     }, error => {
-      this.alertify.error('Wystąpił problem');
+      this.alertify.error(error);
     });
  //   console.log(this.model);
   }

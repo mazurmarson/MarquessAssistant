@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MarqueesAssistant.API.Models
 {
@@ -7,10 +8,10 @@ namespace MarqueesAssistant.API.Models
         public int Id { get; set; }
         public int EquipmentId { get; set; }
         public Equipment Equipment { get; set; }
-
+        [Required(ErrorMessage = "Opis jest wymagany")]
         public string Description{ get; set; }
-
-        public DateTime AccitdentDate { get; set;}
+        [Required(ErrorMessage = "Data zdarzenia jest wymagana")]
+        public DateTime? AccitdentDate { get; set;}
 
         public DateTime RepairdDate { get; set; }
 

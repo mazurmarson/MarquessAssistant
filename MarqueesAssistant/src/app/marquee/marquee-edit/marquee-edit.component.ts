@@ -42,7 +42,7 @@ export class MarqueeEditComponent implements OnInit {
     this.marqueeService.editMarquee(this.model).subscribe( () => {
       this.alertify.success('Edycja udana');
     }, error => {
-      this.alertify.error('Wystąpił błąd');
+      this.alertify.error(error);
     });
   }
 

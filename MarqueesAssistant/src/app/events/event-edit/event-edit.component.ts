@@ -43,7 +43,7 @@ export class EventEditComponent implements OnInit {
     this.marqueeService.editEvent(this.model).subscribe( () => {
       this.alertify.success('Edycja udana');
     }, error => {
-      this.alertify.error('Wystąpił problem');
+      this.alertify.error(error);
     });
   }
 

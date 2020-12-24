@@ -1,38 +1,38 @@
 <form *ngIf="isLoaded" #registerForm="ngForm" (ngSubmit)="editPlace()">
-  <h2 class="text-center text-primary">Edytuj</h2>
+  <h2 class="text-center text-primary">Edytuj miejsce</h2>
   <hr>
   <div class="form-group">
-    
+    Numer
     <input type="text" class="form-control"   name="number"  [(ngModel)]="model.number">
   </div>
   <div class="form-group">
-
+    Ulica
     <input type="text" class="form-control"   name="street"  [(ngModel)]="model.street">
   </div>
   <div class="form-group">
-   
+    Miejscowość
       <input type="text" class="form-control" placeholder="Miejscowość" name="town"  [(ngModel)]="model.town">
   </div>
   <div class="form-group">
- 
+    Województwo
     <input type="text" class="form-control" placeholder="Województwo" name="firstGrade"  [(ngModel)]="model.firstGradeDivision">
 </div>
 
 <div class="form-group">
- 
+  Powiat
   <input type="text" class="form-control" placeholder="Powiat" name="secondGrade"  [(ngModel)]="model.secondGradeDivision">
 </div>
 
 <div class="form-group">
- 
+  Gmina
   <input type="text" class="form-control" placeholder="Gmina" name="thirdGrade"  [(ngModel)]="model.thirdGradeDivision">
 </div>
 
 <div class="form-group">
- 
+  Kod pocztowy
   <input type="text" class="form-control" placeholder="Kod pocztowy" name="post-code"  [(ngModel)]="model.postCode">
 </div>
-
+*Pole wymagane
 
 
   <div class="form-group text-center">

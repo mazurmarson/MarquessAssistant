@@ -10,7 +10,7 @@ namespace MarqueesAssistant.API.Dtos
 
         public string Description{ get; set; }
 
-        public DateTime AccitdentDate { get; set;}
+        public DateTime? AccitdentDate { get; set;}
 
         public DateTime RepairdDate { get; set; }
 

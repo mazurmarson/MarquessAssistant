@@ -39,7 +39,7 @@ export class EquipmentEditComponent implements OnInit {
     this.breakdownServiece.editEquipment(this.model, this.id).subscribe( () => {
       this.alertify.success('Edycja udana');
     }, error => {
-      this.alertify.error('Wystąpił błąd');
+      this.alertify.error(error);
     });
   }
 

@@ -52,7 +52,7 @@ export class PlaceEditComponent implements OnInit {
     this.marqueeService.editPlace(this.model).subscribe( () => {
       this.alertify.success('Edycja udana');
     }, error => {
-      this.alertify.error('Wystąpił problem');
+      this.alertify.error(error);
     });
 
     

@@ -29,7 +29,7 @@ export class EventsAddComponent implements OnInit {
     this.marqueeService.addEvent(this.model, this.id).subscribe( () => {
       this.alertify.success('Dodano wydarzenie');
     }, error => {
-      this.alertify.error('Wystąpił błąd'); 
+      this.alertify.error(error); 
     });
   }
 

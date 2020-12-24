@@ -84,7 +84,7 @@ namespace MarqueesAssistant.API.Data
                         };
 
             result = result.Where(x => x.Description.ToLower().Contains(searchString) ||
-            x.EquipmentName.ToLower().Contains(searchString) || x.AccitdentDate.Date.ToString().Contains(searchString) ||
+            x.EquipmentName.ToLower().Contains(searchString) || x.AccitdentDate.ToString().Contains(searchString) ||
             x.RepairdDate.Date.ToString().Contains(searchString));
 
             if(startRange != null)

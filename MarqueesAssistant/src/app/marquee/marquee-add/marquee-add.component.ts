@@ -35,7 +35,7 @@ export class MarqueeAddComponent implements OnInit {
     this.marqueeService.addMarquee(this.model, this.id).subscribe( () => {
      this.alertify.success('Dodano namiot');
     }, error => {
-      this.alertify.error('Wystąpił problem');
+      this.alertify.error(error);
     });
 
   }

@@ -22,7 +22,7 @@ export class EquipmentAddComponent implements OnInit {
     this.breakdownServiece.addEquipment(this.model).subscribe( () => {
       this.alertify.success('Dodano sprzęt');
     }, error => {
-      this.alertify.error('Wystąpił problem');
+      this.alertify.error(error);
     });
   }
 
