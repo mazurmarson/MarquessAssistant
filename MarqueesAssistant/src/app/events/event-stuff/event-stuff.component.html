@@ -1,20 +1,100 @@
 <div>
-  <div>
-  Pogoda:
-  Temperatura
-  {{WeatherData.temp_celcius}}
-  Prędkość wiatru
-  {{WeatherData.wind_speed}}
-  Opis
-  {{WeatherData.description}}
-  Zachmurzenie
-  {{WeatherData.cloudiness}}
-  Miejscowość
-  {{WeatherData.town}}
-  </div>
+  
+  <div  id="accordion">
+    <div *ngIf="this.PlaceIsFounded" class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button  class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Pogoda
+          </button>
+        </h5>
+      </div>
+  
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <table class="table table-sm ">
+            <thead>
+              <tr class="table-success">
+                
+                <th scope="col">Temperatura</th>
+                <th scope="col">Prędkość wiatru</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Zachmurzenie</th>
+                <th scope="col">Miejscowość</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+               
+                <td *ngIf="dangerTemperature()==0; else elseTemperature">{{WeatherData.temp_celcius}}&deg;C</td>
+                  <ng-template #elseTemperature ><td *ngIf="dangerTemperature()==1; else coldTemperature">{{WeatherData.temp_celcius}}&deg;C</td></ng-template>
+                    <ng-template #coldTemperature ><td style="color:blue;">{{WeatherData.temp_celcius}}&deg;C</td></ng-template>
+                
+                <td  *ngIf="!tooStrongWind(); else elseWind"> {{WeatherData.wind_speed}}km/h</td>
+                <ng-template #elseWind ><td style="color: red;">{{WeatherData.wind_speed}}km/h</td></ng-template> 
+                <td> {{WeatherData.description}}</td>
+                <td>{{WeatherData.cloudiness}}%</td>
+                <td>{{WeatherData.town}}</td>
+              </tr>
+              
+            </tbody>
+          </table>
+          <div style="color: red;" id="alerts">
+            <div *ngIf="tooStrongWind()">Uwaga: Silny wiatr!</div>
+            <div *ngIf="dangerTemperature()==1">Uwaga: Wysoka temperatura!</div>
+            <div *ngIf="otherDangerCondition()">{{this.otherDangerConditionVar}}</div>
+            <div style="color: blue;" *ngIf="dangerTemperature()==2">Uwaga: Niska temperatura!</div>
+          </div>
+            
+        </div>
+      </div>
+    </div>
+      <div *ngIf="this.perlines" class="card">
+        <div class="card-header" id="headingTwo">
+          <h5 class="mb-0">
+            <button class="btn btn-info" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Części
+            </button>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+          <div class="card-body">
+            <div *ngIf="this.smallLegs != 0">Ilość nóg 3-9m: {{this.smallLegs}}</div>
+            <p *ngIf="this.bigLegs != 0">Ilość nóg 12-15m: {{this.bigLegs}}</p>
+            <p *ngIf="this.rafters3m != 0">Ilość krokwi 3m: {{this.rafters3m}}</p>
+            <p *ngIf="this.rafters6m != 0">Ilość krokwi 6m: {{this.rafters6m}}</p>
+            <p *ngIf="this.rafters9m != 0">Ilość krokwi 9m: {{this.rafters9m}}</p>
+            <p *ngIf="this.rafters12m != 0">Ilość krokwi 9m: {{this.rafters12m}}</p>
+            <p *ngIf="this.smallPlates != 0">Ilość podstawek i śledzi 3-9m: {{this.smallPlates}}</p>
+            <p *ngIf="this.bigPlates != 0">Ilość podstawek i śledzi 12-15: {{this.bigPlates}}</p>
+            <p *ngIf="this.walls != 0">Ilość ścian: {{this.walls}}</p>
+            <p *ngIf="this.roofs3m != 0">Ilość dachów 3m: {{this.roofs3m}}</p>
+            <p *ngIf="this.roofs6m != 0">Ilość dachów 6m: {{this.roofs6m}}</p>
+            <p *ngIf="this.roofs9m != 0">Ilość dachów 9m: {{this.roofs9m}}</p>
+            <p *ngIf="this.roofs12m != 0">Ilość dachów 12m: {{this.roofs12m}}</p>
+            <p *ngIf="this.perlines != 0">Ilość wewnętrznych łączników: {{this.perlines}}</p>
+            <p *ngIf="this.smallHookups != 0">Ilość zewnętrznych łączników 3-9m: {{this.smallHookups}}</p>
+            <p *ngIf="this.bigHookups != 0">Ilość zewnętrznych łączników 12-15m: {{this.bigHookups}}</p>
+            <p *ngIf="this.smallApexes != 0">Ilość wierzchołków 3-9m: {{this.smallApexes}}</p>
+            <p *ngIf="this.bigApexes != 0">Ilość wierzchołków 12-15m: {{this.bigApexes}}</p>
+            <p *ngIf="this.endleg3to9 != 0">Ilość nóg końcowych 3-9m: {{this.endleg3to9}}</p>
+            <p *ngIf="this.shortEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.shortEndlegs}}</p>
+            <p *ngIf="this.longEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.longEndlegs}}</p>
+          </div>
+        </div>
+      </div>
+    
+  </div> 
+
   
 
-<table class="table table-hover">
+
+
+  
+
+  
+
+<table *ngIf="this.perlines; else elseBlock"  class="table table-hover">
   <thead>
     <tr>
       <th scope="col">Festiwal</th>
@@ -41,7 +121,7 @@
       <td>
         <button [routerLink]="['/marqueeEdit', marquee.id]" class="btn btn-primary mx-1">Edytuj</button>
         <button [routerLink]="['/marqueeStuff', marquee.id]"  class="btn btn-info mx-1">Szczegóły</button>
-          
+        <button *ngIf="checkRole() != 'pracownik'" (click)="deleteMarquee(marquee.id)" class="btn btn-danger mx-1">Usuń</button>
       </td>
       
     </tr>
@@ -49,29 +129,9 @@
 
   </tbody>
 </table>
+<ng-template #elseBlock>Brak namiotów<br/></ng-template>
 <button [routerLink]="['/marqueesAdd', id]" class="btn btn-danger  float-right" style="margin-right: 11.5%;">Dodaj namiot</button>
 
-<p *ngIf="this.smallLegs != 0">Ilość nóg 3-9m: {{this.smallLegs}}</p>
-<p *ngIf="this.bigLegs != 0">Ilość nóg 12-15m: {{this.bigLegs}}</p>
-<p *ngIf="this.rafters3m != 0">Ilość krokwi 3m: {{this.rafters3m}}</p>
-<p *ngIf="this.rafters6m != 0">Ilość krokwi 6m: {{this.rafters6m}}</p>
-<p *ngIf="this.rafters9m != 0">Ilość krokwi 9m: {{this.rafters9m}}</p>
-<p *ngIf="this.rafters12m != 0">Ilość krokwi 9m: {{this.rafters12m}}</p>
-<p *ngIf="this.smallPlates != 0">Ilość podstawek i śledzi 3-9m: {{this.smallPlates}}</p>
-<p *ngIf="this.bigPlates != 0">Ilość podstawek i śledzi 12-15: {{this.bigPlates}}</p>
-<p *ngIf="this.walls != 0">Ilość ścian: {{this.walls}}</p>
-<p *ngIf="this.roofs3m != 0">Ilość dachów 3m: {{this.roofs3m}}</p>
-<p *ngIf="this.roofs6m != 0">Ilość dachów 6m: {{this.roofs6m}}</p>
-<p *ngIf="this.roofs9m != 0">Ilość dachów 9m: {{this.roofs9m}}</p>
-<p *ngIf="this.roofs12m != 0">Ilość dachów 12m: {{this.roofs12m}}</p>
-<p *ngIf="this.perlines != 0">Ilość wewnętrznych łączników: {{this.perlines}}</p>
-<p *ngIf="this.smallHookups != 0">Ilość zewnętrznych łączników 3-9m: {{this.smallHookups}}</p>
-<p *ngIf="this.bigHookups != 0">Ilość zewnętrznych łączników 12-15m: {{this.bigHookups}}</p>
-<p *ngIf="this.smallApexes != 0">Ilość wierzchołków 3-9m: {{this.smallApexes}}</p>
-<p *ngIf="this.bigApexes != 0">Ilość wierzchołków 12-15m: {{this.bigApexes}}</p>
-<p *ngIf="this.endleg3to9 != 0">Ilość nóg końcowych 3-9m: {{this.endleg3to9}}</p>
-<p *ngIf="this.shortEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.shortEndlegs}}</p>
-<p *ngIf="this.longEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.longEndlegs}}</p>
 
 
 
@@ -84,3 +144,8 @@
 
 
 
+
+
+
+
+</div>

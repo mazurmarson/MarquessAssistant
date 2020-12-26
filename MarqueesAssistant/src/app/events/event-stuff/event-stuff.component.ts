@@ -11,6 +11,7 @@ import { MarqueeService } from 'src/app/_services/marquee.service';
   styleUrls: ['./event-stuff.component.css']
 })
 export class EventStuffComponent implements OnInit {
+  
   model: any;
   placeName: any;
   WeatherData: any;
@@ -39,6 +40,8 @@ export class EventStuffComponent implements OnInit {
   endleg3to9: number =0;
   longEndlegs: number =0;
   shortEndlegs: number =0;
+  PlaceIsFounded: boolean = false;
+  otherDangerConditionVar:string;
 
   bases:number;
   ilosc:number =0;
@@ -100,19 +103,33 @@ export class EventStuffComponent implements OnInit {
 
   setWeatherData(data)
   {
-    console.log(data.weather[0].description);
-    this.WeatherData = data;
-    let currentDate = new Date();
-    this.WeatherData.temp_celcius = (this.WeatherData.main.temp - 273.15).toFixed(2);
-    this.WeatherData.temp_min = (this.WeatherData.main.temp_min - 273.15).toFixed(0);
-    this.WeatherData.temp_max = (this.WeatherData.main.temp_max - 273.15).toFixed(0);
-    this.WeatherData.temp_feels_like = (this.WeatherData.main.feels_like - 273.15).toFixed(0);
-    this.WeatherData.wind_speed = (this.WeatherData.wind.speed * 3.6).toFixed(2);
-     this.WeatherData.description = (this.WeatherData.weather[0].description);
-     this.WeatherData.town = (this.WeatherData.name);
-    // this.WeatherData.cosTam = (this.WeatherData.weather.main);
-  this.WeatherData.cloudiness = (this.WeatherData.clouds.all);
+    if(data.cod=='404')
+    {
+      console.log('Warunek działa');
+      return false;
+    }
+    else
+    {
+      console.log(data.weather[0].description);
+      this.WeatherData = data;
+      let currentDate = new Date();
+      this.WeatherData.temp_celcius = (this.WeatherData.main.temp - 273.15).toFixed(2);
+      this.WeatherData.temp_min = (this.WeatherData.main.temp_min - 273.15).toFixed(0);
+      this.WeatherData.temp_max = (this.WeatherData.main.temp_max - 273.15).toFixed(0);
+      this.WeatherData.temp_feels_like = (this.WeatherData.main.feels_like - 273.15).toFixed(0);
+      this.WeatherData.wind_speed = (this.WeatherData.wind.speed * 3.6).toFixed(2);
+       this.WeatherData.description = (this.WeatherData.weather[0].description);
+       this.WeatherData.id = this.WeatherData.weather[0].id;
+       console.log(this.WeatherData);
+       this.WeatherData.town = (this.WeatherData.name);
+      // this.WeatherData.cosTam = (this.WeatherData.weather.main);
+    this.WeatherData.cloudiness = (this.WeatherData.clouds.all);
+      this.PlaceIsFounded = true;
+     
+    }
+
   }
+
 
 
 
@@ -199,8 +216,97 @@ export class EventStuffComponent implements OnInit {
   }
 
 
+  deleteMarquee(id: number)
+  {
+    this.marqueeService.deleteMarquue(id).subscribe(response => {
+      this.alertify.success('Usunięto namiot');
+    }, error => {
+      this.alertify.error('Wystąpił błąd');
+    });
+  }
+
+  checkRole()
+  {
+    return this.authService.checkRole();
+  }
+
   
-  
+  tooStrongWind()
+  {
+    if(this.WeatherData.wind_speed > 40)
+    {
+      return true;
+    }
+    else
+    {
+      return false 
+    }
+  }
+
+  dangerTemperature()
+  {
+    if(this.WeatherData.temp_celcius > 30)
+    {
+      return 1;
+    }
+    if(this.WeatherData.temp_celcius < 5)
+    {
+      return 2;
+    }
+    return 0;
+
+  }
+
+  otherDangerCondition()
+  {
+    if(this.WeatherData.id >= 200 && this.WeatherData.id <= 232 )
+    {
+      
+      this.otherDangerConditionVar = 'Uwaga: Burza!';
+      return true;
+    }
+
+    if(this.WeatherData.id == 701 || this.WeatherData.id == 721 || this.WeatherData.id == 741)
+    {
+      
+      this.otherDangerConditionVar = 'Uwaga: Mgła!';
+      return true;
+    }
+
+    if(this.WeatherData.id == 602 || this.WeatherData.id == 622)
+    {
+      
+      this.otherDangerConditionVar = 'Uwaga: Intensywny śnieg!';
+      return true;
+    }
+
+    if(this.WeatherData.id == 611 || this.WeatherData.id == 613 || this.WeatherData.id == 616)
+    {
+      
+      this.otherDangerConditionVar = 'Uwaga: Śnieg z deszczem!';
+      return true;
+    }
+
+    if(this.WeatherData.id == 511)
+    {
+     
+      this.otherDangerConditionVar = 'Uwaga: Zmarznięty deszcz';
+      return true;
+    }
+
+    if(this.WeatherData.id == 521 || this.WeatherData.id == 522 || this.WeatherData.id == 531)
+    {
+      
+      this.otherDangerConditionVar = 'Uwaga: Intensywny deszcz';
+      return true;
+    }
+
+    return false;
+
+
+  }
+
+
 
 
 

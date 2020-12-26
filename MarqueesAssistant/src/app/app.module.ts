@@ -51,8 +51,8 @@ import { BreakdownAddComponent } from './breakdown/breakdown-add/breakdown-add.c
 import { BreakdownEditComponent } from './breakdown/breakdown-edit/breakdown-edit.component';
 import { TestService } from './_services/test.service';
 import { SignalrService } from './_services/signalr.service';
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 export function tokenGetter()
 {
@@ -99,6 +99,8 @@ export function tokenGetter()
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    BrowserAnimationsModule,
+    AccordionModule.forRoot(),
     PaginationModule.forRoot(),
     JwtModule.forRoot({
       config: {
