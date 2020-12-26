@@ -59,7 +59,7 @@
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
           <div class="card-body">
-            <div *ngIf="this.smallLegs != 0">Ilość nóg 3-9m: {{this.smallLegs}}</div>
+            <!-- <div *ngIf="this.smallLegs != 0">Ilość nóg 3-9m: {{this.smallLegs}}</div>
             <p *ngIf="this.bigLegs != 0">Ilość nóg 12-15m: {{this.bigLegs}}</p>
             <p *ngIf="this.rafters3m != 0">Ilość krokwi 3m: {{this.rafters3m}}</p>
             <p *ngIf="this.rafters6m != 0">Ilość krokwi 6m: {{this.rafters6m}}</p>
@@ -79,7 +79,126 @@
             <p *ngIf="this.bigApexes != 0">Ilość wierzchołków 12-15m: {{this.bigApexes}}</p>
             <p *ngIf="this.endleg3to9 != 0">Ilość nóg końcowych 3-9m: {{this.endleg3to9}}</p>
             <p *ngIf="this.shortEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.shortEndlegs}}</p>
-            <p *ngIf="this.longEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.longEndlegs}}</p>
+            <p *ngIf="this.longEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.longEndlegs}}</p> -->
+
+            
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Część</th>
+      <th scope="col">Ilość</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="this.smallLegs != 0">
+      <td >Nogi 3-9m</td>
+      <td >{{this.smallLegs}}</td>
+    </tr>
+    <tr *ngIf="this.bigLegs != 0">
+      <td>Nogi 12m</td>
+      <td>{{this.bigLegs}}</td>
+    </tr>
+
+    <tr *ngIf="this.rafters3m != 0">
+      <td>Krokwie 3m</td>
+      <td>{{this.rafters3m}}</td>
+    </tr>
+
+    <tr *ngIf="this.rafters6m != 0">
+      <td>Krokwie 6m</td>
+      <td>{{this.rafters6m}}</td>
+    </tr>
+
+    <tr *ngIf="this.rafters9m != 0">
+      <td>Krokwie 9m</td>
+      <td>{{this.rafters9m}}</td>
+    </tr>
+
+    <tr *ngIf="this.rafters12m != 0">
+      <td>Krokwie 12m</td>
+      <td>{{this.rafters12m}}</td>
+    </tr>
+
+    <tr *ngIf="this.smallPlates != 0">
+      <td>Małe podstawki i śledzie</td>
+      <td>{{this.smallPlates}}</td>
+    </tr>
+
+    <tr *ngIf="this.bigPlates != 0">
+      <td>Duże podstawki i śledzie</td>
+      <td>{{this.bigPlates}}</td>
+    </tr>
+
+    <tr *ngIf="this.walls != 0">
+      <td>Ściany</td>
+      <td>{{this.walls}}</td>
+    </tr>
+
+    <tr *ngIf="this.roofs3m != 0">
+      <td>Dachy 3m</td>
+      <td>{{this.roofs3m}}</td>
+    </tr>
+
+    <tr *ngIf="this.roofs6m != 0">
+      <td>Dachy 6m</td>
+      <td>{{this.roofs6m}}</td>
+    </tr>
+
+    <tr *ngIf="this.roofs9m != 0">
+      <td>Dachy 9m</td>
+      <td>{{this.roofs9m}}</td>
+    </tr>
+
+    <tr *ngIf="this.roofs12m != 0">
+      <td>Dachy 12m</td>
+      <td>{{this.roofs12m}}</td>
+    </tr>
+
+    <tr *ngIf="this.perlines != 0">
+      <td>Wewnętrzne łączniki</td>
+      <td>{{this.perlines}}</td>
+    </tr>
+
+    <tr *ngIf="this.smallHookups != 0">
+      <td>Zewnętrzne łączniki 3-9m</td>
+      <td>{{this.smallHookups}}</td>
+    </tr>
+
+    <tr *ngIf="this.bigHookups != 0">
+      <td>Zewnętrzne łączniki 12m</td>
+      <td>{{this.bigHookups}}</td>
+    </tr>
+
+    <tr *ngIf="this.smallApexes != 0">
+      <td>Wierzchołki 3-9m</td>
+      <td>{{this.smallApexes}}</td>
+    </tr>
+
+    <tr *ngIf="this.bigApexes != 0">
+      <td>Wierzchołki 12m</td>
+      <td>{{this.bigApexes}}</td>
+    </tr>
+
+    <tr *ngIf="this.endleg3to9 != 0">
+      <td>Nogi końcowe 3-9m</td>
+      <td>{{this.endleg3to9}}</td>
+    </tr>
+
+    <tr *ngIf="this.shortEndlegs != 0">
+      <td>Nogi końcowe 12m krótkie</td>
+      <td>{{this.shortEndlegs}}</td>
+    </tr>
+
+    <tr *ngIf="this.longEndlegs != 0">
+      <td>Nogi końcowe 12m długie</td>
+      <td>{{this.longEndlegs}}</td>
+    </tr>
+
+
+  </tbody>
+</table>
+
           </div>
         </div>
       </div>
@@ -131,7 +250,6 @@
 </table>
 <ng-template #elseBlock>Brak namiotów<br/></ng-template>
 <button [routerLink]="['/marqueesAdd', id]" class="btn btn-danger  float-right" style="margin-right: 11.5%;">Dodaj namiot</button>
-
 
 
 
