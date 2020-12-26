@@ -36,9 +36,9 @@ namespace MarqueesAssistant.API.Data
             return PagedList<MessageDisplayDto>.ToPagedList(messages, pageParameters.PageNumber, pageParameters.PageSize);
         }
 
-        public List<Message> getFirstSentences(int workerId)
+        public List<MessageFirstSentenceDto> getFirstSentences(int workerId)
         {
-                        List<Message> MessagesList = new List<Message>();
+                        List<MessageFirstSentenceDto> MessagesList = new List<MessageFirstSentenceDto>();
             // var users = 
             int id =  _context.Workers.Select(  u => u.Id).Max();
             
@@ -50,7 +50,7 @@ namespace MarqueesAssistant.API.Data
                 var message = _context.Messages.Where(x =>
                  (x.SenderId == workerId || x.RecipientId == workerId ) && 
                 ( x.SenderId == i || x.RecipientId == i ) ).OrderByDescending(x => x.SendDate)
-                .Take(1).ToList();
+                .Take(1).ToList().FirstOrDefault();
                 // .Select(m => new Message{
                 //     Id = m.Id,
                 //     SenderId = m.SenderId,
@@ -59,17 +59,26 @@ namespace MarqueesAssistant.API.Data
                 //     Content = m.Content
 
                 // });
-                
-                Message messageObject = message.FirstOrDefault();
 
-                if(messageObject != null)
-                MessagesList.Add(messageObject);
+                string userName = _context.Workers.Where(x => x.Id == i).Select(x => x.Login).FirstOrDefault();
+
+                var MessageWithUserName = new MessageFirstSentenceDto()
+                {
+                    Message = message,
+                    NameOfUser = userName
+                };
+                
+                
+
+                if(message != null)
+                MessagesList.Add(MessageWithUserName);
                 
                 }
 
             }
             
             return  MessagesList;
+
         }
 
         public async Task<Message> GetMessage(int messageId)

@@ -34,17 +34,17 @@ export class MessageComponent implements OnInit {
 
   getIdWorker(message:any)
   {
-    if(message.recipientId == this.id)
+    if(message.message.recipientId == this.id)
     {
      // console.log(message.senderId);
-      return message.senderId;
+      return message.message.senderId;
     // this.idFriend = message.senderId;
       
      
     }
     else
     {
-      return message.recipientId;
+      return message.message.recipientId;
     }
   }
 

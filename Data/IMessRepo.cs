@@ -12,6 +12,6 @@ namespace MarqueesAssistant.API.Data
          Task<PagedList<MessageDisplayDto>> GetConversation(PageParameters pageParameters,int workerId, int id);
          Task<int> CountMessagges(int workerId);
 
-         List<Message> getFirstSentences(int workerId);
+         List<MessageFirstSentenceDto> getFirstSentences(int workerId);
     }
 }
