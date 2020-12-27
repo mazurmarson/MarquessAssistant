@@ -80,9 +80,14 @@
             <p *ngIf="this.endleg3to9 != 0">Ilość nóg końcowych 3-9m: {{this.endleg3to9}}</p>
             <p *ngIf="this.shortEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.shortEndlegs}}</p>
             <p *ngIf="this.longEndlegs != 0">Ilość nóg końcowych krótkich 12-15m: {{this.longEndlegs}}</p> -->
-
-            
-<table class="table table-striped">
+            <div class="actions">
+              <button class ="btn-info btn" (click)="onExportClick()">
+                Przygotuj do druku
+              </button>
+            </div>
+ <div id='elemet-to-export'>   
+  <p style="font-size: large;" class="text-center">Wydarzenie: {{this.marquees[1].eventName}} </p>  
+<table  class="table table-striped">
   <thead>
     <tr>
       <th scope="col">Część</th>
@@ -198,6 +203,8 @@
 
   </tbody>
 </table>
+</div>   
+
 
           </div>
         </div>

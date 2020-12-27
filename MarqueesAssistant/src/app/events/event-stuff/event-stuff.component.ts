@@ -4,6 +4,8 @@ import { Marquee } from 'src/app/_models/marquee';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
+import * as html2pdf from 'html2pdf.js';
+import * as html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-event-stuff',
@@ -64,6 +66,26 @@ export class EventStuffComponent implements OnInit {
 
      };
    
+  }
+
+  onExportClick()
+  {
+    window.scroll(0,0);
+    const options = {
+      filename: 'Sprzet.pdf',
+      image: {type: 'png'},
+      html2canvas: {},
+      jsPDF: {orientation: 'portrait'}
+    };
+
+      const content: Element = document.getElementById('elemet-to-export');
+
+      html2pdf()
+      .from(content)
+      .set(options)
+      .save();
+
+      console.log(content);
   }
 
   townNameIsLoaded()
