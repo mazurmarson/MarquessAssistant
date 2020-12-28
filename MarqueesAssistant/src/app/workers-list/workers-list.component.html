@@ -40,7 +40,7 @@
         <td>
           <button [routerLink]="['/conversation',worker.id ]" class="btn btn-primary">Napisz</button>
           <button *ngIf="checkRole() == 'admin'"  [routerLink]="['/editWorker',worker.id ]" class="btn btn-danger mx-1">Edytuj</button>
-          <button *ngIf="checkRole() == 'admin'"  (click)="deleteWorker(worker.id)" class="btn btn-danger mx-1">Usuń</button>
+          <button *ngIf="checkRole() == 'admin'"  (click)="openModal(template, worker.id)" class="btn btn-danger mx-1">Usuń</button>
         </td>
       </tr>
 
@@ -54,19 +54,21 @@
 
 
 
-  <p *ngFor="let worker of apiResponse.data">
-    
-    
-    
-    
-    
-  </p>
-  <div class="row">
-    <div class="col-xs-12 col-12">
+
+
       <pagination [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
-    </div>
-  </div>
+
   
 
 </div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Na pewno chcesz usunąć użytkownika?</p>
+    <p>Usuwając użytkownika usuniesz też jego rozmowy!</p>
+    <button type="button" class="btn btn-danger" (click)="confirm()" >Tak</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >Nie</button>
+  </div>
+</ng-template>
+
 

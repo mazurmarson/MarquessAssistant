@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Marquee } from 'src/app/_models/marquee';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/_services/auth.service';
 import { Apiresponsemarquee } from 'src/app/_models/apiresponsemarquee';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 
 
@@ -22,14 +23,39 @@ export class MarqueeListComponent implements OnInit {
   pageNumber = 1;
   searchString = '';
   sortBy: number = 1;
+  idToBeDeleted = '';
+  modalRef: BsModalRef;
+  message: string;
 
   
 
-  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private authService: AuthService) { }
+  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private authService: AuthService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getMarquees();
     
+  }
+
+  openModal(template: TemplateRef<any>, id: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idToBeDeleted = id;
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    this.delete();
+  }
+
+  delete():void{
+    console.log('deleted',this.idToBeDeleted,' record');
+    this.deleteMarquee(Number(this.idToBeDeleted));
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+
   }
 
   checkRole()
@@ -73,6 +99,7 @@ export class MarqueeListComponent implements OnInit {
   {
     this.marqueeService.deleteMarquue(id).subscribe(response => {
       this.alertify.success('Usunięto namiot');
+      this.getMarquees();
     }, error => {
       this.alertify.error('Wystąpił błąd');
     });

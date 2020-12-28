@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Apiresponseevent } from '../_models/apiresponseevent';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
@@ -20,12 +21,40 @@ export class EventsComponent implements OnInit {
   sortBy: number = 1;
   startDate: string;
   endDate: string;
+  idToBeDeleted = '';
+  modalRef: BsModalRef;
+  message: string;
 
-  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertifyService: AlertifyService, private authService: AuthService) { }
+
+  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertifyService: AlertifyService, private authService: AuthService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getEvents();
   }
+
+  openModal(template: TemplateRef<any>, id: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idToBeDeleted = id;
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    this.delete();
+  }
+
+  delete():void{
+    console.log('deleted',this.idToBeDeleted,' record');
+    this.deleteEvent(Number(this.idToBeDeleted));
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+
+  }
+
+
 
   checkRole()
   {
@@ -49,6 +78,7 @@ export class EventsComponent implements OnInit {
   {
     this.marqueeService.deleteEvent(id).subscribe(responsne => {
       this.alertifyService.success('Usunięto wydarzenie');
+      this.getEvents();
     }, error => {
       this.alertifyService.error('Wystąpił błąd');
     });

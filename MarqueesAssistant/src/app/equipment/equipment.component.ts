@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Apiresponseequipment } from '../_models/apiresponseequipment';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
@@ -19,13 +20,39 @@ export class EquipmentComponent implements OnInit {
   pageNumber = 1;
   searchString = '';
   sortBy: number = 1;
+  idToBeDeleted = '';
+  modalRef: BsModalRef;
+  message: string;
 
 
-  constructor(private http: HttpClient, private alertify: AlertifyService, private router: Router, private breakdownService: BreakdownService, private authService: AuthService) { }
+  constructor(private http: HttpClient, private alertify: AlertifyService, private router: Router, private breakdownService: BreakdownService, private authService: AuthService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getEquipments();
   }
+
+  openModal(template: TemplateRef<any>, id: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idToBeDeleted = id;
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    this.delete();
+  }
+
+  delete():void{
+    console.log('deleted',this.idToBeDeleted,' record');
+    this.deleteEquipment(Number(this.idToBeDeleted));
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+
+  }
+
 
   getEquipments()
   {
@@ -44,6 +71,7 @@ export class EquipmentComponent implements OnInit {
   {
     this.breakdownService.deleteEquipment(id).subscribe(response => {
       this.alertify.success('Usunięto sprzęt');
+      this.getEquipments();
     }, error => {
       this.alertify.error(error);
     });

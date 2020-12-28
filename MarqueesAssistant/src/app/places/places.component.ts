@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Apiresponseplace } from '../_models/apiResponsePlace';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 import { MarqueeService } from '../_services/marquee.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-places',
@@ -19,13 +20,42 @@ export class PlacesComponent implements OnInit {
   pageNumber = 1;
   searchString = '';
   sortBy: number = 1;
+  idToBeDeleted = '';
+  modalRef: BsModalRef;
+  message: string;
 
-  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertify: AlertifyService, private router: Router, private authService: AuthService) { }
+
+  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertify: AlertifyService, private router: Router, private authService: AuthService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getPlaces();
   }
   
+  openModal(template: TemplateRef<any>, id: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idToBeDeleted = id;
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    this.delete();
+  }
+
+  delete():void{
+    console.log('deleted',this.idToBeDeleted,' record');
+    this.deletePlace(Number(this.idToBeDeleted));
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+
+  }
+
+
+
+
   checkRole()
   {
     return this.authService.checkRole();
@@ -58,6 +88,7 @@ export class PlacesComponent implements OnInit {
     
     this.marqueeService.deletePlace(id).subscribe(response => {
       this.alertify.success('Usunięto miejsce');
+      this.getPlaces();
     }, error => {
       this.alertify.error(error);
     });

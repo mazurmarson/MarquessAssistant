@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Apiresponsebreakdown } from 'src/app/_models/apiresponsebreakdown';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -21,14 +22,41 @@ export class BreakdownListComponent implements OnInit {
   sortBy: number = 1;
   startDate: string;
   endDate: string;
+  idToBeDeleted = '';
+  modalRef: BsModalRef;
+  message: string;
+
 
 
   constructor(private http: HttpClient, private alertify: AlertifyService,
-    private router: Router, private breakdownService: BreakdownService, private authService: AuthService) { }
+    private router: Router, private breakdownService: BreakdownService, private authService: AuthService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getBreakdowns();
   }
+
+  openModal(template: TemplateRef<any>, id: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idToBeDeleted = id;
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    this.delete();
+  }
+
+  delete():void{
+    console.log('deleted',this.idToBeDeleted,' record');
+    this.deleteBreakdown(Number(this.idToBeDeleted));
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+
+  }
+
 
   getBreakdowns()
   {
@@ -46,6 +74,7 @@ export class BreakdownListComponent implements OnInit {
   {
     this.breakdownService.deleteBreakdown(id).subscribe( response => {
       this.alertify.success('Usunięto awarie');
+      this.getBreakdowns();
     }, error => {
       this.alertify.error(error);
     });

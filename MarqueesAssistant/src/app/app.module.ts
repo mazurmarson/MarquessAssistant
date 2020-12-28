@@ -53,6 +53,8 @@ import { TestService } from './_services/test.service';
 import { SignalrService } from './_services/signalr.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 export function tokenGetter()
 {
@@ -100,6 +102,8 @@ export function tokenGetter()
     ReactiveFormsModule,
     CommonModule,
     BrowserAnimationsModule,
+    ModalModule.forRoot(),
+    AlertModule.forRoot(),
     AccordionModule.forRoot(),
     PaginationModule.forRoot(),
     JwtModule.forRoot({

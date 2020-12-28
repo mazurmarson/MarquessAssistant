@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AlertifyService } from '../_services/alertify.service';
 import { WorkerService } from '../_services/worker.service';
 import { Worker } from '../_models/worker';
 import { BrowserModule } from '@angular/platform-browser'
 import { AuthService } from '../_services/auth.service';
 import { Apiresponse } from '../_models/apiresponse';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -21,8 +22,12 @@ export class WorkersListComponent implements OnInit {
   pageNumber = 1;
   searchString = '';
   sortBy: number = 1;
+  idToBeDeleted = '';
+  modalRef: BsModalRef;
+  message: string;
 
-  constructor(private workerService: WorkerService, private alertify: AlertifyService, private authService: AuthService) {
+
+  constructor(private workerService: WorkerService, private alertify: AlertifyService, private authService: AuthService, private modalService: BsModalService) {
     
    }
 
@@ -30,6 +35,29 @@ export class WorkersListComponent implements OnInit {
     
     this.loadWorkers();
   }
+
+  openModal(template: TemplateRef<any>, id: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idToBeDeleted = id;
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    this.delete();
+  }
+
+  delete():void{
+    console.log('deleted',this.idToBeDeleted,' record');
+    this.deleteWorker(Number(this.idToBeDeleted));
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+
+  }
+
 
 
 
@@ -84,8 +112,9 @@ export class WorkersListComponent implements OnInit {
   {
     this.workerService.deleteWorker(id).subscribe(response => {
       this.alertify.success('Usunięto użytkownika');
+      this.loadWorkers();
     }, error => {
-      this.alertify.error('Wystąpił błąd');
+      this.alertify.error(error);
     });
   }
 
