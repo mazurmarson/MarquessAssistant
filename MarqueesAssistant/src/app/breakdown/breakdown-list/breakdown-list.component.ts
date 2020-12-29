@@ -25,6 +25,8 @@ export class BreakdownListComponent implements OnInit {
   idToBeDeleted = '';
   modalRef: BsModalRef;
   message: string;
+  sizesOfPage: number[] = [5,10,20,30,40,50];
+  
 
 
 

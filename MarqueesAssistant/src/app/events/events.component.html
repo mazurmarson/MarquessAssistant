@@ -59,11 +59,18 @@
   </tbody>
 </table>
 
-<div class="row mr-0">
-  <div class="col-xs-12 col-12">
-    <pagination [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+<div class="d-flex pb-2">
+  <pagination class="mr-auto " [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+  <div class="pr-4">
+    <label>Ilość wierszy:</label>
+    <select (change)="getEvents()" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">
+     <option *ngFor="let size of sizesOfPage" [ngValue]="size">{{size}}</option>
+    </select>
   </div>
+
 </div>
+
+
 
 
 <ng-template #template>

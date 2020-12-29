@@ -24,7 +24,7 @@ export class EventsComponent implements OnInit {
   idToBeDeleted = '';
   modalRef: BsModalRef;
   message: string;
-
+  sizesOfPage: number[] = [5,10,20,30,40,50];
 
   constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertifyService: AlertifyService, private authService: AuthService, private modalService: BsModalService) { }
 
@@ -68,6 +68,7 @@ export class EventsComponent implements OnInit {
     .subscribe(( apiResponseEvent: Apiresponseevent) => {
       this.apiResponse = apiResponseEvent;
       this.totalItems = apiResponseEvent.totalPages * apiResponseEvent.pageSize;
+      
       console.log(this.startDate);
     }, error => {
       this.alertifyService.error(error);

@@ -25,6 +25,7 @@ export class WorkersListComponent implements OnInit {
   idToBeDeleted = '';
   modalRef: BsModalRef;
   message: string;
+  sizesOfPage: number[] = [5,10,20,30,40,50];
 
 
   constructor(private workerService: WorkerService, private alertify: AlertifyService, private authService: AuthService, private modalService: BsModalService) {
