@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Equipment } from 'src/app/_models/equipment';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { BreakdownService } from 'src/app/_services/breakdown.service';
@@ -15,7 +15,7 @@ export class EquipmentEditComponent implements OnInit {
   model: any;
   isLoaded: boolean = false;
 
-  constructor(private alertify: AlertifyService, private breakdownServiece: BreakdownService, private route: ActivatedRoute) { 
+  constructor(private alertify: AlertifyService, private breakdownServiece: BreakdownService, private route: ActivatedRoute, public router: Router) { 
     this.route.params.subscribe(params => {
       this.id = params['id'];
       
@@ -38,6 +38,7 @@ export class EquipmentEditComponent implements OnInit {
   {
     this.breakdownServiece.editEquipment(this.model, this.id).subscribe( () => {
       this.alertify.success('Edycja udana');
+      this.router.navigate(['/equipments']);
     }, error => {
       this.alertify.error(error);
     });

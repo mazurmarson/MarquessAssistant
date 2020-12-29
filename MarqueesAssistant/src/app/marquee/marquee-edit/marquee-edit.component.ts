@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Marquee } from 'src/app/_models/marquee';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
@@ -18,7 +18,7 @@ export class MarqueeEditComponent implements OnInit {
   model: any;
   isLoaded: boolean = false;
 
-  constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, private route: ActivatedRoute) {
+  constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, private route: ActivatedRoute, public router: Router) {
     this.route.params.subscribe(params => {
       this.id = params['id'];
       
@@ -41,6 +41,7 @@ export class MarqueeEditComponent implements OnInit {
   {
     this.marqueeService.editMarquee(this.model).subscribe( () => {
       this.alertify.success('Edycja udana');
+      this.router.navigate(['/eventStuff',this.model.eventId]);
     }, error => {
       this.alertify.error(error);
     });

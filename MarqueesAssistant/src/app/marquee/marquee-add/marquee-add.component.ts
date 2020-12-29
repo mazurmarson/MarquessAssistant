@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
 
@@ -11,10 +11,10 @@ import { MarqueeService } from 'src/app/_services/marquee.service';
 export class MarqueeAddComponent implements OnInit {
 
   model: any = {};
-  @Output() cancelAdding = new EventEmitter();
+
   id: number;
 
-  constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, private route: ActivatedRoute) { 
+  constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, private route: ActivatedRoute, public router: Router) { 
     this.route.params.subscribe(params => {
       this.id = (params['id']);
     });
@@ -34,16 +34,13 @@ export class MarqueeAddComponent implements OnInit {
 
     this.marqueeService.addMarquee(this.model, this.id).subscribe( () => {
      this.alertify.success('Dodano namiot');
+     this.router.navigate(['/eventStuff',this.id]);
     }, error => {
       this.alertify.error(error);
     });
 
   }
 
-   cancel()
-   {
-    this.cancelAdding.emit(false);
-    this.alertify.message('Anulowano');
-   }
+
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Breakdown } from 'src/app/_models/breakdown';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { BreakdownService } from 'src/app/_services/breakdown.service';
@@ -13,7 +13,7 @@ export class BreakdownEditComponent implements OnInit {
   model: any = {};
   id:number;
   isLoaded:boolean;
-  constructor(private alertify: AlertifyService, private breakdownServiece: BreakdownService, private route: ActivatedRoute) 
+  constructor(private alertify: AlertifyService, private breakdownServiece: BreakdownService, private route: ActivatedRoute, public router: Router) 
   { 
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -29,6 +29,7 @@ export class BreakdownEditComponent implements OnInit {
   {
     this.breakdownServiece.editBreakdown(this.model).subscribe( () => {
       this.alertify.success('Edytowano sprzęt');
+      this.router.navigate(['/breakdownsList']);
     }, error => {
       this.alertify.error(error);
     });

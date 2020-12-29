@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, observable } from 'rxjs';
 import { Place } from 'src/app/_models/place';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -21,7 +21,7 @@ export class PlaceEditComponent implements OnInit {
   isLoaded: boolean = false;
   
 
-  constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, private route: ActivatedRoute) {
+  constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, private route: ActivatedRoute, public router: Router) {
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -51,6 +51,7 @@ export class PlaceEditComponent implements OnInit {
   {
     this.marqueeService.editPlace(this.model).subscribe( () => {
       this.alertify.success('Edycja udana');
+      this.router.navigate(['/placesList']);
     }, error => {
       this.alertify.error(error);
     });

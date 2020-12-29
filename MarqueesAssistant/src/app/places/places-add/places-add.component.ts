@@ -3,6 +3,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class PlacesAddComponent implements OnInit {
   model: any = {};
   
 
-  constructor(private alertify: AlertifyService, private marqueeService: MarqueeService) { }
+  constructor(private alertify: AlertifyService, private marqueeService: MarqueeService, public router: Router) { }
 
   ngOnInit() {
   }
@@ -24,6 +25,9 @@ export class PlacesAddComponent implements OnInit {
   {
     this.marqueeService.addPlace(this.model).subscribe( () => {
       this.alertify.success('Dodano miejsce');
+     // this.model = {};
+      
+      this.router.navigate(['/placesList']);
     }, error => {
       this.alertify.error(error);
     }

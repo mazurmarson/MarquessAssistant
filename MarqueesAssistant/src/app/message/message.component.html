@@ -17,7 +17,7 @@
       
       <td>{{message.nameOfUser}}</td>
       <td>{{message.message.content}}</td>
-      <td>{{message.message.sendDate}}</td>
+      <td>{{message.message.sendDate | date: 'short'}}</td>
       <td><button  [routerLink]="['/conversation',getIdWorker(message) ]" class="btn btn-primary">Przejdź</button></td>
       
 

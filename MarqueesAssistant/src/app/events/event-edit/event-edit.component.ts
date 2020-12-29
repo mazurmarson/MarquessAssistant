@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
 import { NgModule } from '@angular/core';
@@ -18,7 +18,7 @@ export class EventEditComponent implements OnInit {
   isLoaded: boolean = false;
   shows: string[] = ["Agroshow", "Festiwal muzyczny", "Festiwal jedzenia", "Festyn", "Motoshow","Wydarzenie sportowe", "Inne"];
 
-  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private route: ActivatedRoute) {
+  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private route: ActivatedRoute, public router: Router) {
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -42,6 +42,7 @@ export class EventEditComponent implements OnInit {
   {
     this.marqueeService.editEvent(this.model).subscribe( () => {
       this.alertify.success('Edycja udana');
+      this.router.navigate(['/eventsList']);
     }, error => {
       this.alertify.error(error);
     });
