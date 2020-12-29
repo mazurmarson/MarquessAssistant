@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/_services/auth.service';
 import { Apiresponsemarquee } from 'src/app/_models/apiresponsemarquee';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { PaginationWordsService } from 'src/app/_services/paginationWords.service';
 
 
 
@@ -29,7 +30,7 @@ export class MarqueeListComponent implements OnInit {
   sizesOfPage: number[] = [5,10,20,30,40,50];
   
 
-  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private authService: AuthService, private modalService: BsModalService) { }
+  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private authService: AuthService, private modalService: BsModalService, public paginationWords: PaginationWordsService) { }
 
   ngOnInit() {
     this.getMarquees();

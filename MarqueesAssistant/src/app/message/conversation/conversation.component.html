@@ -43,7 +43,7 @@
 
 <div class="row mx-0">
   <div class="col-xs-12 col-12">
-    <pagination [lastText]="0" [maxSize]="0" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+    <pagination [nextText]="paginationWords.nextPageText"  [previousText]="paginationWords.previousPageText" [maxSize]="0" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
   </div>
 </div>
 

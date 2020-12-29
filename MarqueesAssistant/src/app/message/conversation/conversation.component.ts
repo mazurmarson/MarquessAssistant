@@ -10,6 +10,7 @@ import { WorkerService } from 'src/app/_services/worker.service';
 import * as signalR from '@aspnet/signalr';
 import { SignalrService } from 'src/app/_services/signalr.service';
 import { Apiresponsemessage } from 'src/app/_models/apiresponsemessage';
+import { PaginationWordsService } from 'src/app/_services/paginationWords.service';
 
 @Component({
   selector: 'app-conversation',
@@ -30,8 +31,9 @@ export class ConversationComponent implements OnInit {
 
 
 
+
   constructor(private route: ActivatedRoute, private workerService: WorkerService, private authService: AuthService, 
-    private alertifyService: AlertifyService, public test: TestService, public signalRService: SignalrService) {
+    private alertifyService: AlertifyService, public test: TestService, public signalRService: SignalrService, public paginationWords: PaginationWordsService) {
     this.route.params.subscribe(params => {
       this.id2 = Number(params['id']);
       this.model.recipientId = this.id2;

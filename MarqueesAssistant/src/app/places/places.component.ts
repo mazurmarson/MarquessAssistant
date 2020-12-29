@@ -6,6 +6,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 import { MarqueeService } from '../_services/marquee.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { PaginationWordsService } from '../_services/paginationWords.service';
 
 @Component({
   selector: 'app-places',
@@ -26,7 +27,7 @@ export class PlacesComponent implements OnInit {
   sizesOfPage: number[] = [5,10,20,30,40,50];
 
 
-  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertify: AlertifyService, private router: Router, private authService: AuthService, private modalService: BsModalService) { }
+  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertify: AlertifyService, private router: Router, private authService: AuthService, private modalService: BsModalService, public paginationWords: PaginationWordsService) { }
 
   ngOnInit() {
     this.getPlaces();

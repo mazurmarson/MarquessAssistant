@@ -7,7 +7,7 @@
 </div>
 
 <div class="row ml-1 my-2">
-  <input [(ngModel)]="this.searchString" class="col-2  form-control input-lg input-lg" placeholder="Szukaj" type="text"><button (click)="this.getBreakdowns()" class="btn btn-info ml-1">Szukaj</button>
+  <input [(ngModel)]="this.searchString" class="col-2  form-control input-lg input-lg" placeholder="Szukaj" type="text"><button (click)="this.getEquipments()" class="btn btn-info ml-1">Szukaj</button>
   </div>
 
 <div *ngIf="apiResponse != null">
@@ -46,7 +46,7 @@
 </table>
 </div>
 <div class="d-flex pb-2">
-  <pagination class="mr-auto " [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+  <pagination class="mr-auto " [nextText]="paginationWords.nextPageText"  [previousText]="paginationWords.previousPageText" [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
   <div class="pr-4">
     <label>Ilość wierszy:</label>
     <select (change)="getEquipments()" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">

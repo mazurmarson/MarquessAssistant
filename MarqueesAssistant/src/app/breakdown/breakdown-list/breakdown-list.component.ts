@@ -6,6 +6,7 @@ import { Apiresponsebreakdown } from 'src/app/_models/apiresponsebreakdown';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { BreakdownService } from 'src/app/_services/breakdown.service';
+import { PaginationWordsService } from 'src/app/_services/paginationWords.service';
 
 @Component({
   selector: 'app-breakdown-list',
@@ -31,7 +32,7 @@ export class BreakdownListComponent implements OnInit {
 
 
   constructor(private http: HttpClient, private alertify: AlertifyService,
-    private router: Router, private breakdownService: BreakdownService, private authService: AuthService, private modalService: BsModalService) { }
+    private router: Router, private breakdownService: BreakdownService, private authService: AuthService, private modalService: BsModalService, public paginationWords: PaginationWordsService) { }
 
   ngOnInit() {
     this.getBreakdowns();

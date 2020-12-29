@@ -63,7 +63,7 @@
 </table>
 
 <div class="d-flex pb-2">
-  <pagination class="mr-auto " [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+  <pagination class="mr-auto " [nextText]="paginationWords.nextPageText"  [previousText]="paginationWords.previousPageText" [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
   <div class="pr-4">
     <label>Ilość wierszy:</label>
     <select (change)="getEvents()" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">

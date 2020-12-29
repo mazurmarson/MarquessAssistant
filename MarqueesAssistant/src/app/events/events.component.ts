@@ -5,6 +5,7 @@ import { Apiresponseevent } from '../_models/apiresponseevent';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 import { MarqueeService } from '../_services/marquee.service';
+import { PaginationWordsService } from '../_services/paginationWords.service';
 
 @Component({
   selector: 'app-events',
@@ -26,7 +27,7 @@ export class EventsComponent implements OnInit {
   message: string;
   sizesOfPage: number[] = [5,10,20,30,40,50];
 
-  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertifyService: AlertifyService, private authService: AuthService, private modalService: BsModalService) { }
+  constructor(private http: HttpClient, private marqueeService: MarqueeService, private alertifyService: AlertifyService, private authService: AuthService, private modalService: BsModalService, public paginationWords: PaginationWordsService) { }
 
   ngOnInit() {
     this.getEvents();

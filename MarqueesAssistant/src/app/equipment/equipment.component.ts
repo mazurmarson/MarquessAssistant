@@ -6,6 +6,7 @@ import { Apiresponseequipment } from '../_models/apiresponseequipment';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 import { BreakdownService } from '../_services/breakdown.service';
+import { PaginationWordsService } from '../_services/paginationWords.service';
 
 @Component({
   selector: 'app-equipment',
@@ -25,7 +26,7 @@ export class EquipmentComponent implements OnInit {
   message: string;
   sizesOfPage: number[] = [5,10,20,30,40,50];
 
-  constructor(private http: HttpClient, private alertify: AlertifyService, private router: Router, private breakdownService: BreakdownService, private authService: AuthService, private modalService: BsModalService) { }
+  constructor(private http: HttpClient, private alertify: AlertifyService, private router: Router, private breakdownService: BreakdownService, private authService: AuthService, private modalService: BsModalService, public paginationWords: PaginationWordsService) { }
 
   ngOnInit() {
     this.getEquipments();

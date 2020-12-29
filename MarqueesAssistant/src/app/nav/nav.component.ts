@@ -55,7 +55,7 @@ export class NavComponent implements OnInit {
 
   ngOnDestroy()
   {
-    this.signalRService.DeleteUserIdConnection(this.id.toString());
+    // this.signalRService.DeleteUserIdConnection(this.id.toString());
   }
 
   async login()

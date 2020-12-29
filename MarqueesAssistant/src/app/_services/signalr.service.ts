@@ -64,7 +64,7 @@ export class SignalrService {
 
   }
 
-  public DeleteUserIdConnection = (id:string) => {
-    this.hubConnection.invoke('deleteuserfromlist',id);
-  }
+  // public DeleteUserIdConnection = (id:string) => {
+  //   this.hubConnection.invoke('deleteuserfromlist',id);
+  // }
 }

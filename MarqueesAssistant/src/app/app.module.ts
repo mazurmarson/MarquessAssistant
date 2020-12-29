@@ -55,6 +55,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { PaginationWordsService } from './_services/paginationWords.service';
 
 export function tokenGetter()
 {
@@ -123,6 +124,7 @@ export function tokenGetter()
     WorkerService,
     TestService,
     SignalrService,
+    PaginationWordsService,
     AuthGuard,
     Auth2Guard,
     Auth3Guard,
