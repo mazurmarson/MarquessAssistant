@@ -24,7 +24,7 @@ export class EquipmentComponent implements OnInit {
   idToBeDeleted = '';
   modalRef: BsModalRef;
   message: string;
-  sizesOfPage: number[] = [5,10,20,30,40,50];
+  
 
   constructor(private http: HttpClient, private alertify: AlertifyService, private router: Router, private breakdownService: BreakdownService, private authService: AuthService, private modalService: BsModalService, public paginationWords: PaginationWordsService) { }
 

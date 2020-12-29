@@ -22,7 +22,7 @@ export class ConversationComponent implements OnInit {
   
   id: number = this.authService.decodedToken?.nameid;
   id2: number;
-  model: any = {};
+  model: any ={};
   liczba: number = 5;
   isLoaded: boolean = false;
   pageSize = 10;
@@ -83,7 +83,7 @@ export class ConversationComponent implements OnInit {
     this.workerService.getPagedConversation(this.id, this.id2, this.pageNumber, this.pageSize)
     .pipe(
       tap(messages => {
-        
+        console.log(messages);
         for (let i = 0; i < messages.data.length; i++) {
           if (messages.data[i].isRead === false && messages.data[i].recipientId == this.id) {
             this.workerService.readMessage(this.id, messages.data[i].id);

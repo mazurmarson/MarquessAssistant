@@ -42,6 +42,12 @@ constructor(private http: HttpClient) { }
     return this.http.get<Message[]>(this.baseUrl + 'workers/' + id + '/messages' );
   }
 
+  getPagedMessages(id: number,pageNumber?: number, pageSize?: number): Observable<Message[]>
+  {
+    return this.http.get<Message[]>(this.baseUrl + 'workers/' + id + '/messages' + '?pageNumber=' + pageNumber +
+    '&pageSize=' + pageSize);
+  }
+
   getConversation(idWorker: number, idWorker2: number): Observable<Message[]>
   {
     return this.http.get<Message[]>(this.baseUrl + 'workers/' + idWorker + '/messages/conversation/' + idWorker2);

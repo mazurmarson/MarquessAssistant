@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Message } from '../_models/message';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
+import { PaginationWordsService } from '../_services/paginationWords.service';
 import { WorkerService } from '../_services/worker.service';
 
 @Component({
@@ -12,11 +13,15 @@ import { WorkerService } from '../_services/worker.service';
 })
 export class MessageComponent implements OnInit {
 
-  constructor(private workerService: WorkerService, private authService: AuthService, private alertifyService: AlertifyService) { }
+  constructor(private workerService: WorkerService, private authService: AuthService, private alertifyService: AlertifyService, public paginationWords: PaginationWordsService) { }
 
-  messages: any;
+  messages: any = {};
   id: number = this.authService.decodedToken?.nameid;
   idFriend: number;
+  pageSize = 10;
+  pageNumber = 1;
+  totalItems: number;
+
 
   ngOnInit() {
     this.getMessages();
@@ -24,9 +29,9 @@ export class MessageComponent implements OnInit {
 
   getMessages()
   {
-    this.workerService.getMessages(this.id).subscribe( response => {
+    this.workerService.getPagedMessages(this.id, this.pageNumber, this.pageSize).subscribe( response => {
       this.messages = response;
-      
+      console.log(this.messages);
     }, error => {
       this.alertifyService.error('Wystąpił błąd');
     });
@@ -46,6 +51,14 @@ export class MessageComponent implements OnInit {
     {
       return message.message.recipientId;
     }
+  }
+
+  
+  setPage(page: number)
+  {
+    this.pageNumber = page;
+    this.getMessages();
+   
   }
 
 

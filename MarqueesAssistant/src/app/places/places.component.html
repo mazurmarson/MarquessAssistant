@@ -74,7 +74,7 @@
   <div class="pr-4">
     <label>Ilość wierszy:</label>
     <select (change)="getPlaces()" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">
-     <option *ngFor="let size of sizesOfPage" [ngValue]="size">{{size}}</option>
+     <option *ngFor="let size of paginationWords.sizesOfPage" [ngValue]="size">{{size}}</option>
     </select>
   </div>
 

@@ -36,10 +36,10 @@ namespace MarqueesAssistant.API.Data
             return PagedList<MessageDisplayDto>.ToPagedList(messages, pageParameters.PageNumber, pageParameters.PageSize);
         }
 
-        public List<MessageFirstSentenceDto> getFirstSentences(int workerId)
+        public async Task<PagedList<MessageFirstSentenceDto>> getFirstSentences(PageParameters pageParameters,int workerId)
         {
-                        List<MessageFirstSentenceDto> MessagesList = new List<MessageFirstSentenceDto>();
-            // var users = 
+            List<MessageFirstSentenceDto> MessagesList = new List<MessageFirstSentenceDto>();
+            
             int id =  _context.Workers.Select(  u => u.Id).Max();
             
 
@@ -47,10 +47,12 @@ namespace MarqueesAssistant.API.Data
             {
                 if(workerId != i)
                 {
-                var message = _context.Messages.Where(x =>
+                var messages = await _context.Messages.Where(x =>
                  (x.SenderId == workerId || x.RecipientId == workerId ) && 
                 ( x.SenderId == i || x.RecipientId == i ) ).OrderByDescending(x => x.SendDate)
-                .Take(1).ToList().FirstOrDefault();
+                .Take(1).ToListAsync();
+
+                var message = messages.FirstOrDefault();
                 // .Select(m => new Message{
                 //     Id = m.Id,
                 //     SenderId = m.SenderId,
@@ -76,8 +78,8 @@ namespace MarqueesAssistant.API.Data
                 }
 
             }
-            
-            return  MessagesList;
+           
+            return  PagedList<MessageFirstSentenceDto>.ToPagedList(MessagesList, pageParameters.PageNumber, pageParameters.PageSize);
 
         }
 

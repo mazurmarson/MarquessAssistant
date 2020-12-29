@@ -9,5 +9,5 @@ constructor() { }
 
 readonly nextPageText = "Następna";
 readonly previousPageText = "Poprzednia";
-
+readonly sizesOfPage: number[] = [5,10,20,30,40,50];
 }

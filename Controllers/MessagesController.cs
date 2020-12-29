@@ -86,7 +86,7 @@ namespace MarqueesAssistant.API.Controllers
         // }
 
         [HttpGet]
-        public async Task<IActionResult> GetFirstSentence(int workerId)
+        public async Task<IActionResult> GetFirstSentence([FromQuery]PageParameters pageParameters ,int workerId)
         {
             if(workerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             return Unauthorized();
@@ -103,9 +103,11 @@ namespace MarqueesAssistant.API.Controllers
             //     RecipientId = grp.Key,
 
             // })
-            var messages = _repo.getFirstSentences(workerId);
+            var messages = await _repo.getFirstSentences(pageParameters, workerId);
 
-            return Ok(messages);
+            Pagger<MessageFirstSentenceDto> messagesToReturn = new Pagger<MessageFirstSentenceDto>(messages);
+
+            return Ok(messagesToReturn);
         }
         
         [HttpGet("conversation/{id}", Name = "GetConversation")]

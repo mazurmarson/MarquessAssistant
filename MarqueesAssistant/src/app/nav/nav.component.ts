@@ -104,7 +104,7 @@ export class NavComponent implements OnInit {
     localStorage.removeItem('token');
     this.alertify.message('Zostałeś wylogowany');
     this.router.navigate(['/home']);
-    this.signalRService.DeleteUserIdConnection(this.id.toString());
+  //  this.signalRService.DeleteUserIdConnection(this.id.toString());
   }
 
   anyMessages()

@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let message of messages"
+    <tr *ngFor="let message of messages.data"
     [ngClass]="{'font-weight-bold': message.message.isRead == false && message.message.recipientId == id}">
       
       <td>{{message.nameOfUser}}</td>
@@ -28,3 +28,14 @@
     </tr>
   </tbody>
 </table>
+
+<div class="d-flex">
+  <pagination class="mr-auto " [nextText]="paginationWords.nextPageText"  [previousText]="paginationWords.previousPageText" [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+  <div class="pr-4">
+    <label>Ilość wierszy:</label>
+    <select (change)="getMessages()" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">
+     <option *ngFor="let size of paginationWords.sizesOfPage" [ngValue]="size">{{size}}</option>
+    </select>
+  </div>
+
+</div>
