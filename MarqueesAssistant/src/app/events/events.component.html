@@ -5,14 +5,17 @@
  -->
 
  
- <input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.getEvents()" class="btn btn-info">Szukaj</button>
- <div class="form-group">
- 
-  <input type="date" class="form-control" placeholder="Data rozpoczęcia" name="startDate"  [(ngModel)]="startDate">
+ <div class="row ml-1 my-2">
+  <input [(ngModel)]="this.searchString" class="col-2  form-control input-lg input-lg" placeholder="Szukaj" type="text"><button (click)="this.getEvents()" class="btn btn-info ml-1">Szukaj</button>
+  </div>
+  
+ <div class="ml-1 form-group">
+ <label>Początek zakresu</label>
+  <input type="date" class="form-control col-2" placeholder="Data rozpoczęcia" name="startDate"  [(ngModel)]="startDate">
 </div>
-<div class="form-group">
-
-<input type="date" class="form-control" placeholder="Data zakonczenia" name="endDate"  [(ngModel)]="endDate">
+<div class="ml-1 form-group">
+  <label>Koniec zakresu</label>
+<input type="date" class="form-control col-2" placeholder="Data zakonczenia" name="endDate"  [(ngModel)]="endDate">
 </div>
 <table  class="table table-hover">
   <thead>

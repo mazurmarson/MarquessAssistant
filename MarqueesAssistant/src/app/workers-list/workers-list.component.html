@@ -16,7 +16,9 @@
 
 <div *ngIf="apiResponse != null">
   <button *ngIf="checkRole() == 'admin'" [routerLink]="['/register']" class="btn btn-danger float-right">Dodaj pracownika</button>
-  <input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.loadWorkersWithSearch()" class="btn btn-info">Szukaj</button>
+  <div class="row ml-1 my-2">
+    <input [(ngModel)]="this.searchString" class="col-2  form-control input-lg input-lg" placeholder="Szukaj" type="text"><button (click)="this.loadWorkersWithSearch()" class="btn btn-info ml-1">Szukaj</button>
+    </div>
   
   <table  class="table">
     <thead>
@@ -58,7 +60,7 @@
 <div class="d-flex">
   <pagination class="mr-auto " [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
   <div class="pr-4">
-    <label>Ilość elementów na stronie:</label>
+    <label>Ilość wierszy:</label>
     <select (change)="loadWorkers()" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">
      <option *ngFor="let size of sizesOfPage" [ngValue]="size">{{size}}</option>
     </select>

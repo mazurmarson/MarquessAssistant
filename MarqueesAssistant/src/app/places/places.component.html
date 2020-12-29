@@ -5,7 +5,9 @@
 <div class="float-right">
   <button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/placesAdd']" class="btn btn-success mx-2 my-2">Dodaj miejsce</button>
 </div>
-<input [(ngModel)]="this.searchString" placeholder="Szukaj" type="text"><button (click)="this.getPlaces()" class="btn btn-info">Szukaj</button>
+<div class="row ml-1 my-2">
+  <input [(ngModel)]="this.searchString" class="col-2  form-control input-lg input-lg" placeholder="Szukaj" type="text"><button (click)="this.getPlaces()" class="btn btn-info ml-1">Szukaj</button>
+  </div>
 <div *ngIf="apiResponse != null">
 <table  class="table table-hover">
   <thead>
