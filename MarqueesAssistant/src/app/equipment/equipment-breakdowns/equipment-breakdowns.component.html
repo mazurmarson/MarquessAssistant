@@ -1,29 +1,52 @@
 <div class="float-right">
   <button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/breakdownsAdd', id]" class="btn btn-success mx-2 my-2">Dodaj awarie</button>
 </div> 
+<div class="form-group">
+
+
+
+<div *ngIf="breakdowns != null">
 <table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Opis</th>
-      <th scope="col">Data awarii</th>
-     <th scope="col">Data naprawy</th>
 
+<tbody  *ngFor="let breakdown of breakdowns.data">
+  <tr>
+    <td>{{breakdown.description}}</td>
+    <td>{{breakdown.accitdentDate}}</td>
+  
+    <!-- <td *ngIf="!compareDates(breakdown.repairdDate); else elseBlock">{{breakdown.repairdDate}}</td>
+    <ng-template #elseBlock><td>W trakcie</td></ng-template> -->
+    <td>{{breakdown.equipmentName}}</td>
     
-    </tr>
-  </thead>
-  <tbody  *ngFor="let breakdown of breakdowns">
-    <tr>
-      <td>{{breakdown.description}}</td>
-      <td>{{breakdown.accitdentDate}}</td>
-      <td>{{breakdown.repairdDate}}</td>
+    
+    
 
-      <!-- <td>
-        <button *ngIf="checkRole() != 'pracownik'" (click)="selectPlace(place.id)" class="btn btn-primary mx-1">Edytuj</button> 
-        <button [routerLink]="['/equipmentsEdit/'+ equipment.id]" class="btn btn-primary mx-1">Edytuj</button>
-        <button [routerLink]="['/equipmentsBreakdowns/'+ equipment.id]"class="btn btn-info mx-1">Szczegóły</button>
-        <button  (click)="deleteEquipment(equipment.id)" class="btn btn-danger ">Usuń</button> 
-      </td> -->
-      
-    </tr>
-  </tbody>
+    <td>
+      <!-- <button *ngIf="checkRole() != 'pracownik'" (click)="selectPlace(place.id)" class="btn btn-primary mx-1">Edytuj</button>  -->
+      <button [routerLink]="['/breakdownsEdit/'+ breakdown.id]" class="btn btn-primary mx-1">Edytuj</button>
+      <button  (click)="openModal(template, breakdown.id)" class="btn btn-danger ">Usuń</button> 
+    </td> 
+    
+  </tr>
+</tbody>
 </table>
+</div>
+<div class="d-flex pb-2">
+<pagination class="mr-auto " [nextText]="paginationWords.nextPageText"  [previousText]="paginationWords.previousPageText" [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+<div class="pr-4">
+  <label>Ilość wierszy:</label>
+  <select (change)="getBreakdowns(id)" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">
+   <option *ngFor="let size of paginationWords.sizesOfPage" [ngValue]="size">{{size}}</option>
+  </select>
+</div>
+
+</div>
+
+
+
+<ng-template #template>
+<div class="modal-body text-center">
+  <p>Na pewno chcesz usunąć awarie?</p>
+  <button type="button" class="btn btn-danger" (click)="confirm()" >Tak</button>
+  <button type="button" class="btn btn-primary" (click)="decline()" >Nie</button>
+</div>
+</ng-template>

@@ -87,10 +87,11 @@ namespace MarqueesAssistant.API.Controllers
         }
 
         [HttpGet("getEquipmentBreakdowns/{id}")]
-        public async Task<IActionResult> getEquipmentBreakdowns(int id)
+        public async Task<IActionResult> getEquipmentBreakdowns([FromQuery]PageParameters pageParameters, string searchString, int id)
         {
-            var equipmentsBreakdowns = await _repo.GetEquipmentBreakdowns(id);
-            return Ok(equipmentsBreakdowns);
+            var equipmentsBreakdowns = await _repo.GetEquipmentBreakdowns(pageParameters,id);
+            Pagger<Breakdown> equipmentsBreakdownsToReturn = new Pagger<Breakdown>(equipmentsBreakdowns);
+            return Ok(equipmentsBreakdownsToReturn);
         }
 
 

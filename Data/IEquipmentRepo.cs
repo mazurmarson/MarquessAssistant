@@ -11,6 +11,6 @@ namespace MarqueesAssistant.API.Data
 
         Task<PagedList<Equipment>> GetEquipmentsListedSearchedSorted(PageParameters pageParameters, string searchString, int sortBy);
         Task<Equipment> GetEquipment(int id);
-        Task<IEnumerable<Breakdown>> GetEquipmentBreakdowns(int id);
+        Task<PagedList<Breakdown>> GetEquipmentBreakdowns(PageParameters pageParameters,  int id);
     }
 }

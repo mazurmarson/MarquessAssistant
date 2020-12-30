@@ -34,6 +34,10 @@ export class EventsAddComponent implements OnInit {
     });
   }
 
+  backToPrevious()
+  {
+    this.router.navigate(['/eventsList']);
+  }
 
 
 }

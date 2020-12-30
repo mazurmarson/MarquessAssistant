@@ -47,5 +47,10 @@ export class EventEditComponent implements OnInit {
       this.alertify.error(error);
     });
   }
+  
+  backToPrevious()
+  {
+    this.router.navigate(['/eventsList']);
+  }
 
 }

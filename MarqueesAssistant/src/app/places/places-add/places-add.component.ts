@@ -34,4 +34,9 @@ export class PlacesAddComponent implements OnInit {
     );
   }
 
+  backToPrevious()
+  {
+    this.router.navigate(['/placesList']);
+  }
+
 }

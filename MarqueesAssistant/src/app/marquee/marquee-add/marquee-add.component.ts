@@ -41,6 +41,11 @@ export class MarqueeAddComponent implements OnInit {
 
   }
 
+  backToPrevious()
+  {
+    this.router.navigate(['/eventStuff',this.id]);
+  }
+
 
 
 }

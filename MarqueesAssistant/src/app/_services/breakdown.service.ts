@@ -87,6 +87,12 @@ getEquipmentBreakdowns(id: number)
   return this.http.get(this.baseUrl + 'equipments/getEquipmentBreakdowns/'+id);
 }
 
+getEquipmentBreakdownsPaged(id: number, pageNumber?: number, pageSize?: number,)
+{
+  return this.http.get(this.baseUrl + 'equipments/getEquipmentBreakdowns/'+id+ '?pageNumber=' + pageNumber +
+  '&pageSize=' + pageSize);
+}
+
 getBreakdowns(): Observable<Breakdown[]>
 {
   return this.http.get<Breakdown[]>(this.baseUrl + 'breakdowns');

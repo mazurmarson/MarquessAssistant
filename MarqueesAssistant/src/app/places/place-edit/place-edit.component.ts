@@ -43,7 +43,10 @@ export class PlaceEditComponent implements OnInit {
     
   }
 
-  
+  backToPrevious()
+  {
+    this.router.navigate(['/placesList']);
+  }
 
 
 

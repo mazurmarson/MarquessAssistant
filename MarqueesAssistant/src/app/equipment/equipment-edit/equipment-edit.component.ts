@@ -44,4 +44,9 @@ export class EquipmentEditComponent implements OnInit {
     });
   }
 
+  backToPrevious()
+  {
+    this.router.navigate(['/equipments']);
+  }
+
 }

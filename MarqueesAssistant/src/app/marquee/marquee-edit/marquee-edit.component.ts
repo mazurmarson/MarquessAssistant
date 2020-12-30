@@ -47,4 +47,10 @@ export class MarqueeEditComponent implements OnInit {
     });
   }
 
+  backToPrevious()
+  {
+    this.router.navigate(['/eventStuff',this.model.eventId]);
+  }
+
+
 }

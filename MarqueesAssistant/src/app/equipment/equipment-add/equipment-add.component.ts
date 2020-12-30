@@ -28,5 +28,10 @@ export class EquipmentAddComponent implements OnInit {
     });
   }
 
+  backToPrevious()
+  {
+    this.router.navigate(['/equipments']);
+  }
+
 
 }

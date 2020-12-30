@@ -29,7 +29,7 @@ export class BreakdownEditComponent implements OnInit {
   {
     this.breakdownServiece.editBreakdown(this.model).subscribe( () => {
       this.alertify.success('Edytowano sprzęt');
-      this.router.navigate(['/breakdownsList']);
+      this.router.navigate(['/equipmentsBreakdowns',this.model.equipmentId]);
     }, error => {
       this.alertify.error(error);
     });
@@ -42,5 +42,16 @@ export class BreakdownEditComponent implements OnInit {
       this.isLoaded = true; 
     } ) ;
   }
+  backToPrevious()
+  {
+    this.router.navigate(['/breakdownsList']);
+  }
+
+  backToEquipmentBreakdowns()
+  {
+    this.router.navigate(['/equipmentsBreakdowns',this.model.equipmentId]);
+  }
+
+
 
 }
