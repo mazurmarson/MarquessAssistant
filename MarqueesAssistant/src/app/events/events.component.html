@@ -48,8 +48,8 @@
     <tr>
 
       <td>{{event.name}}</td>
-      <td>{{event.startDate}}</td>
-      <td>{{event.endDate}}</td>
+      <td>{{event.startDate | date: 'dd/MM/yyyy'}}</td>
+      <td>{{event.endDate | date: 'dd/MM/yyyy'}}</td>
       <td>{{event.placeName}}</td>
       <td>{{event.typeOfEvent}}</td>
       <td>

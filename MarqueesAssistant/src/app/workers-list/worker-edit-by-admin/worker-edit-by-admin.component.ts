@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { WorkerService } from 'src/app/_services/worker.service';
@@ -16,7 +16,7 @@ export class WorkerEditByAdminComponent implements OnInit {
   id: number;
   ranks: string[] = ["pracownik", "kierownik", "admin"];
 
-  constructor(private authService: AuthService,private alertify: AlertifyService, private workerService: WorkerService, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService,private alertify: AlertifyService, private workerService: WorkerService, private route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -63,6 +63,11 @@ export class WorkerEditByAdminComponent implements OnInit {
     {
       return false;
     }
+  }
+
+  backToPrevious()
+  {
+    this.router.navigate(['/workers']);
   }
 
 }

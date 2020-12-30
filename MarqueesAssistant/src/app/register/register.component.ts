@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 
@@ -14,7 +15,7 @@ export class RegisterComponent implements OnInit {
   model: any = {};
   @Output() cancelRegister = new EventEmitter();
 
-  constructor(private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private authService: AuthService, private alertify: AlertifyService, public router: Router) { }
 
   ngOnInit() {
   }
@@ -35,10 +36,9 @@ export class RegisterComponent implements OnInit {
   }
 
 
-  cancel()
+  backToPrevious()
   {
-    this.cancelRegister.emit(false);
-    this.alertify.message('Anulowano');
+    this.router.navigate(['/workers']);
   }
 
 }

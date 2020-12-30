@@ -43,7 +43,7 @@ export class BreakdownAddComponent implements OnInit {
 
   backToEquipmentBreakdowns()
   {
-    this.router.navigate(['/equipmentsBreakdowns',this.model.equipmentId]);
+    this.router.navigate(['/equipmentsBreakdowns',this.id]);
   }
 
   checkRole()

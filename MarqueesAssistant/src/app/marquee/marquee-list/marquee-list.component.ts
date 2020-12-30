@@ -70,6 +70,7 @@ export class MarqueeListComponent implements OnInit {
     .subscribe(( apiResponseMarquee: Apiresponsemarquee) => {
       this.apiResponse = apiResponseMarquee;
       this.totalItems = apiResponseMarquee.totalPages * apiResponseMarquee.pageSize;
+      console.log(this.sortBy);
     }, error => {
       this.alertify.error(error);
     });

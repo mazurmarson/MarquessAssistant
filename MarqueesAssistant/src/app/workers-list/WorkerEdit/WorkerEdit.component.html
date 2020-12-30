@@ -1,8 +1,8 @@
 
 
 
-<form name="form"  (ngSubmit)="f.form.valid && editProfile()" #f="ngForm">
-  <h2  class="text-center text-primary">Dodaj pracownika</h2>
+<form class="rounded border-info border container my-2" name="form"  (ngSubmit)="f.form.valid && editProfile()" #f="ngForm">
+  <h2  class="text-center text-success font-weight-bold mt-2">Edytuj swój profil</h2>
   <hr>
   <div class="form-group">
     <input name="login" id="login" #login="ngModel" type="text" class="form-control" placeholder="Nazwa użytkownika" 
@@ -61,8 +61,8 @@
 
 
 
-  <div class="form-group text-center">
-    <button class="btn btn-success" type="submit">Rejestracja</button>
+  <div class="form-group text-center my-4">
+    <button class="btn btn-success" type="submit">Edytuj</button>
 
 
   </div>

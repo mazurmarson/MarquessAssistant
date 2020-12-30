@@ -1,5 +1,5 @@
-<form *ngIf="isLoaded" #registerForm="ngForm" (ngSubmit)="editEvent()">
-  <h2 class="text-center text-primary">Edytuj wydarzenie</h2>
+<form class="rounded border-info border container my-2" *ngIf="isLoaded" #registerForm="ngForm" (ngSubmit)="editEvent()">
+  <h2 class="text-center text-success font-weight-bold mt-2">Edytuj wydarzenie</h2>
   <hr>
   <div class="form-group">
     <input type="text" class="form-control" placeholder="Nazwa wydarzenia" name="eventName"  [(ngModel)]="model.name">
@@ -23,7 +23,7 @@
 
 
 
-  <div class="form-group text-center">
+  <div class="form-group text-center my-4">
     <button class="btn btn-success" type="submit">Edytuj</button>
     <button (click)="backToPrevious()" class="btn btn-light">Wróć</button>
 

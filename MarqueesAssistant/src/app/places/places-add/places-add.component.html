@@ -1,5 +1,5 @@
-<form #registerForm="ngForm" (ngSubmit)="addPlace()">
-  <h2 class="text-center text-primary">Dodaj</h2>
+<form class="rounded border-info border container my-2" #registerForm="ngForm" (ngSubmit)="addPlace()">
+  <h2 class="text-center text-success font-weight-bold mt-2">Dodaj</h2>
   <hr>
   <div class="form-group">
    
@@ -37,7 +37,7 @@
 
 
 
-  <div class="form-group text-center">
+  <div class="form-group text-center my-4">
     <button class="btn btn-success" type="submit">Dodaj</button>
     <button (click)="backToPrevious()" class="btn btn-light">Wróć</button>
 
