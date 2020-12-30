@@ -87,6 +87,11 @@ namespace MarqueesAssistant.API.Controllers
         [HttpPost("{id:int}")]
         public async Task<IActionResult> AddMarquee(int id, Marquee marquee)
         {
+            // if(marquee.Width % 3 != 0 || marquee.Length % 3 != 0)
+            // {
+            //     return BadRequest("Długość i szerokość namiotu musi być podzielna przez 3");
+            // }
+            
             Event eventt = await _eventRepo.GetEvent(id);
             var marqueeToCreate = new Marquee
             {
