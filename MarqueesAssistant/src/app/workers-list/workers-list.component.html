@@ -40,9 +40,9 @@
         <td>{{worker.firstName}}</td>
         <td>{{worker.lastName}}</td>
         <td>
-          <button [routerLink]="['/conversation',worker.id ]" class="btn btn-primary">Napisz</button>
-          <button *ngIf="checkRole() == 'admin'"  [routerLink]="['/editWorker',worker.id ]" class="btn btn-danger mx-1">Edytuj</button>
-          <button *ngIf="checkRole() == 'admin'"  (click)="openModal(template, worker.id)" class="btn btn-danger mx-1">Usuń</button>
+          <button [disabled]="isUser(worker.id)" [routerLink]="['/conversation',worker.id ]" class="btn btn-primary">Napisz</button>
+          <button [disabled]="isUser(worker.id)" *ngIf="checkRole() == 'admin'"  [routerLink]="['/editWorker',worker.id ]" class="btn btn-danger mx-1">Edytuj</button>
+          <button [disabled]="isUser(worker.id)" *ngIf="checkRole() == 'admin'"  (click)="openModal(template, worker.id)" class="btn btn-danger mx-1">Usuń</button>
         </td>
       </tr>
 

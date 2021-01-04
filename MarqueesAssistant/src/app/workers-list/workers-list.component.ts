@@ -16,7 +16,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class WorkersListComponent implements OnInit {
 
   apiResponse: Apiresponse;
-  
+  userId:number;
   totalItems: number;
   pageSize = 10;
   pageNumber = 1;
@@ -117,6 +117,19 @@ export class WorkersListComponent implements OnInit {
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  isUser(id:number)
+  {
+    if(id == this.authService.getWorkerId())
+    {
+   
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
 }
