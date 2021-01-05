@@ -4,83 +4,110 @@
 </p>
  -->
 
- 
- <div class="row ml-1 my-2">
-  <input [(ngModel)]="this.searchString" class="col-2  form-control input-lg input-lg" placeholder="Szukaj" type="text"><button (click)="this.getEvents()" class="btn btn-info ml-1">Szukaj</button>
-  </div>
-  
- <div class="ml-1 form-group">
- <label>Początek zakresu</label>
-  <input type="date" class="form-control col-2" placeholder="Data rozpoczęcia" name="startDate"  [(ngModel)]="startDate">
+
+<div class="row ml-1 my-2">
+  <input [(ngModel)]="this.searchString" class="col-2  form-control input-lg input-lg" placeholder="Szukaj"
+    type="text"><button (click)="this.getEvents()" class="btn btn-info ml-1">Szukaj</button>
+</div>
+
+<div class="ml-1 form-group">
+  <label>Początek zakresu</label>
+  <input type="date" class="form-control col-2" placeholder="Data rozpoczęcia" name="startDate" [(ngModel)]="startDate">
 </div>
 <div class="ml-1 form-group">
   <label>Koniec zakresu</label>
-<input type="date" class="form-control col-2" placeholder="Data zakonczenia" name="endDate"  [(ngModel)]="endDate">
+  <input type="date" class="form-control col-2" placeholder="Data zakonczenia" name="endDate" [(ngModel)]="endDate">
 </div>
-<table  class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Nazwa<br/>
-         <button class="btn btn-info" (click)="this.sortBy = 1"><p class="arrow up" [ngClass]="setColor(1)"></p></button>
-        <button class="btn btn-info" (click)="this.sortBy = 2"><p class="arrow down" [ngClass]="setColor(2)"></p></button>
-      </th>
-      <th scope="col">Początek wydarzenia<br/>
-        <button class="btn btn-info" (click)="this.sortBy = 3"><p class="arrow up" [ngClass]="setColor(3)"></p></button>
-        <button class="btn btn-info" (click)="this.sortBy = 4"><p class="arrow down" [ngClass]="setColor(4)"></p></button>
-      </th>
-      <th scope="col">Koniec wydarzenia<br/>
-        <button class="btn btn-info" (click)="this.sortBy = 5"><p class="arrow up" [ngClass]="setColor(5)"></p></button>
-        <button class="btn btn-info" (click)="this.sortBy = 6"><p class="arrow down" [ngClass]="setColor(6)"></p></button>
-      </th>
-      <th scope="col">Miejsce<br/>
-        <button class="btn btn-info" (click)="this.sortBy = 7"><p class="arrow up" [ngClass]="setColor(7)"></p></button>
-        <button class="btn btn-info" (click)="this.sortBy = 8"><p class="arrow down" [ngClass]="setColor(8)"></p></button>
-      </th>
-      <th scope="col">Typ imprezy<br/>
-        <button class="btn btn-info" (click)="this.sortBy = 9"><p class="arrow up" [ngClass]="setColor(9)"></p></button>
-        <button class="btn btn-info" (click)="this.sortBy = 10"><p class="arrow down" [ngClass]="setColor(10)"></p></button>
-      </th>
-      <th scope="col"><button *ngIf="checkRole() != 'pracownik'"  [routerLink]="['/placeSelect']" class="btn btn-success">Dodaj wydarzenie</button></th>
-    
-    </tr>
-  </thead>
-  <tbody *ngFor="let event of apiResponse.data">
-    <tr>
+<div *ngIf="this.apiResponse">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nazwa<br />
+          <button class="btn btn-info" (click)="this.sortBy = 1">
+            <p class="arrow up" [ngClass]="setColor(1)"></p>
+          </button>
+          <button class="btn btn-info" (click)="this.sortBy = 2">
+            <p class="arrow down" [ngClass]="setColor(2)"></p>
+          </button>
+        </th>
+        <th scope="col">Początek wydarzenia<br />
+          <button class="btn btn-info" (click)="this.sortBy = 3">
+            <p class="arrow up" [ngClass]="setColor(3)"></p>
+          </button>
+          <button class="btn btn-info" (click)="this.sortBy = 4">
+            <p class="arrow down" [ngClass]="setColor(4)"></p>
+          </button>
+        </th>
+        <th scope="col">Koniec wydarzenia<br />
+          <button class="btn btn-info" (click)="this.sortBy = 5">
+            <p class="arrow up" [ngClass]="setColor(5)"></p>
+          </button>
+          <button class="btn btn-info" (click)="this.sortBy = 6">
+            <p class="arrow down" [ngClass]="setColor(6)"></p>
+          </button>
+        </th>
+        <th scope="col">Miejsce<br />
+          <button class="btn btn-info" (click)="this.sortBy = 7">
+            <p class="arrow up" [ngClass]="setColor(7)"></p>
+          </button>
+          <button class="btn btn-info" (click)="this.sortBy = 8">
+            <p class="arrow down" [ngClass]="setColor(8)"></p>
+          </button>
+        </th>
+        <th scope="col">Typ imprezy<br />
+          <button class="btn btn-info" (click)="this.sortBy = 9">
+            <p class="arrow up" [ngClass]="setColor(9)"></p>
+          </button>
+          <button class="btn btn-info" (click)="this.sortBy = 10">
+            <p class="arrow down" [ngClass]="setColor(10)"></p>
+          </button>
+        </th>
+        <th scope="col"><button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/placeSelect']"
+            class="btn btn-success">Dodaj wydarzenie</button></th>
 
-      <td>{{event.name}}</td>
-      <td>{{event.startDate | date: 'dd/MM/yyyy'}}</td>
-      <td>{{event.endDate | date: 'dd/MM/yyyy'}}</td>
-      <td>{{event.placeName}}</td>
-      <td>{{event.typeOfEvent}}</td>
-      <td>
-        <button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/eventEdit', event.id]" class="btn btn-primary mx-1">Edytuj</button>
-        <button [routerLink]="['/eventStuff', event.id]"  class="btn btn-info mx-1">Szczegóły</button>
-        <button *ngIf="checkRole() != 'pracownik'" (click)="openModal(template, event.id)"  class="btn btn-danger mx-1">Usuń</button>
-      </td>
-      
-    </tr>
-  </tbody>
-</table>
+      </tr>
+    </thead>
+    <tbody *ngFor="let event of apiResponse.data">
+      <tr>
 
-<div class="d-flex pb-2">
-  <pagination class="mr-auto " [nextText]="paginationWords.nextPageText"  [previousText]="paginationWords.previousPageText" [itemsPerPage]="pageSize" [totalItems]="totalItems" [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
-  <div class="pr-4">
-    <label>Ilość wierszy:</label>
-    <select (change)="getEvents()" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">
-     <option *ngFor="let size of paginationWords.sizesOfPage" [ngValue]="size">{{size}}</option>
-    </select>
+        <td>{{event.name}}</td>
+        <td>{{event.startDate | date: 'dd/MM/yyyy'}}</td>
+        <td>{{event.endDate | date: 'dd/MM/yyyy'}}</td>
+        <td>{{event.placeName}}</td>
+        <td>{{event.typeOfEvent}}</td>
+        <td>
+          <button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/eventEdit', event.id]"
+            class="btn btn-primary mx-1">Edytuj</button>
+          <button [routerLink]="['/eventStuff', event.id]" class="btn btn-info mx-1">Szczegóły</button>
+          <button *ngIf="checkRole() != 'pracownik'" (click)="openModal(template, event.id)"
+            class="btn btn-danger mx-1">Usuń</button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex pb-2">
+    <pagination class="mr-auto " [nextText]="paginationWords.nextPageText"
+      [previousText]="paginationWords.previousPageText" [itemsPerPage]="pageSize" [totalItems]="totalItems"
+      [(ngModel)]="pageNumber" (click)="setPage(pageNumber)"></pagination>
+    <div class="pr-4">
+      <label>Ilość wierszy:</label>
+      <select (change)="getEvents()" name="typeOfEvent" [(ngModel)]="pageSize" class="form-control ">
+        <option *ngFor="let size of paginationWords.sizesOfPage" [ngValue]="size">{{size}}</option>
+      </select>
+    </div>
+
   </div>
 
 </div>
-
-
 
 
 <ng-template #template>
   <div class="modal-body text-center">
     <p>Na pewno chcesz usunąć wydarzenie?</p>
     <p>Usuwając wydarzenie, automatycznie usuwasz też namioty w nim zawarte</p>
-    <button type="button" class="btn btn-danger" (click)="confirm()" >Tak</button>
-    <button type="button" class="btn btn-primary" (click)="decline()" >Nie</button>
+    <button type="button" class="btn btn-danger" (click)="confirm()">Tak</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Nie</button>
   </div>
 </ng-template>

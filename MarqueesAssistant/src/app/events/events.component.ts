@@ -45,7 +45,7 @@ export class EventsComponent implements OnInit {
   }
 
   delete():void{
-    console.log('deleted',this.idToBeDeleted,' record');
+
     this.deleteEvent(Number(this.idToBeDeleted));
   }
 
@@ -70,7 +70,7 @@ export class EventsComponent implements OnInit {
       this.apiResponse = apiResponseEvent;
       this.totalItems = apiResponseEvent.totalPages * apiResponseEvent.pageSize;
       
-      console.log(this.startDate);
+   
     }, error => {
       this.alertifyService.error(error);
     });

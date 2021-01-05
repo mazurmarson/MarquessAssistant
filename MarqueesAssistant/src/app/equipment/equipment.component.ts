@@ -44,7 +44,7 @@ export class EquipmentComponent implements OnInit {
   }
 
   delete():void{
-    console.log('deleted',this.idToBeDeleted,' record');
+  
     this.deleteEquipment(Number(this.idToBeDeleted));
   }
 
@@ -62,8 +62,7 @@ export class EquipmentComponent implements OnInit {
       this.apiResponse = apiResponseEquipments;
       this.totalItems = apiResponseEquipments.totalPages * apiResponseEquipments.pageSize;
       
-      console.log(apiResponseEquipments);
-      console.log(this.totalItems);
+
     }, error => {
       this.alertify.error(error);
     } ) ;

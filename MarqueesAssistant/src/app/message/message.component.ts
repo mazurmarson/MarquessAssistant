@@ -31,7 +31,7 @@ export class MessageComponent implements OnInit {
   {
     this.workerService.getPagedMessages(this.id, this.pageNumber, this.pageSize).subscribe( response => {
       this.messages = response;
-      console.log(this.messages);
+     
     }, error => {
       this.alertifyService.error('Wystąpił błąd');
     });
@@ -41,7 +41,7 @@ export class MessageComponent implements OnInit {
   {
     if(message.message.recipientId == this.id)
     {
-     // console.log(message.senderId);
+ 
       return message.message.senderId;
     // this.idFriend = message.senderId;
       

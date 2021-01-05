@@ -227,7 +227,7 @@
       <td>
         <button *ngIf="checkRole() != 'pracownik'" [routerLink]="['/marqueeEdit', marquee.id]" class="btn btn-primary mx-1">Edytuj</button>
         <button [routerLink]="['/marqueeStuff', marquee.id]"  class="btn btn-info mx-1">Szczegóły</button>
-        <button *ngIf="checkRole() != 'pracownik'" (click)="deleteMarquee(marquee.id)" class="btn btn-danger mx-1">Usuń</button>
+        <button *ngIf="checkRole() != 'pracownik'" (click)="openModal(template, marquee.id)" class="btn btn-danger mx-1">Usuń</button>
       </td>
       
     </tr>
@@ -254,3 +254,12 @@
 
 
 </div>
+
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Na pewno chcesz usunąć namiot?</p>
+    <button type="button" class="btn btn-danger" (click)="confirm()" >Tak</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >Nie</button>
+  </div>
+</ng-template>

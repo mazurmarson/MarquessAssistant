@@ -22,7 +22,7 @@ export class EventSelectComponent implements OnInit {
     this.http.get('http://localhost:5000/api/events').subscribe(response => {
       this.events = response;
     }, error => {
-      console.log(error);
+     
     });
   }
   

@@ -83,7 +83,7 @@ constructor(private http: HttpClient) { }
 
   deleteWorker(id:number)
 {
-  console.log(this.baseUrl +'workers/'  + id);
+  
   return this.http.delete(this.baseUrl +'workers/' +  id);
 }
 

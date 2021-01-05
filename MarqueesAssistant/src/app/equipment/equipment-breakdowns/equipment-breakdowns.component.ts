@@ -51,7 +51,7 @@ export class EquipmentBreakdownsComponent implements OnInit {
   }
 
   delete():void{
-    console.log('deleted',this.idToBeDeleted,' record');
+
     this.deleteBreakdown(Number(this.idToBeDeleted));
   }
 
@@ -73,7 +73,7 @@ export class EquipmentBreakdownsComponent implements OnInit {
   {
     this.breakdownService.getEquipmentBreakdownsPaged(id,this.pageNumber, this.pageSize).subscribe( response => {
       this.breakdowns = response;
-      console.log(this.breakdowns);
+     
     }, error => {
       this.alertify.error(error);
      
@@ -84,7 +84,7 @@ export class EquipmentBreakdownsComponent implements OnInit {
   {
     this.breakdownService.deleteBreakdown(id).subscribe( response => {
       this.alertify.success('Usunięto awarie');
-      this.getBreakdowns(this.breakdowns.data.equipmentId);
+      this.getBreakdowns(this.id);
     }, error => {
       this.alertify.error(error);
     });

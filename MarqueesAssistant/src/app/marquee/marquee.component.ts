@@ -21,7 +21,7 @@ export class MarqueeComponent implements OnInit {
   {
     if(this.authSerivce.loggedIn() === false )
     {
-      console.log("Niezalogowany");
+      
     }
 
     this.http.get('http://localhost:5000/api/marquees').subscribe(response => {

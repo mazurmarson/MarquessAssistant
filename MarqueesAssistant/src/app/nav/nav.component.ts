@@ -47,7 +47,7 @@ export class NavComponent implements OnInit {
        this.anyMessages();
        this.signalRService.newMessagesListenerForNav(this.id);
        
-   //  console.log(this.test);
+ 
     }
     window.onbeforeunload = () => this.ngOnDestroy();
 

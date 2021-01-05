@@ -29,7 +29,7 @@ export class TestService {
   public newMessagesListener = () => {
     this.hubConnection.on("GetConversation", (model: any) => {
         this.model = model;
-        console.log(model);
+        
     });
   }
 }

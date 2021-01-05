@@ -26,14 +26,14 @@ export class EventEditComponent implements OnInit {
 
   ngOnInit() {
     this.getEvent(this.id);
-    console.log(this.id);
+    
   }
 
   getEvent(id: number)
   {
     this.marqueeService.getEvent(id).subscribe( (eventt: Event ) => {
       this.model = eventt;
-      console.log(this.model.id);
+   
       this.isLoaded = true;
     } );
   }

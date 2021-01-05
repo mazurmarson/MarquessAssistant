@@ -49,7 +49,7 @@ export class WorkersListComponent implements OnInit {
   }
 
   delete():void{
-    console.log('deleted',this.idToBeDeleted,' record');
+
     this.deleteWorker(Number(this.idToBeDeleted));
   }
 
@@ -67,7 +67,7 @@ export class WorkersListComponent implements OnInit {
     this.workerService.getWorkers(this.pageNumber, this.pageSize).subscribe( (apiReponse: Apiresponse ) => {
       this.apiResponse = apiReponse;
       this.totalItems = apiReponse.pageSize * apiReponse.totalPages;
-      console.log(this.totalItems);
+      
     }, error => {
       this.alertify.error(error);
     });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Marquee } from 'src/app/_models/marquee';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 import { MarqueeService } from 'src/app/_services/marquee.service';
 import * as html2pdf from 'html2pdf.js';
 import * as html2canvas from 'html2canvas';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-event-stuff',
@@ -44,11 +45,14 @@ export class EventStuffComponent implements OnInit {
   shortEndlegs: number =0;
   PlaceIsFounded: boolean = false;
   otherDangerConditionVar:string;
+  idToBeDeleted = '';
+  modalRef: BsModalRef;
+  message: string;
 
   bases:number;
   ilosc:number =0;
 
-  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private route: ActivatedRoute, private authService: AuthService) { 
+  constructor(private marqueeService: MarqueeService, private alertify: AlertifyService, private route: ActivatedRoute, private authService: AuthService, private modalService: BsModalService) { 
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -68,6 +72,28 @@ export class EventStuffComponent implements OnInit {
    
   }
 
+  openModal(template: TemplateRef<any>, id: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idToBeDeleted = id;
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    this.delete();
+  }
+
+  delete():void{
+
+    this.deleteMarquee(Number(this.idToBeDeleted));
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+
+  }
+
   onExportClick()
   {
     window.scroll(0,0);
@@ -85,7 +111,7 @@ export class EventStuffComponent implements OnInit {
       .set(options)
       .save();
 
-      console.log(content);
+   
   }
 
   townNameIsLoaded()
@@ -103,20 +129,18 @@ export class EventStuffComponent implements OnInit {
   getWeatherData()
   {
      
-  //  console.log('http://api.openweathermap.org/data/2.5/weather?q=' + this.placeName + '&lang=pl&appid=3179fc058bf45bb4168f2c6f73f7d863');
- //   
- //fetch('http://api.openweathermap.org/data/2.5/weather?q=krosno&lang=pl&appid=3179fc058bf45bb4168f2c6f73f7d863')
+
  fetch('http://api.openweathermap.org/data/2.5/weather?q=' + this.placeName + '&lang=pl&appid=3179fc058bf45bb4168f2c6f73f7d863')
     .then(response=>response.json())
     .then(data=>{this.setWeatherData(data);})
-    console.log(this.placeName);
+    
   }
 
   getEventPlaceName()
   {
     this.marqueeService.getEventPlaceName(this.id).subscribe((response : any) => {
       this.placeName = response.content;
-      console.log(this.placeName);
+      
       this.getWeatherData();
     }, error => {
       this.alertify.error(error);
@@ -127,12 +151,12 @@ export class EventStuffComponent implements OnInit {
   {
     if(data.cod=='404')
     {
-      console.log('Warunek działa');
+     
       return false;
     }
     else
     {
-      console.log(data.weather[0].description);
+     
       this.WeatherData = data;
       let currentDate = new Date();
       this.WeatherData.temp_celcius = (this.WeatherData.main.temp - 273.15).toFixed(2);
@@ -142,7 +166,7 @@ export class EventStuffComponent implements OnInit {
       this.WeatherData.wind_speed = (this.WeatherData.wind.speed * 3.6).toFixed(2);
        this.WeatherData.description = (this.WeatherData.weather[0].description);
        this.WeatherData.id = this.WeatherData.weather[0].id;
-       console.log(this.WeatherData);
+      
        this.WeatherData.town = (this.WeatherData.name);
       // this.WeatherData.cosTam = (this.WeatherData.weather.main);
     this.WeatherData.cloudiness = (this.WeatherData.clouds.all);
@@ -242,6 +266,7 @@ export class EventStuffComponent implements OnInit {
   {
     this.marqueeService.deleteMarquue(id).subscribe(response => {
       this.alertify.success('Usunięto namiot');
+      this.loadMarquees();
     }, error => {
       this.alertify.error('Wystąpił błąd');
     });

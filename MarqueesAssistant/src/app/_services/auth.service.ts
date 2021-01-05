@@ -31,7 +31,7 @@ return this.http.post(this.baseUrl + 'login', model)
     {
       localStorage.setItem('token', worker.token);
       this.decodedToken = this.jwtHelper.decodeToken(worker.token);
-      console.log(this.decodedToken);
+  
     }
   } ));
 }

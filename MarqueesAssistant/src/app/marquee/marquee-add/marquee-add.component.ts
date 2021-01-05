@@ -24,10 +24,7 @@ export class MarqueeAddComponent implements OnInit {
   ngOnInit() {
   }
 
-  // addMarquee()
-  // {
-  //   console.log(this.model.isUp);
-  // }
+
 
   addMarquee()
   {

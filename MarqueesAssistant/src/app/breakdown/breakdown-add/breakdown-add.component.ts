@@ -29,11 +29,11 @@ export class BreakdownAddComponent implements OnInit {
   {
     this.breakdownService.addBreakdown(this.model, this.id).subscribe( () => {
       this.alertify.success('Dodano awarie');
-      this.router.navigate(['/equipmentsBreakdowns',this.model.equipmentId]);
+      this.router.navigate(['/equipmentsBreakdowns',this.id]);
     }, error => {
       this.alertify.error(error);
     });
- //   console.log(this.model);
+
   }
 
   backToPrevious()

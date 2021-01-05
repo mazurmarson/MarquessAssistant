@@ -50,7 +50,7 @@ export class BreakdownListComponent implements OnInit {
   }
 
   delete():void{
-    console.log('deleted',this.idToBeDeleted,' record');
+
     this.deleteBreakdown(Number(this.idToBeDeleted));
   }
 
@@ -67,7 +67,7 @@ export class BreakdownListComponent implements OnInit {
     .subscribe( (apiResponseBreakdown: Apiresponsebreakdown) => {
       this.apiResponse = apiResponseBreakdown;
       this.totalItems = apiResponseBreakdown.totalPages * apiResponseBreakdown.pageSize;
-      console.log(apiResponseBreakdown);
+   
     }, error => {
       this.alertify.error(error);
     } );

@@ -47,7 +47,7 @@ export class PlaceSelectComponent implements OnInit {
     .subscribe( ( apiResponsepPlaces: Apiresponseplace ) => {
       this.apiResponse = apiResponsepPlaces;
       this.totalItems = apiResponsepPlaces.totalPages * apiResponsepPlaces.pageSize;
-      console.log(this.totalItems);
+      
     }, error => {
       this.alertify.error(error);
     }

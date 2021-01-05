@@ -46,14 +46,14 @@ export class SignalrService {
     public newMessagesListenerForNav = (id:number) => {
       this.hubConnection.on("MessageSended", () => {
         this.workerService.anyMessages(id).subscribe(results => this.messageAmount = results);
-        console.log("przeslano wiadomosc");
+     
     });
   }
 
   public getConnectionId = (login:string) => {
     this.hubConnection.invoke('getconnectionid',login).then(
       (data) => {
-        console.log(data);
+   
           this.myConnectionId = data;
         }
     ); 

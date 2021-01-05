@@ -45,7 +45,7 @@ export class PlacesComponent implements OnInit {
   }
 
   delete():void{
-    console.log('deleted',this.idToBeDeleted,' record');
+
     this.deletePlace(Number(this.idToBeDeleted));
   }
 
@@ -63,14 +63,7 @@ export class PlacesComponent implements OnInit {
     return this.authService.checkRole();
   }
 
-  // getPlaces()
-  // {
-  //   this.marqueeService.getPlaces().subscribe(response => {
-  //     this.places = response;
-  //   }, error => {
-  //     console.log(error);
-  //   });
-  // }
+
 
   getPlaces()
   {
@@ -78,7 +71,7 @@ export class PlacesComponent implements OnInit {
     .subscribe( ( apiResponsepPlaces: Apiresponseplace ) => {
       this.apiResponse = apiResponsepPlaces;
       this.totalItems = apiResponsepPlaces.totalPages * apiResponsepPlaces.pageSize;
-      console.log(this.totalItems);
+     
     }, error => {
       this.alertify.error(error);
     }
