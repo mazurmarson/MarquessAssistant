@@ -10,46 +10,30 @@ namespace MarqueesAssistant.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PlacesController:ControllerBase
+    public class PlacesController : ControllerBase
     {
-   
+
         private readonly IPlaceRepo _repo;
 
         public PlacesController(IPlaceRepo repo)
         {
-
             _repo = repo;
         }
-        
-        // [Authorize(Roles = "admin, kierownik, pracownik")]
-        // [HttpGet]
-        // public async Task<IActionResult> GetPlaces()
-        // {
-        //     var places = await _repo.GetPlaces();
-        //     return Ok(places);
-        // }
 
-        // [Authorize(Roles = "admin, kierownik, pracownik")]
-        // [HttpGet]
-        // public async Task<IActionResult> GetPlaces([FromQuery] PageParameters pageParameters)
-        // {
-        //     var places = await _repo.GetPlacesListed(pageParameters);
-        //     Pagger<Place> placesToReturn = new Pagger<Place>(places);
-        //     return Ok(placesToReturn);
-        // }
 
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
         public async Task<IActionResult> GetPlacesSearchedAndSorted([FromQuery] PageParameters pageParameters, string searchString, int sortBy)
         {
-            if(searchString == null)
+            if (searchString == null)
             {
                 searchString = "";
             }
-            if(sortBy.Equals(null))
+            if (sortBy.Equals(null))
             {
                 sortBy = 0;
             }
+           
             var places = await _repo.GetPlacesListedSearchedSorted(pageParameters, searchString, sortBy);
             Pagger<Place> placesToReturn = new Pagger<Place>(places);
             return Ok(placesToReturn);
@@ -82,7 +66,7 @@ namespace MarqueesAssistant.API.Controllers
 
             _repo.Add<Place>(placeToCreate);
 
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
                 return Ok();
             }
@@ -94,18 +78,16 @@ namespace MarqueesAssistant.API.Controllers
         [Authorize(Roles = "admin, kierownik")]
         public async Task<IActionResult> DeletePlace(int id)
         {
-             Place place = await _repo.GetPlace(id);
-             _repo.Delete(place);
+            Place place = await _repo.GetPlace(id);
+            _repo.Delete(place);
 
-             if(await _repo.SaveAll())
-             {
-                 return NoContent();
-             }
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
 
-             return BadRequest("Nie można usunąć miejsca");
-   
-
-
+            return BadRequest("Nie można usunąć miejsca");
+            
         }
 
         [HttpPut]
@@ -113,7 +95,7 @@ namespace MarqueesAssistant.API.Controllers
         public async Task<IActionResult> EditPlace(Place place)
         {
             _repo.Edit<Place>(place);
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
                 return NoContent();
             }

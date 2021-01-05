@@ -16,88 +16,37 @@ namespace MarqueesAssistant.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    
-    public class EventsController:ControllerBase
+
+    public class EventsController : ControllerBase
     {
         private readonly IEventRepo _repo;
         private readonly IPlaceRepo _placeRepo;
         private readonly IMapper _mapper;
-       
+
 
         private readonly IMarqueeRepo _marqueeRepo;
-        public EventsController(IEventRepo repo, IMapper mapper,  IMarqueeRepo marqueeRepo, IPlaceRepo placeRepo)
+        public EventsController(IEventRepo repo, IMapper mapper, IMarqueeRepo marqueeRepo, IPlaceRepo placeRepo)
         {
             _repo = repo;
             _mapper = mapper;
-            _placeRepo  = placeRepo;
+            _placeRepo = placeRepo;
             _marqueeRepo = marqueeRepo;
         }
-        // [Authorize(Roles = "admin, kierownik, pracownik")]
-        // [HttpGet]
-        // public async Task<IActionResult> GetEvents()
-        // {
-        //     // var events = await _repo.GetEvents();
-        //    // events = (List<Event>)(IEnumerable<Event>)events;
-            
-        //   //  var eventsDto = _mapper.Map<IEnumerable<EventDisplayDto>>(events);
-        //     // var places = await _context.Places.ToArrayAsync();
 
-        //     // var result = from e in events
-        //     //                 join p in places on e.PlaceId equals p.Id
-        //     //                 where p.Id == e.PlaceId
-        //     //                 select new EventDisplayDto
-        //     //                 {
-        //     //                     Id = e.Id,
-        //     //                     Name = e.Name,
-        //     //                     StartDate = e.StartDate,
-        //     //                     EndDate = e.EndDate,
-        //     //                     PlaceId = e.PlaceId,
-        //     //                     PlaceName = p.Town,
-        //     //                     TypeOfEvent = e.TypeOfEvent
-        //     //                 };
-            
-
-        //     // var workersToReturn = _mapper.Map<IEnumerable<WorkerDisplayDto>>(workers);
-                                
-        //     var result = await _repo.GetEventsDisplay();
-            
-
-        //     return Ok(result);
-        // }
-
-                // [Authorize(Roles = "admin, kierownik, pracownik")]
-        // [HttpGet]
-        // public async Task<IActionResult> GetEvents([FromQuery] PageParameters pageParameters, string searchString, int sortBy)
-        // {
-
-        //     if(searchString == null)
-        //     {
-        //         searchString = "";
-        //     }
-        //     if(sortBy.Equals(null))
-        //     {
-        //         sortBy = 0;
-        //     }
-     
-        //     var events = await _repo.GetEventsDisplay(pageParameters, searchString, sortBy);
-        //     Pagger<EventDisplayDto> eventsToReturn = new Pagger<EventDisplayDto>(events);
-
-        //     return Ok(eventsToReturn);
-        // }
 
         [HttpGet]
         public async Task<IActionResult> GetEvents([FromQuery] PageParameters pageParameters, string searchString, int sortBy, DateTime startRange, DateTime endRange)
         {
 
-            if(searchString == null)
+            if (searchString == null)
             {
                 searchString = "";
             }
-            if(sortBy.Equals(null))
+            if (sortBy.Equals(null))
             {
                 sortBy = 0;
             }
-    
+
             var events = await _repo.GetEventsDisplay(pageParameters, searchString, sortBy, startRange, endRange);
             Pagger<EventDisplayDto> eventsToReturn = new Pagger<EventDisplayDto>(events);
 
@@ -112,6 +61,7 @@ namespace MarqueesAssistant.API.Controllers
             var eventt = await _repo.GetEvent(id);
             return Ok(eventt);
         }
+
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("stuff/{id}")]
         public async Task<IActionResult> GetEventStuff(int id)
@@ -120,13 +70,14 @@ namespace MarqueesAssistant.API.Controllers
 
             return Ok(marquees);
 
-            
+
         }
+
         [Authorize(Roles = "admin, kierownik")]
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> AddEvent(int id,Event eventt )
+        public async Task<IActionResult> AddEvent(int id, Event eventt)
         {
-            
+
             Place place = await _placeRepo.GetPlace(id);
             var eventToCreate = new Event
             {
@@ -140,15 +91,16 @@ namespace MarqueesAssistant.API.Controllers
 
             _repo.Add<Event>(eventToCreate);
 
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
                 return Ok();
             }
 
             return BadRequest("Nie można dodać wydarzenia");
 
-            
+
         }
+
         [Authorize(Roles = "admin, kierownik")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
@@ -157,18 +109,19 @@ namespace MarqueesAssistant.API.Controllers
 
             _repo.Delete(eventt);
 
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
                 return NoContent();
             }
-             throw new Exception("Nie można usunąć wydarzenia");
+            throw new Exception("Nie można usunąć wydarzenia");
         }
+        
         [Authorize(Roles = "admin, kierownik")]
         [HttpPut]
         public async Task<IActionResult> EditEvent(Event eventt)
         {
             _repo.Edit(eventt);
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
                 return NoContent();
             }
@@ -181,13 +134,13 @@ namespace MarqueesAssistant.API.Controllers
         {
             var name = await _repo.GetEventPlaceName(id);
             MyString myString = new MyString(name);
-            if(name != null)
+            if (name != null)
             {
                 return Ok(myString);
             }
 
             throw new Exception("Nie można pobrać miejsca");
         }
-        
+
     }
 }

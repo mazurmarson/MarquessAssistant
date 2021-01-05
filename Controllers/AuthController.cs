@@ -16,24 +16,25 @@ namespace MarqueesAssistant.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        
+
         private readonly IAuthRepo _repo;
         private readonly IConfiguration _config;
 
-      // private readonly WorkerRepo _workerRepo;
+
         public AuthController(IAuthRepo repo, IConfiguration config)
         {
             _repo = repo;
             _config = config;
-         //   _workerRepo = workerRepo;
+
         }
-       [Authorize(Roles = "admin")]
+
+        [Authorize(Roles = "admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(WorkerRegisterDto workerRegisterDto)
         {
             workerRegisterDto.Login = workerRegisterDto.Login.ToLower();
 
-            if(await _repo.WorkerIsExist(workerRegisterDto.Login))
+            if (await _repo.WorkerIsExist(workerRegisterDto.Login))
             {
                 return BadRequest("Taki użytkownik już istnieje");
             }
@@ -52,62 +53,18 @@ namespace MarqueesAssistant.API.Controllers
 
         }
 
-      
-    
-    
-    
-    // [Authorize(Roles = "admin")]
-    //     [HttpPost("register")]
-    //     public async Task<IActionResult> Register()
-    //     {
-    //         var workerRegisterDto = new WorkerRegisterDto
-    //         {
-    //             Rank = "admin",
-    //             FirstName = "admin",
-    //             LastName = "admin",
-    //             Login = "admin",
-    //             PhoneNumber = "admin",
-    //             Email = "admin",
-    //             Password = "password"
-    //         };
-    //         workerRegisterDto.Login = workerRegisterDto.Login.ToLower();
-            
-    //       //  WorkerRegisterDto workerRegisterDto = new WorkerRegisterDto();
-
-    //         // if(await _repo.WorkerIsExist(workerRegisterDto.Login))
-    //         // {
-    //         //     return BadRequest("Taki użytkownik już istnieje");
-    //         // }
-
-    //         var workerToCreate = new Worker
-    //         {
-    //             Rank = workerRegisterDto.Rank,
-    //             FirstName = workerRegisterDto.FirstName,
-    //             LastName = workerRegisterDto.LastName,
-    //             Login = workerRegisterDto.Login,
-    //             PhoneNumber = workerRegisterDto.PhoneNumber,
-    //             Email = workerRegisterDto.Email
-    //         };
-
-    //         var createdWorker = await _repo.Register(workerToCreate, workerRegisterDto.Password);
-
-    //         return StatusCode(201);
-
-    //     }
-
-  //      [Authorize(Roles = "admin,kierownik,pracownik")]
         [HttpPut("editWorker")]
         public async Task<IActionResult> EditWorker(WorkerEditDto workerEditDto)
         {
             workerEditDto.Login = workerEditDto.Login.ToLower();
 
-            if(await _repo.WorkerIsExist(workerEditDto.Login))
+            if (await _repo.WorkerIsExist(workerEditDto.Login))
             {
-                if(!await _repo.CanEditWorker(workerEditDto))
+                if (!await _repo.CanEditWorker(workerEditDto))
                 {
                     return BadRequest("Użytkownik o podanym nicku istnieje");
                 }
-                
+
             }
 
             var workerToCreate = new Worker
@@ -124,13 +81,13 @@ namespace MarqueesAssistant.API.Controllers
             return StatusCode(201);
 
         }
-        
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(WorkerLoginDto workerLoginDto)
         {
             var workerFromRepo = await _repo.Login(workerLoginDto.Login.ToLower(), workerLoginDto.Password);
 
-            if(workerFromRepo == null)
+            if (workerFromRepo == null)
             {
                 return Unauthorized();
             }
@@ -138,29 +95,29 @@ namespace MarqueesAssistant.API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, workerFromRepo.Id.ToString()), //Tutaj w tokenie zapisane jest ID
-                new Claim(ClaimTypes.Name, workerFromRepo.Login),
-                new Claim(ClaimTypes.Role, workerFromRepo.Rank)
-                 // Tutaj w tokenie jest zapisany login
-                //Tutaj dodaj stopien pracownika
+                new Claim(ClaimTypes.Name, workerFromRepo.Login), // Tutaj w tokenie jest zapisany login
+                new Claim(ClaimTypes.Role, workerFromRepo.Rank)//Tutaj dodaj stopien pracownika
+                
+                
             };
 
 
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
 
-           var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-           var tokenDescriptor = new SecurityTokenDescriptor
-           {
-               Subject = new ClaimsIdentity(claims),
-               Expires = DateTime.Now.AddHours(12), //Tu ustawia sie czas jak dlugo ma byc token przewaznie duzo krocej
-               SigningCredentials = creds
-           };
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddHours(8), //Tu ustawia sie czas jak dlugo ma byc token przewaznie duzo krocej
+                SigningCredentials = creds
+            };
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new {token = tokenHandler.WriteToken(token)});
+            return Ok(new { token = tokenHandler.WriteToken(token) });
         }
     }
 }

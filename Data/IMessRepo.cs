@@ -8,10 +8,9 @@ namespace MarqueesAssistant.API.Data
 {
     public interface IMessRepo : IGenRepo
     {
-         Task<Message> GetMessage(int messageId);
-         Task<PagedList<MessageDisplayDto>> GetConversation(PageParameters pageParameters,int workerId, int id);
-         Task<int> CountMessagges(int workerId);
-
-         Task<PagedList<MessageFirstSentenceDto>> getFirstSentences(PageParameters pageParameters,int workerId);
+        Task<Message> GetMessage(int messageId);
+        Task<PagedList<MessageDisplayDto>> GetConversation(PageParameters pageParameters, int workerId, int id);
+        Task<int> CountMessagges(int workerId);
+        Task<PagedList<MessageFirstSentenceDto>> getFirstSentences(PageParameters pageParameters, int workerId);
     }
 }

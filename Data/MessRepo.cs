@@ -22,71 +22,64 @@ namespace MarqueesAssistant.API.Data
             return numOfMess;
         }
 
-        public async Task<PagedList<MessageDisplayDto>> GetConversation(PageParameters pageParameters,int workerId, int id)
+        public async Task<PagedList<MessageDisplayDto>> GetConversation(PageParameters pageParameters, int workerId, int id)
         {
-             List<MessageDisplayDto> messages = await _context.Messages.Where(x =>
-            (x.SenderId == workerId || x.RecipientId == workerId ) && 
-            ( x.SenderId == id || x.RecipientId == id ) ).OrderByDescending(x => x.SendDate)
-            .Include(Message => Message.Recipient)
-            .Include(Message => Message.Sender)
-            .Select(Message => new MessageDisplayDto(Message)).ToListAsync();
+            List<MessageDisplayDto> messages = await _context.Messages.Where(x =>
+           (x.SenderId == workerId || x.RecipientId == workerId) &&
+           (x.SenderId == id || x.RecipientId == id)).OrderByDescending(x => x.SendDate)
+           .Include(Message => Message.Recipient)
+           .Include(Message => Message.Sender)
+           .Select(Message => new MessageDisplayDto(Message)).ToListAsync();
 
 
 
             return PagedList<MessageDisplayDto>.ToPagedList(messages, pageParameters.PageNumber, pageParameters.PageSize);
         }
 
-        public async Task<PagedList<MessageFirstSentenceDto>> getFirstSentences(PageParameters pageParameters,int workerId)
+        public async Task<PagedList<MessageFirstSentenceDto>> getFirstSentences(PageParameters pageParameters, int workerId)
         {
             List<MessageFirstSentenceDto> MessagesList = new List<MessageFirstSentenceDto>();
-            
-            int id =  _context.Workers.Select(  u => u.Id).Max();
-            
 
-            for(int i = 0; i < id; i++)
+            int id = _context.Workers.Select(u => u.Id).Max();
+
+
+            for (int i = 0; i < id; i++)
             {
-                if(workerId != i)
+                if (workerId != i)
                 {
-                var messages = await _context.Messages.Where(x =>
-                 (x.SenderId == workerId || x.RecipientId == workerId ) && 
-                ( x.SenderId == i || x.RecipientId == i ) ).OrderByDescending(x => x.SendDate)
-                .Take(1).ToListAsync();
+                    var messages = await _context.Messages.Where(x =>
+                     (x.SenderId == workerId || x.RecipientId == workerId) &&
+                    (x.SenderId == i || x.RecipientId == i)).OrderByDescending(x => x.SendDate)
+                    .Take(1).ToListAsync();
 
-                var message = messages.FirstOrDefault();
-                // .Select(m => new Message{
-                //     Id = m.Id,
-                //     SenderId = m.SenderId,
-                //     RecipientId = m.RecipientId,
-                //     SendDate = m.SendDate,
-                //     Content = m.Content
+                    var message = messages.FirstOrDefault();
 
-                // });
 
-                string userName = _context.Workers.Where(x => x.Id == i).Select(x => x.Login).FirstOrDefault();
+                    string userName = _context.Workers.Where(x => x.Id == i).Select(x => x.Login).FirstOrDefault();
 
-                var MessageWithUserName = new MessageFirstSentenceDto()
-                {
-                    Message = message,
-                    NameOfUser = userName
-                };
-                
-                
+                    var MessageWithUserName = new MessageFirstSentenceDto()
+                    {
+                        Message = message,
+                        NameOfUser = userName
+                    };
 
-                if(message != null)
-                MessagesList.Add(MessageWithUserName);
-                
+
+
+                    if (message != null)
+                        MessagesList.Add(MessageWithUserName);
+
                 }
 
             }
-           
-            return  PagedList<MessageFirstSentenceDto>.ToPagedList(MessagesList, pageParameters.PageNumber, pageParameters.PageSize);
+
+            return PagedList<MessageFirstSentenceDto>.ToPagedList(MessagesList, pageParameters.PageNumber, pageParameters.PageSize);
 
         }
 
         public async Task<Message> GetMessage(int messageId)
         {
             var message = await _context.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
-            return message;    
-        }    
+            return message;
+        }
     }
 }

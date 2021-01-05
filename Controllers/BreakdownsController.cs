@@ -11,7 +11,7 @@ namespace MarqueesAssistant.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
 
-    public class BreakdownsController:ControllerBase
+    public class BreakdownsController : ControllerBase
     {
         private readonly IBreakdownRepo _repo;
         private readonly IEquipmentRepo _equipmentRepo;
@@ -22,26 +22,19 @@ namespace MarqueesAssistant.API.Controllers
             _equipmentRepo = equipmentRepo;
         }
 
-        // [HttpGet]
-        // public async Task<IActionResult> GetBreakdowns()
-        // {
-        //  //   var breakdowns = await _repo.GetBreakdowns();
-        //    var breakdowns = await _repo.GetBreakdownsDisplay();
-        //     return Ok(breakdowns);
-        // }
 
         [HttpGet]
-        public async Task<IActionResult> GetBreakdowns([FromQuery]PageParameters pageParameters, string searchString, int sortBy, DateTime? startRange, DateTime? endRange)
+        public async Task<IActionResult> GetBreakdowns([FromQuery] PageParameters pageParameters, string searchString, int sortBy, DateTime? startRange, DateTime? endRange)
         {
-            if(searchString == null)
+            if (searchString == null)
             {
                 searchString = "";
             }
-            if(sortBy.Equals(null))
+            if (sortBy.Equals(null))
             {
                 sortBy = 0;
             }
-           var breakdowns = await _repo.GetBreakDownsListedSearchedSorted(pageParameters, searchString, sortBy,  startRange, endRange);
+            var breakdowns = await _repo.GetBreakDownsListedSearchedSorted(pageParameters, searchString, sortBy, startRange, endRange);
             Pagger<BreakdownDisplayDto> breakdownsToReturn = new Pagger<BreakdownDisplayDto>(breakdowns);
             return Ok(breakdownsToReturn);
         }
@@ -67,7 +60,7 @@ namespace MarqueesAssistant.API.Controllers
             };
 
             _repo.Add<Breakdown>(breakdownToCreate);
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
                 return Ok();
             }
@@ -81,7 +74,7 @@ namespace MarqueesAssistant.API.Controllers
             Breakdown breakdown = await _repo.GetBreakdown(id);
             _repo.Delete(breakdown);
 
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
                 return NoContent();
             }
@@ -93,13 +86,13 @@ namespace MarqueesAssistant.API.Controllers
         public async Task<IActionResult> EditBreakdown(Breakdown breakdown)
         {
             _repo.Edit<Breakdown>(breakdown);
-            if(await _repo.SaveAll())
+            if (await _repo.SaveAll())
             {
                 return NoContent();
             }
             return BadRequest("Nie można edytować awarii");
         }
 
-        
+
     }
 }

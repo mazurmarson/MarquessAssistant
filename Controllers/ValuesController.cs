@@ -18,9 +18,9 @@ namespace MarqueesAssistant.API.Controllers
 
         public ValuesController(DataContext context)
         {
-             _context = context;
+            _context = context;
         }
-        
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetValues()
@@ -28,6 +28,7 @@ namespace MarqueesAssistant.API.Controllers
             var values = await _context.Values.ToListAsync();
             return Ok(values);
         }
+        
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
@@ -37,7 +38,7 @@ namespace MarqueesAssistant.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddValue([FromBody]Value value)
+        public async Task<IActionResult> AddValue([FromBody] Value value)
         {
             _context.Values.Add(value);
             await _context.SaveChangesAsync();
@@ -45,7 +46,7 @@ namespace MarqueesAssistant.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditValue(int id,[FromBody]Value value)
+        public async Task<IActionResult> EditValue(int id, [FromBody] Value value)
         {
             var data = await _context.Values.FindAsync(id);
             data.Name = value.Name;
@@ -58,7 +59,7 @@ namespace MarqueesAssistant.API.Controllers
         public async Task<IActionResult> DeleteValue(int id)
         {
             var data = await _context.Values.FindAsync(id);
-            if(data == null)
+            if (data == null)
             {
                 return NoContent();
             }

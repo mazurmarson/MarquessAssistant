@@ -11,8 +11,6 @@ namespace MarqueesAssistant.API.Data
     public class AuthRepo : IAuthRepo
     {
         private readonly DataContext _context;
-
-        
         public AuthRepo(DataContext context)
         {
             _context = context;
@@ -21,40 +19,40 @@ namespace MarqueesAssistant.API.Data
         {
             var worker = await _context.Workers.FirstOrDefaultAsync(w => w.Login == login);
 
-            if(worker == null )
-            return null;
-
-           if(!VerifyPasswordHash(password, worker.PasswordHash, worker.PasswordSalt))
+            if (worker == null)
                 return null;
 
-                return worker;
+            if (!VerifyPasswordHash(password, worker.PasswordHash, worker.PasswordSalt))
+                return null;
+
+            return worker;
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-             using(var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
-                
+
                 var computtedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 
                 for (int i = 0; i < computtedHash.Length; i++)
                 {
-                    if(computtedHash[i] != passwordHash[i])
+                    if (computtedHash[i] != passwordHash[i])
                     {
                         return false;
                     }
-                    
+
                 }
 
                 return true;
 
-            }   
+            }
         }
 
         public async Task<Worker> Register(Worker worker, string password)
         {
             byte[] passwordHash, passwordSalt;
-            CreatePassword(password, out passwordHash,out passwordSalt);
+            CreatePassword(password, out passwordHash, out passwordSalt);
 
             worker.PasswordHash = passwordHash;
             worker.PasswordSalt = passwordSalt;
@@ -67,9 +65,8 @@ namespace MarqueesAssistant.API.Data
 
         public async Task<Worker> EditWorker(Worker worker, string newPassword)
         {
-          //  var workerToEdit = await _context.Workers.FirstOrDefaultAsync(x => x.Id == worker.Id);
             byte[] passwordHash, passwordSalt;
-            CreatePassword(newPassword, out passwordHash,out passwordSalt);
+            CreatePassword(newPassword, out passwordHash, out passwordSalt);
 
             worker.PasswordHash = passwordHash;
             worker.PasswordSalt = passwordSalt;
@@ -83,18 +80,18 @@ namespace MarqueesAssistant.API.Data
 
         public async Task<bool> WorkerIsExist(string login)
         {
-            if(await _context.Workers.AnyAsync(x => x.Login == login ))
+            if (await _context.Workers.AnyAsync(x => x.Login == login))
             {
                 return true;
             }
-            
+
 
             return false;
         }
 
         public async Task<bool> CanEditWorker(WorkerEditDto workerEditDto)
         {
-            if(await _context.Workers.AnyAsync(x => x.Login == workerEditDto.Login && x.Id == workerEditDto.Id))
+            if (await _context.Workers.AnyAsync(x => x.Login == workerEditDto.Login && x.Id == workerEditDto.Id))
             {
                 return true;
             }
@@ -103,7 +100,7 @@ namespace MarqueesAssistant.API.Data
 
         private void CreatePassword(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using(var hmac = new System.Security.Cryptography.HMACSHA512())
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
