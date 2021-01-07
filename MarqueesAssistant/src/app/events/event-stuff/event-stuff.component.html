@@ -236,7 +236,7 @@
   </tbody>
 </table>
 <ng-template #elseBlock>Brak namiotów<br/></ng-template>
-<button [routerLink]="['/marqueesAdd', id]" class="btn btn-danger  float-right" style="margin-right: 11.5%;">Dodaj namiot</button>
+<button *ngIf="checkRole() != 'pracownik'"  [routerLink]="['/marqueesAdd', id]" class="btn btn-danger  float-right" style="margin-right: 11.5%;">Dodaj namiot</button>
 
 
 

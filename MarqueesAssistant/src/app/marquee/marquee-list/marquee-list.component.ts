@@ -110,19 +110,3 @@ export class MarqueeListComponent implements OnInit {
 }
 
 
-// workers: Worker[];
-
-// constructor(private workerService: WorkerService, private alertify: AlertifyService) { }
-
-// ngOnInit() {
-//   this.loadWorkers();
-// }
-
-// loadWorkers()
-// {
-//   this.workerService.getWorkers().subscribe( (workers: Worker[] ) => {
-//     this.workers = workers;
-//   }, error => {
-//     this.alertify.error(error);
-//   });
-// }

@@ -33,7 +33,7 @@ namespace MarqueesAssistant.API.Controllers
             _marqueeRepo = marqueeRepo;
         }
 
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
         public async Task<IActionResult> GetEvents([FromQuery] PageParameters pageParameters, string searchString, int sortBy, DateTime startRange, DateTime endRange)
         {
@@ -128,7 +128,7 @@ namespace MarqueesAssistant.API.Controllers
 
             throw new Exception("Nie można edytować wydarzenia");
         }
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("getEventPlaceName/{id}")]
         public async Task<IActionResult> getEventPlaceName(int id)
         {

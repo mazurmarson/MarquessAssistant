@@ -4,6 +4,7 @@ using MarqueesAssistant.API.Data;
 using MarqueesAssistant.API.Dtos;
 using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarqueesAssistant.API.Controllers
@@ -22,7 +23,7 @@ namespace MarqueesAssistant.API.Controllers
             _equipmentRepo = equipmentRepo;
         }
 
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
         public async Task<IActionResult> GetBreakdowns([FromQuery] PageParameters pageParameters, string searchString, int sortBy, DateTime? startRange, DateTime? endRange)
         {
@@ -38,7 +39,8 @@ namespace MarqueesAssistant.API.Controllers
             Pagger<BreakdownDisplayDto> breakdownsToReturn = new Pagger<BreakdownDisplayDto>(breakdowns);
             return Ok(breakdownsToReturn);
         }
-
+        
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBreakdown(int id)
         {
@@ -46,6 +48,7 @@ namespace MarqueesAssistant.API.Controllers
             return Ok(breakdown);
         }
 
+        [Authorize(Roles = "admin, kierownik")]
         [HttpPost("{id:int}")]
         public async Task<IActionResult> AddBreakdown(int id, Breakdown breakdown)
         {
@@ -67,7 +70,7 @@ namespace MarqueesAssistant.API.Controllers
 
             return BadRequest("Nie można dodać awarii");
         }
-
+        [Authorize(Roles = "admin, kierownik")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBreakdown(int id)
         {
@@ -81,7 +84,7 @@ namespace MarqueesAssistant.API.Controllers
 
             throw new Exception("Nie można usunąć awarii");
         }
-
+        [Authorize(Roles = "admin, kierownik")]
         [HttpPut]
         public async Task<IActionResult> EditBreakdown(Breakdown breakdown)
         {

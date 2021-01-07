@@ -21,9 +21,11 @@ export class Auth3Guard implements CanActivate {
         return true;
       }
       this.alertify.error('Tę akcję może wykonać tylko admin');
+      return false;
     }
     else
     this.alertify.error('Nie masz uprawnien');
+    return false;
   }
 
 

@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { AuthService } from '../_services/auth.service';
 import { Apiresponse } from '../_models/apiresponse';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { PaginationWordsService } from '../_services/paginationWords.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class WorkersListComponent implements OnInit {
   sizesOfPage: number[] = [5,10,20,30,40,50];
 
 
-  constructor(private workerService: WorkerService, private alertify: AlertifyService, private authService: AuthService, private modalService: BsModalService) {
+  constructor(private workerService: WorkerService, private alertify: AlertifyService, private authService: AuthService, private modalService: BsModalService, public paginationWords: PaginationWordsService) {
     
    }
 

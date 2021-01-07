@@ -52,11 +52,12 @@ namespace MarqueesAssistant.API.Controllers
 
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetValue(int id)
+        public async Task<IActionResult> GetMarquee(int id)
         {
             var marquee = await _repo.GetMarquee(id);
             return Ok(marquee);
         }
+
         [Authorize(Roles = "admin, kierownik")]
         [HttpPost("{id:int}")]
         public async Task<IActionResult> AddMarquee(int id, Marquee marquee)
@@ -116,7 +117,7 @@ namespace MarqueesAssistant.API.Controllers
             }
 
 
-            return NoContent();
+            return BadRequest();
           
         }
 

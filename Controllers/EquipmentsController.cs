@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MarqueesAssistant.API.Data;
 using MarqueesAssistant.API.Helpers;
 using MarqueesAssistant.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarqueesAssistant.API.Controllers
@@ -16,7 +17,7 @@ namespace MarqueesAssistant.API.Controllers
         {
             _repo = repo;
         }
-        
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
         public async Task<IActionResult> GetEquipments([FromQuery]PageParameters pageParameters, string searchString, int sortBy)
         {
@@ -33,7 +34,7 @@ namespace MarqueesAssistant.API.Controllers
             Pagger<Equipment> equipmentsToReturn = new Pagger<Equipment>(equipments);
             return Ok(equipmentsToReturn);
         }
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEquipment(int id)
         {
@@ -43,7 +44,7 @@ namespace MarqueesAssistant.API.Controllers
             return Ok(equipment);
 
         }
-
+        [Authorize(Roles = "admin, kierownik")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEquipment(int id)
         {
@@ -58,7 +59,7 @@ namespace MarqueesAssistant.API.Controllers
             return BadRequest("Nie można usunąć sprzętu");
 
         }
-
+        [Authorize(Roles = "admin, kierownik")]
        [HttpPut("{id}")]
 
         public async Task<IActionResult> EditEquipment(Equipment equipment)
@@ -74,7 +75,7 @@ namespace MarqueesAssistant.API.Controllers
             return BadRequest("Nie można edytować sprzętu");
 
         }
-        
+        [Authorize(Roles = "admin, kierownik")]    
         [HttpPost]
         public async Task<IActionResult> AddEquipment(Equipment equipment)
         {
@@ -85,7 +86,7 @@ namespace MarqueesAssistant.API.Controllers
             }
             return BadRequest("Nie można dodać sprzętu");
         }
-
+        [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("getEquipmentBreakdowns/{id}")]
         public async Task<IActionResult> getEquipmentBreakdowns([FromQuery]PageParameters pageParameters, string searchString, int id)
         {

@@ -33,7 +33,7 @@
         <button class="btn btn-info" (click)="this.sortBy = 7"><p class="arrow up" [ngClass]="setColor(7)"></p></button>
         <button class="btn btn-info" (click)="this.sortBy = 8"><p class="arrow down" [ngClass]="setColor(8)"></p></button>
       </th>
-     <th scope="col">Akcja</th>
+    
 
     
     </tr>
@@ -52,8 +52,8 @@
 
       <td>
         <!-- <button *ngIf="checkRole() != 'pracownik'" (click)="selectPlace(place.id)" class="btn btn-primary mx-1">Edytuj</button>  -->
-        <button [routerLink]="['/breakdownsEdit/'+ breakdown.id]" class="btn btn-primary mx-1">Edytuj</button>
-        <button  (click)="openModal(template, breakdown.id)" class="btn btn-danger ">Usuń</button> 
+        <button  *ngIf="checkRole() != 'pracownik'" [routerLink]="['/breakdownsEdit/'+ breakdown.id]" class="btn btn-primary mx-1">Edytuj</button>
+        <button *ngIf="checkRole() != 'pracownik'"  (click)="openModal(template, breakdown.id)" class="btn btn-danger ">Usuń</button> 
       </td> 
       
     </tr>

@@ -73,13 +73,13 @@ export const appRoutes: Routes = [
         path: 'eventSelect', component: EventSelectComponent, canActivate: [AuthGuard]
     },
     {
-        path: 'placeEdit/:id', component: PlaceEditComponent, canActivate: [AuthGuard]
+        path: 'placeEdit/:id', component: PlaceEditComponent, canActivate: [Auth2Guard]
     },
     {
-        path: 'eventEdit/:id', component: EventEditComponent, canActivate: [AuthGuard]
+        path: 'eventEdit/:id', component: EventEditComponent, canActivate: [Auth2Guard]
     },
     {
-        path: 'marqueeEdit/:id', component: MarqueeEditComponent, canActivate: [AuthGuard]
+        path: 'marqueeEdit/:id', component: MarqueeEditComponent, canActivate: [Auth2Guard]
     },
     {
         path: 'messages/:id', component: MessageComponent, canActivate: [AuthGuard]
@@ -109,22 +109,22 @@ export const appRoutes: Routes = [
         path: 'breakdownsList', component: BreakdownListComponent, canActivate: [AuthGuard]
     },
     {
-        path: 'breakdownsAdd/:id', component: BreakdownAddComponent, canActivate: [AuthGuard]
+        path: 'breakdownsAdd/:id', component: BreakdownAddComponent, canActivate: [Auth2Guard]
     },
     {
         path: 'equipments', component: EquipmentComponent, canActivate: [AuthGuard]
     },
     {
-        path: 'equipmentsAdd', component: EquipmentAddComponent, canActivate: [AuthGuard]
+        path: 'equipmentsAdd', component: EquipmentAddComponent, canActivate: [Auth2Guard]
     },
     {
-        path: 'equipmentsEdit/:id', component: EquipmentEditComponent, canActivate: [AuthGuard]
+        path: 'equipmentsEdit/:id', component: EquipmentEditComponent, canActivate: [Auth2Guard]
     },
     {
         path: 'equipmentsBreakdowns/:id', component: EquipmentBreakdownsComponent, canActivate: [AuthGuard]
     },
     {
-        path: 'breakdownsEdit/:id', component: BreakdownEditComponent, canActivate: [AuthGuard]
+        path: 'breakdownsEdit/:id', component: BreakdownEditComponent, canActivate: [Auth2Guard]
     },
     {
         path: '', component: HomeComponent
