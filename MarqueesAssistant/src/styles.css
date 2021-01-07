@@ -40,3 +40,7 @@
     -webkit-transform: rotate(45deg);
   }
   
+  body
+  {
+    background-image: url("https://res.cloudinary.com/mazicloud/image/upload/v1609879414/qfznjhj3efauqhubfhop.png");
+  }

@@ -17,9 +17,6 @@ namespace MarqueesAssistant.API.Models
         [DivisibleByThree( ErrorMessage = "Długość musi być podzielna przez 3")]
         public int? Length { get; set; }
 
-      //  public DateTime UpDate { get; set; }
-
-    // public DateTime DownDate { get; set; }
         [Required(ErrorMessage = "Status wymagany")]
         public bool? IsUp { get; set; }
         [Required(ErrorMessage = "Status wymagany")]

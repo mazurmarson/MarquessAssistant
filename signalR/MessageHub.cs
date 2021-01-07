@@ -9,12 +9,6 @@ namespace MarqueesAssistant.API.signalR
 {
     public class MessageHub : Hub<IMessageHubClient>
     {
-        // private readonly IMessRepo _repo;
-        // public MessageHub(IMessRepo repo)
-        // {
-        //     _repo = repo;
-        // }
-
         public static List<WorkerIdAndIdConnection> clientsList = new List<WorkerIdAndIdConnection>();
 
         public string GetConnectionId(string userId)
