@@ -35,7 +35,9 @@ namespace MarqueesAssistant.API.Controllers
 
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet]
-        public async Task<IActionResult> GetEvents([FromQuery] PageParameters pageParameters, string searchString, int sortBy, DateTime startRange, DateTime endRange)
+        public async Task<IActionResult> GetEvents(
+            [FromQuery] PageParameters pageParameters, string searchString, 
+            int sortBy, DateTime startRange, DateTime endRange)
         {
 
             if (searchString == null)
@@ -47,7 +49,8 @@ namespace MarqueesAssistant.API.Controllers
                 sortBy = 0;
             }
 
-            var events = await _repo.GetEventsDisplay(pageParameters, searchString, sortBy, startRange, endRange);
+            var events = await _repo.GetEventsPagedSortedSearched(
+                pageParameters, searchString, sortBy, startRange, endRange);
             Pagger<EventDisplayDto> eventsToReturn = new Pagger<EventDisplayDto>(events);
 
             return Ok(eventsToReturn);
@@ -113,7 +116,7 @@ namespace MarqueesAssistant.API.Controllers
             {
                 return NoContent();
             }
-            throw new Exception("Nie można usunąć wydarzenia");
+            return BadRequest("Nie można usunąć wydarzenia");
         }
         
         [Authorize(Roles = "admin, kierownik")]
@@ -123,11 +126,12 @@ namespace MarqueesAssistant.API.Controllers
             _repo.Edit(eventt);
             if (await _repo.SaveAll())
             {
-                return NoContent();
+                return Ok("Edytowano wydarzenie");
             }
 
-            throw new Exception("Nie można edytować wydarzenia");
+            return BadRequest("Nie można edytować wydarzenia");
         }
+        
         [Authorize(Roles = "admin, kierownik, pracownik")]
         [HttpGet("getEventPlaceName/{id}")]
         public async Task<IActionResult> getEventPlaceName(int id)
@@ -139,7 +143,7 @@ namespace MarqueesAssistant.API.Controllers
                 return Ok(myString);
             }
 
-            throw new Exception("Nie można pobrać miejsca");
+            return BadRequest("Nie można pobrać miejsca");
         }
 
     }

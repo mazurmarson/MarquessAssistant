@@ -32,18 +32,19 @@ namespace MarqueesAssistant.API
         }
 
 
-                public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    );
             services.AddSignalR();
-           // services.AddCors();
-           services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
+            // services.AddCors();
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
                 builder
                 .WithOrigins("http://localhost:4200")
                 .AllowAnyMethod()
@@ -60,12 +61,14 @@ namespace MarqueesAssistant.API
             services.AddScoped<IEquipmentRepo, EquipmentRepo>();
             services.AddScoped<IBreakdownRepo, BreakdownRepo>();
             services.AddScoped<IMarqueeRepo, MarqueeRepo>();
-                        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                                    .AddJwtBearer(options =>{
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                        .AddJwtBearer(options =>
+                        {
                             options.TokenValidationParameters = new TokenValidationParameters
                             {
                                 ValidateIssuerSigningKey = true,
-                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                                IssuerSigningKey = new SymmetricSecurityKey
+                                (Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                                 ValidateIssuer = false,
                                 ValidateAudience = false
                             };
@@ -79,26 +82,28 @@ namespace MarqueesAssistant.API
             {
                 app.UseDeveloperExceptionPage();
             }
-                        else
+            else
             {
-                app.UseExceptionHandler(builder => {
-                    builder.Run(async context  => {
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                         var error = context.Features.Get<IExceptionHandlerFeature>();
 
-                        if(error != null)
+                        if (error != null)
                         {
                             context.Response.AddApplicationError(error.Error.Message);
                             await context.Response.WriteAsync(error.Error.Message);
                         }
-                    }); 
+                    });
                 });
             }
 
             app.UseHttpsRedirection();
 
-        //    app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            //    app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseRouting();
@@ -111,10 +116,10 @@ namespace MarqueesAssistant.API
     endpoints.MapHub<MessageHub>("/notify");
 });
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            // app.UseEndpoints(endpoints =>
+            // {
+            //     endpoints.MapControllers();
+            // });
         }
     }
 }

@@ -14,17 +14,11 @@ namespace MarqueesAssistant.API.Data
         public DbSet<Value> Values { get; set; }
 
         public DbSet<Marquee> Marquees { get; set;}
-
         public DbSet<Event> Events { get; set; }
-
         public DbSet<Place> Places { get; set; }
-
         public DbSet<Worker> Workers { get; set;}
-
         public DbSet<Message> Messages { get; set; }
-
         public DbSet<Equipment> Equipments { get; set; }
-
         public DbSet<Breakdown> Breakdowns { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

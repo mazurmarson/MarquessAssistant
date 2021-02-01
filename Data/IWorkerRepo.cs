@@ -12,8 +12,9 @@ namespace MarqueesAssistant.API.Data
         Task<IEnumerable<Worker>> GetWorkers();
         Task<PagedList<WorkerDisplayDto>> GetWorkers2(OwnerParameters ownerParameters);
         Task<Worker> GetWorker(int id);
-        Task<PagedList<WorkerDisplayDto>> GetSearchedWorkers(OwnerParameters ownerParameters, string searchString);
-        Task<PagedList<WorkerDisplayDto>> GetSearchedWorkersAndSorted(OwnerParameters ownerParameters, string searchString, int sortBy);
+      //  Task<PagedList<WorkerDisplayDto>> GetSearchedWorkers(OwnerParameters ownerParameters, string searchString);
+        Task<PagedList<WorkerDisplayDto>> GetSearchedWorkersAndSorted(OwnerParameters ownerParameters, 
+        string searchString, int sortBy);
         int GetMaxWorkerId();
 
 

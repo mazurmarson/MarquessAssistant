@@ -48,26 +48,20 @@ namespace MarqueesAssistant.API.Controllers
             return Ok(message);
         }
 
-        [HttpPost("{test}")]
-        public async Task<IActionResult> CreateMessage(int workerId, string test, Message message)
+        [HttpPost("{connectionId}")]
+        public async Task<IActionResult> CreateMessage(int workerId, string connectionId, Message message)
         {
             if (workerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
-
+            
             message.SenderId = workerId;
-
             _repo.Add<Message>(message);
-
             if (await _repo.SaveAll())
             {
-                await mHubContext.Clients.Clients(test).MessageSended();
+                await mHubContext.Clients.Clients(connectionId).MessageSended();
                 return CreatedAtRoute("GetMessage", new { id = message.Id }, message);
             }
-
             return BadRequest("Wystąpiły błedy");
-
-
-
         }
 
 

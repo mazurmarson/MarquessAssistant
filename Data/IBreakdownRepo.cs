@@ -10,11 +10,9 @@ namespace MarqueesAssistant.API.Data
     public interface IBreakdownRepo : IGenRepo
     {
         Task<IEnumerable<Breakdown>> GetBreakdowns();
-
         Task<IEnumerable<BreakdownDisplayDto>> GetBreakdownsDisplay();
-
-        Task<PagedList<BreakdownDisplayDto>> GetBreakDownsListedSearchedSorted(PageParameters pageParameters, string searchString, int sortBy, DateTime? startRange, DateTime? endRange);
-        
+        Task<PagedList<BreakdownDisplayDto>> GetBreakDownsListedSearchedSorted(PageParameters pageParameters, 
+        string searchString, int sortBy, DateTime? startRange, DateTime? endRange);
         Task<Breakdown> GetBreakdown(int id);
     }
 }

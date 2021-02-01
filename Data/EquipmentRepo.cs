@@ -24,9 +24,12 @@ namespace MarqueesAssistant.API.Data
 
         public async Task<PagedList<Breakdown>> GetEquipmentBreakdowns(PageParameters pageParameters ,int id)
         {
-            var equipmentBreakdowns = await _context.Breakdowns.Where(x => x.EquipmentId == id).OrderByDescending(x => x.AccitdentDate).ToListAsync();
+            var equipmentBreakdowns = await _context.Breakdowns
+            .Where(x => x.EquipmentId == id)
+            .OrderByDescending(x => x.AccitdentDate).ToListAsync();
            
-            return PagedList<Breakdown>.ToPagedList(equipmentBreakdowns, pageParameters.PageNumber, pageParameters.PageSize);
+            return PagedList<Breakdown>.ToPagedList(equipmentBreakdowns, 
+            pageParameters.PageNumber, pageParameters.PageSize);
         }
 
         public async Task<IEnumerable<Equipment>> GetEquipments()

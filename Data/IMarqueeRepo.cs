@@ -10,9 +10,9 @@ namespace MarqueesAssistant.API.Data
     public interface IMarqueeRepo : IGenRepo
     {
         Task<IEnumerable<Marquee>> GetMarquees();
-        Task<PagedList<MarqueeDisplayDto>> GetMarqueesListedSearchedSorted(PageParameters pageParameters, string searchString, int sortBy);
+        Task<PagedList<MarqueeDisplayDto>> GetMarqueesListedSearchedSorted(PageParameters pageParameters, 
+        string searchString, int sortBy);
         Task<Marquee> GetMarquee(int id);
-
 
     }
 }

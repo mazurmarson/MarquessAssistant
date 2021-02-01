@@ -12,18 +12,12 @@ namespace MarqueesAssistant.API.Data
     {
        Task<IEnumerable<Event>> GetEvents();
 
-       Task<PagedList<EventDisplayDto>> GetEventsDisplay(PageParameters pageParameters, string searchString, int sortBy, DateTime? startRange, DateTime? endRange);
-
-       Task<PagedList<EventDisplayDto>> GetEventPagedSortedSearched(PageParameters pageParameters, string searchString, int soryBy);
+       Task<PagedList<EventDisplayDto>> GetEventsPagedSortedSearched(PageParameters pageParameters, 
+       string searchString, int sortBy, DateTime? startRange, DateTime? endRange);
+   
        Task<Event> GetEvent(int id);
-
        Task<IEnumerable<MarqueesStuffDto>> GetEventStuff(int id);
-
        Task<string> GetEventPlaceName(int id);
-
-      
-                 
-                 
 
     }
 }

@@ -33,12 +33,10 @@ namespace MarqueesAssistant.API.Controllers
         public async Task<IActionResult> Register(WorkerRegisterDto workerRegisterDto)
         {
             workerRegisterDto.Login = workerRegisterDto.Login.ToLower();
-
             if (await _repo.WorkerIsExist(workerRegisterDto.Login))
             {
                 return BadRequest("Taki użytkownik już istnieje");
             }
-
             var workerToCreate = new Worker
             {
                 Rank = workerRegisterDto.Rank,
@@ -46,11 +44,9 @@ namespace MarqueesAssistant.API.Controllers
                 LastName = workerRegisterDto.LastName,
                 Login = workerRegisterDto.Login
             };
-
-            var createdWorker = await _repo.Register(workerToCreate, workerRegisterDto.Password);
-
+            var createdWorker = await _repo.Register(
+                workerToCreate, workerRegisterDto.Password);
             return StatusCode(201);
-
         }
 
         [HttpPut("editWorker")]
@@ -85,38 +81,31 @@ namespace MarqueesAssistant.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(WorkerLoginDto workerLoginDto)
         {
-            var workerFromRepo = await _repo.Login(workerLoginDto.Login.ToLower(), workerLoginDto.Password);
-
+            var workerFromRepo = await _repo.Login(
+                workerLoginDto.Login.ToLower(), workerLoginDto.Password);
             if (workerFromRepo == null)
             {
                 return Unauthorized();
             }
-
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, workerFromRepo.Id.ToString()), //Tutaj w tokenie zapisane jest ID
-                new Claim(ClaimTypes.Name, workerFromRepo.Login), // Tutaj w tokenie jest zapisany login
-                new Claim(ClaimTypes.Role, workerFromRepo.Rank)//Tutaj dodaj stopien pracownika
+                new Claim(ClaimTypes.NameIdentifier, workerFromRepo.Id.ToString()),               //Tutaj w tokenie zapisane jest ID
+                new Claim(ClaimTypes.Name, workerFromRepo.Login),                                // Tutaj w tokenie jest zapisany login
+                new Claim(ClaimTypes.Role, workerFromRepo.Rank)                                 //Tutaj dodaj stopien pracownika
                 
                 
             };
-
-
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
-
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
+            (_config.GetSection("AppSettings:Token").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddHours(8), //Tu ustawia sie czas jak dlugo ma byc token przewaznie duzo krocej
+                Expires = DateTime.Now.AddHours(8),                                                               //Tu ustawia sie czas jak dlugo ma byc token przewaznie duzo krocej
                 SigningCredentials = creds
             };
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
             return Ok(new { token = tokenHandler.WriteToken(token) });
         }
     }

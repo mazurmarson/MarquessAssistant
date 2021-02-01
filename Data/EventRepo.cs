@@ -35,7 +35,8 @@ namespace MarqueesAssistant.API.Data
             var events = await _context.Events.ToListAsync();
             return events;
         }
-        public async Task<PagedList<EventDisplayDto>> GetEventsDisplay(PageParameters pageParameters, string searchString, int sortBy, DateTime? startRange, DateTime? endRange)
+        public async Task<PagedList<EventDisplayDto>> GetEventsPagedSortedSearched(PageParameters pageParameters,
+         string searchString, int sortBy, DateTime? startRange, DateTime? endRange)
         {
             var events = await _context.Events.ToListAsync();
             var places = await _context.Places.ToListAsync();
@@ -55,7 +56,9 @@ namespace MarqueesAssistant.API.Data
                              TypeOfEvent = e.TypeOfEvent
                          };
 
-            result = result.Where(x => x.Name.ToLower().Contains(searchString) || x.PlaceName.ToLower().Contains(searchString) || x.TypeOfEvent.ToLower().Contains(searchString) || x.StartDate.ToString().Contains(searchString) || x.EndDate.ToString().Contains(searchString));
+            result = result.Where(x => x.Name.ToLower().Contains(searchString) || 
+            x.PlaceName.ToLower().Contains(searchString) || x.TypeOfEvent.ToLower().Contains(searchString) 
+            || x.StartDate.ToString().Contains(searchString) || x.EndDate.ToString().Contains(searchString));
 
             if (startRange != default(DateTime))
             {
@@ -72,15 +75,20 @@ namespace MarqueesAssistant.API.Data
             {
                 case 1:
                     eventsToReturn = result.OrderBy(x => x.Name).ToList();
-                    return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                    var test = PagedList<EventDisplayDto>.ToPagedList(eventsToReturn
+                    , pageParameters.PageNumber, pageParameters.PageSize);
+                    return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn
+                    , pageParameters.PageNumber, pageParameters.PageSize);
 
                 case 2:
                     eventsToReturn = result.OrderByDescending(x => x.Name).ToList();
-                    return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                    return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, 
+                    pageParameters.PageNumber, pageParameters.PageSize);
 
                 case 3:
                     eventsToReturn = result.OrderBy(x => x.StartDate).ToList();
-                    return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+                    return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, 
+                    pageParameters.PageNumber, pageParameters.PageSize);
 
                 case 4:
                     eventsToReturn = result.OrderByDescending(x => x.StartDate).ToList();
@@ -111,13 +119,16 @@ namespace MarqueesAssistant.API.Data
             }
 
             eventsToReturn = result.ToList();
-            return PagedList<EventDisplayDto>.ToPagedList(eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
+            return PagedList<EventDisplayDto>.ToPagedList(
+                eventsToReturn, pageParameters.PageNumber, pageParameters.PageSize);
         }
 
         public async Task<IEnumerable<MarqueesStuffDto>> GetEventStuff(int id)
         {
-            var marquees = await _context.Marquees.Where(x => x.EventId == id)
-            .Include(x => x.Event).Select(Marquee => new MarqueesStuffDto(Marquee)).ToListAsync();
+            var marquees = await _context.Marquees
+            .Where(x => x.EventId == id)
+            .Include(x => x.Event).Select
+            (Marquee => new MarqueesStuffDto(Marquee)).ToListAsync();
 
             return marquees;
         }
@@ -127,7 +138,8 @@ namespace MarqueesAssistant.API.Data
             var events = await _context.Events.ToListAsync();
             var places = await _context.Places.ToListAsync();
 
-            string placeName = events.Where(x => x.Id == id).Select(x => x.Place.Town).FirstOrDefault();
+            string placeName = events.Where(x => x.Id == id)
+            .Select(x => x.Place.Town).FirstOrDefault();
 
             return placeName;
         }

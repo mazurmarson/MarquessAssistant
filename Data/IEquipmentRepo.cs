@@ -9,7 +9,8 @@ namespace MarqueesAssistant.API.Data
     {
         Task<IEnumerable<Equipment>> GetEquipments();
 
-        Task<PagedList<Equipment>> GetEquipmentsListedSearchedSorted(PageParameters pageParameters, string searchString, int sortBy);
+        Task<PagedList<Equipment>> GetEquipmentsListedSearchedSorted(PageParameters pageParameters,
+        string searchString, int sortBy);
         Task<Equipment> GetEquipment(int id);
         Task<PagedList<Breakdown>> GetEquipmentBreakdowns(PageParameters pageParameters,  int id);
     }
