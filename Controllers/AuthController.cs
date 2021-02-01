@@ -28,7 +28,7 @@ namespace MarqueesAssistant.API.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+  //      [Authorize(Roles = "admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(WorkerRegisterDto workerRegisterDto)
         {

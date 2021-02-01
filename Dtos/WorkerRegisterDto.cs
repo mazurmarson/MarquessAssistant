@@ -16,6 +16,7 @@ namespace MarqueesAssistant.API.Dtos
         public string Email { get; set;}
 
         public string FirstName { get; set;}
+         [Required(ErrorMessage = "Ranga użytkownika jest wymagana")]
         public string Rank { get; set; }
     }
 }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarqueesAssistant.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201125213430_UpdatedModels")]
-    partial class UpdatedModels
+    [Migration("20210201163158_BetterModels")]
+    partial class BetterModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,7 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Login")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("PasswordHash")
@@ -46,6 +47,7 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Rank")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -63,6 +65,7 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EquipmentId")
@@ -85,9 +88,11 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("EquipmentType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -101,19 +106,23 @@ namespace MarqueesAssistant.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PlaceId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TypeOfEvent")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -129,23 +138,27 @@ namespace MarqueesAssistant.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("EventId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsDown")
+                    b.Property<bool?>("IsDown")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsUp")
+                    b.Property<bool?>("IsUp")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Length")
+                    b.Property<int?>("Length")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Width")
+                    b.Property<int?>("Width")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("description")
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -161,12 +174,13 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("RecipientId")
+                    b.Property<int>("RecipientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("SendDate")
@@ -191,6 +205,7 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FirstGradeDivision")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Number")
@@ -209,6 +224,7 @@ namespace MarqueesAssistant.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Town")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -261,7 +277,9 @@ namespace MarqueesAssistant.API.Migrations
                 {
                     b.HasOne("MarqueesAssistant.API.Controllers.Worker", "Recipient")
                         .WithMany("MessagesRecived")
-                        .HasForeignKey("RecipientId");
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MarqueesAssistant.API.Controllers.Worker", "Sender")
                         .WithMany("MessagesSent")

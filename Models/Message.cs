@@ -9,10 +9,13 @@ namespace MarqueesAssistant.API.Models
         public int Id { get; set; }
         public Worker Sender { get; set; }
         public int SenderId { get; set;}
-        public Worker? Recipient { get; set;}
-        public int? RecipientId { get; set; }
+        public Worker Recipient { get; set;}
+        public int RecipientId { get; set; }
+        [Required(ErrorMessage = "Data wysłania wiadomości jest wymagana")]
         public DateTime SendDate { get; set; } 
+        [Required(ErrorMessage = "Treść wiadomości jest wymagana")]
         public string Content { get; set; }
+        [Required(ErrorMessage = "Status wiadomości jest wymagana")]
         public bool IsRead { get; set; }
         public Message()
         {

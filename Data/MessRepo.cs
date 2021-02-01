@@ -46,7 +46,7 @@ namespace MarqueesAssistant.API.Data
             new List<MessageFirstSentenceDto>();
 
             int id = _context.Workers.Select(u => u.Id).Max();
-            for (int i = 0; i < id; i++)
+            for (int i = 0; i <= id; i++)
             {
                 if (workerId != i)
                 {

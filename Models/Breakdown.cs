@@ -11,7 +11,7 @@ namespace MarqueesAssistant.API.Models
         [Required(ErrorMessage = "Opis jest wymagany")]
         public string Description{ get; set; }
         [Required(ErrorMessage = "Data zdarzenia jest wymagana")]
-        public DateTime? AccitdentDate { get; set;}
+        public DateTime AccitdentDate { get; set;}
         public DateTime RepairdDate { get; set; }
 
 

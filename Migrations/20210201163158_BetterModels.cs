@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MarqueesAssistant.API.Migrations
 {
-    public partial class UpdatedModels : Migration
+    public partial class BetterModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,8 @@ namespace MarqueesAssistant.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    EquipmentType = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    EquipmentType = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,8 +29,8 @@ namespace MarqueesAssistant.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Number = table.Column<int>(nullable: false),
                     Street = table.Column<string>(nullable: true),
-                    Town = table.Column<string>(nullable: true),
-                    FirstGradeDivision = table.Column<string>(nullable: true),
+                    Town = table.Column<string>(nullable: false),
+                    FirstGradeDivision = table.Column<string>(nullable: false),
                     SecondGradeDivision = table.Column<string>(nullable: true),
                     ThirdGradeDivision = table.Column<string>(nullable: true),
                     PostCode = table.Column<string>(nullable: true)
@@ -61,10 +61,10 @@ namespace MarqueesAssistant.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Login = table.Column<string>(nullable: true),
+                    Login = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
-                    Rank = table.Column<string>(nullable: true),
+                    Rank = table.Column<string>(nullable: false),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true)
                 },
@@ -80,7 +80,7 @@ namespace MarqueesAssistant.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     EquipmentId = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: false),
                     AccitdentDate = table.Column<DateTime>(nullable: false),
                     RepairdDate = table.Column<DateTime>(nullable: false)
                 },
@@ -101,11 +101,11 @@ namespace MarqueesAssistant.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
-                    TypeOfEvent = table.Column<string>(nullable: true)
+                    TypeOfEvent = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -125,9 +125,9 @@ namespace MarqueesAssistant.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     SenderId = table.Column<int>(nullable: false),
-                    RecipientId = table.Column<int>(nullable: true),
+                    RecipientId = table.Column<int>(nullable: false),
                     SendDate = table.Column<DateTime>(nullable: false),
-                    Content = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: false),
                     IsRead = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -138,7 +138,7 @@ namespace MarqueesAssistant.API.Migrations
                         column: x => x.RecipientId,
                         principalTable: "Workers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Messages_Workers_SenderId",
                         column: x => x.SenderId,
@@ -158,7 +158,7 @@ namespace MarqueesAssistant.API.Migrations
                     Length = table.Column<int>(nullable: false),
                     IsUp = table.Column<bool>(nullable: false),
                     IsDown = table.Column<bool>(nullable: false),
-                    description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
